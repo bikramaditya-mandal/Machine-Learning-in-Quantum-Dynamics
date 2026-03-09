@@ -4,7 +4,7 @@
 - **Next.js 14** (App Router) — SSR, file-based routing, built-in SEO via Metadata API
 - **TypeScript** — full type safety
 - **Tailwind CSS** — utility-first styling
-- **Google Fonts** — Outfit + DM Mono (loaded via CSS @import)
+- **Google Fonts** — Outfit + DM Mono
 
 ## Project Structure
 ```
