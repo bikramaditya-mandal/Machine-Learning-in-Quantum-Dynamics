@@ -116,23 +116,23 @@ export default function Home() {
         </div>
 
         {/* Photo */}
-        <div className="absolute inset-0 z-10 xl:relative xl:inset-auto xl:h-full xl:h-[78vh] xl:mt-[10%] xl:-ml-[22%] xl:w-[115%] overflow-hidden hidden xl:block">
+        <div className="absolute inset-0 z-10 xl:relative xl:inset-auto xl:h-full xl:h-[78vh] xl:mt-[10%] xl:-ml-[32%] xl:w-[135%] overflow-hidden hidden xl:block">
           <Image
             src="/assets/bikramaditya-mandal.png"
             alt="Dr. Bikramaditya Mandal"
             fill
-            className="object-cover object-top opacity-120"
+            className="object-cover object-top opacity-90 shadow-xl"
             style={{
-              maskImage: `
-                linear-gradient(to right, transparent 0%, black 20%, black 65%, transparent 100%),
-                linear-gradient(to top, transparent 0%, black 30%)
-              `,
-              maskComposite: 'intersect',
-              WebkitMaskImage: `
-                linear-gradient(to right, transparent 0%, black 20%, black 65%, transparent 100%),
-                linear-gradient(to top, transparent 0%, black 30%)
-              `,
-              WebkitMaskComposite: 'source-in',
+              // maskImage: `
+              //   linear-gradient(to right, transparent 0%, black 20%, black 65%, transparent 100%),
+              //   linear-gradient(to top, transparent 0%, black 30%)
+              // `,
+              // maskComposite: 'intersect',
+              // WebkitMaskImage: `
+              //   linear-gradient(to right, transparent 0%, black 20%, black 65%, transparent 100%),
+              //   linear-gradient(to top, transparent 0%, black 30%)
+              // `,
+              // WebkitMaskComposite: 'source-in',
             }}
             priority
             sizes="45vw"
