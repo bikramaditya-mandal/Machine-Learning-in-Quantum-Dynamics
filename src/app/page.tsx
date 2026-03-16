@@ -98,13 +98,13 @@ export default function Home() {
 
         {/* Text — on mobile align-start so button never gets pushed under the absolute stats bar */}
         <div className="relative z-20 px-[8vw] lg:px-[10vw] pt-28 sm:pt-32 xl:pt-32 pb-28 sm:pb-[200px] md:pb-[160px] lg:pb-40">
-          <p className="font-sans text-base font-light text-[#1a1a1a] tracking-wide mb-5 animate-[fadeUp_0.7s_ease_both]">Hi there!</p>
-          <h1 className="font-sans text-[clamp(2rem,3.2vw,3.4rem)] font-extrabold leading-[1.1] tracking-[-0.03em] text-[#1a1a1a] mb-6 animate-[fadeUp_0.7s_0.1s_ease_both]">
-            I'm Bikramaditya Mandal,<br />
+          <p className="bg-white font-sans text-base font-light text-[#1a1a1a] tracking-wide mb-5 animate-[fadeUp_0.7s_ease_both]">Hi there!</p>
+          <h1 className="bg-white font-sans text-[clamp(2rem,3.2vw,3.4rem)] font-extrabold leading-[1.1] tracking-[-0.03em] text-[#1a1a1a] mb-6 animate-[fadeUp_0.7s_0.1s_ease_both]">
+            I'm Dr. Bikramaditya Mandal,<br />
             a <span className="text-[#3d8bfd]">Quantum Physicist</span><br />
             decoding molecular collisions
           </h1>
-          <p className="font-sans text-[0.95rem] font-light text-[#1a1a1a]/90 max-w-[400px] leading-[1.85] mb-10 animate-[fadeUp_0.7s_0.2s_ease_both]">
+          <p className="bg-white font-sans text-[0.95rem] font-light text-[#1a1a1a]/90 max-w-[400px] leading-[1.85] mb-10 animate-[fadeUp_0.7s_0.2s_ease_both]">
             Postdoctoral Scholar at UNLV with research focus in quantum control of ultracold molecular reactions and collisions & machine learning for quantum scattering.
           </p>
           <Link
