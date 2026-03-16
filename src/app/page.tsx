@@ -12,11 +12,11 @@ export const metadata: Metadata = {
 }
 
 const stats = [
-  { n: '24+', l: 'Publications' },
+  { n: '25+', l: 'Publications' },
   { n: '2', l: 'Cover Articles', mobileHide: true },
-  { n: '8M+', l: 'CPU Hours Saved' },
+  { n: '8M+', l: 'CPU Hours substituted by Machine-Learning' },
   { n: '3', l: 'Fellowships & Awards' },
-  { n: '9+', l: 'Years Research' },
+  { n: '10+', l: 'Years Research' },
 ]
 
 const focusCards = [
@@ -92,7 +92,7 @@ export default function Home() {
       <Nav transparent />
 
       {/* HERO */}
-      <section className="relative min-h-screen bg-[#fcfcfc] bg-[url('/Machine-Learning-in-Quantum-Dynamics/assets/bgw.png')] bg-cover bg-center grid grid-cols-1 xl:grid-cols-[65%_35%] items-start xl:items-center overflow-hidden">
+      <section className="relative min-h-screen bg-[#fcfcfc] bg-[url('/Machine-Learning-in-Quantum-Dynamics/assets/bg.png')] bg-cover bg-center grid grid-cols-1 xl:grid-cols-[65%_35%] items-start xl:items-center overflow-hidden">
 
         <div className="absolute inset-0 bg-white/60 shadow-lg"></div>
 
