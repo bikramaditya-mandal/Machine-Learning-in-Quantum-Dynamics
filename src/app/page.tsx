@@ -73,11 +73,11 @@ const focusCards = [
 ]
 
 const pubs = [
-  { year: '2025', href: 'https://doi.org/10.1039/D5CP02812D', title: 'Neural network ensemble for computing H₂O + H₂O cross sections', journal: 'Physical Chemistry Chemical Physics, 27, 23000' },
+  { year: '2025', href: 'https://doi.org/10.1039/D5CP02812D', title: 'Neural network ensemble for computing cross sections of rotational transitions in H₂O + H₂O collisions', journal: 'Physical Chemistry Chemical Physics, 27, 23000' },
   { year: '2025', href: 'https://doi.org/10.1063/5.0250522', title: 'Stereodynamics of cold HD and D₂ collisions with He', journal: 'Journal of Chemical Physics, 162, 104201' },
   { year: '2024', href: 'https://doi.org/10.1051/0004-6361/202450738', title: 'Rotational state-to-state transition rate coefficients for H₂O + H₂O collisions at nonequilibrium conditions', journal: 'Astronomy & Astrophysics, 688, A208' },
   { year: '2024', href: 'https://doi.org/10.1016/j.cpc.2023.108938', title: 'MQCT 2024: A program for inelastic scattering of two molecules', journal: 'Computer Physics Communications, 294, 108938'},
-  { year: '2023', href: 'https://doi.org/10.1021/acs.jpclett.2c03328', title: 'Adiabatic trajectory approximation — new general method in MQCT', journal: 'Journal of Physical Chemistry Letters, 14, 817', cover: true },
+  { year: '2023', href: 'https://doi.org/10.1021/acs.jpclett.2c03328', title: 'Adiabatic trajectory approximation: a new general method in the toolbox of mixed quantum/classical theory for collisional energy transfer', journal: 'Journal of Physical Chemistry Letters, 14, 817', cover: true },
 ]
 
 const awards = [
@@ -92,7 +92,7 @@ export default function Home() {
       <Nav transparent />
 
       {/* HERO */}
-      <section className="relative min-h-screen bg-[#fcfcfc] bg-[url('/Machine-Learning-in-Quantum-Dynamics/assets/bg.png')] bg-cover bg-center grid grid-cols-1 xl:grid-cols-[65%_35%] items-start xl:items-center overflow-hidden">
+      <section className="relative min-h-screen bg-[#fcfcfc] bg-[url('/Machine-Learning-in-Quantum-Dynamics/assets/bgw.png')] bg-cover bg-center grid grid-cols-1 xl:grid-cols-[65%_35%] items-start xl:items-center overflow-hidden">
 
         <div className="absolute inset-0 bg-white/60 shadow-lg"></div>
 
