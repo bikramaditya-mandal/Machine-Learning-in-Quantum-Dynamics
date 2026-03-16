@@ -8,7 +8,7 @@ import Carousel from '@/components/Carousel'
 
 export const metadata: Metadata = {
   title: 'Dr. Bikramaditya Mandal — Quantum Physicist',
-  description: 'Postdoctoral Scholar at UNLV researching quantum control of ultracold molecular collisions and machine learning for quantum scattering.',
+  description: 'Postdoctoral Scholar at UNLV with research focus in quantum control of ultracold molecular reactions and collisions & machine learning for quantum scattering.',
 }
 
 const stats = [
@@ -23,7 +23,7 @@ const focusCards = [
   {
     num: '01', href: '/research#ultracold',
     title: 'Ultracold Quantum Collisions',
-    body: 'Full-dimensional quantum calculations of stereodynamic control in cold molecular collisions — HD, D₂, He, Ne — benchmarked against SARP experiments at Stanford.',
+    body: 'Full-dimensional quantum calculations of stereodynamic control in cold molecular collisions — benchmarked against SARP experiments at Stanford.',
     icon: <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
       stroke-linecap="round" stroke-linejoin="round">
       <circle cx="7" cy="12" r="2" />
@@ -36,7 +36,7 @@ const focusCards = [
   {
     num: '02', href: '/research#nn-scattering', gold: true,
     title: 'Neural Network–Assisted Scattering',
-    body: 'MLP models trained on quantum scattering data that predict H₂O+H₂O rate coefficients — compressing 8 million CPU hours into milliseconds of inference.',
+    body: 'Machine-Learning assisted quantum scattering that predict H₂O+H₂O rate coefficients — compressing millions of CPU hours into thousands of inference.',
     icon: <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
       stroke-linecap="round" stroke-linejoin="round">
       <circle cx="6" cy="6" r="2" />
@@ -50,7 +50,7 @@ const focusCards = [
   {
     num: '03', href: '/research',
     title: 'Astrophysical Rate Coefficients',
-    body: 'Building databases for ALMA, JWST, and Spitzer modeling — cometary comas, ISM, planetary atmospheres — in collaboration with NASA GSFC and CNRS.',
+    body: 'Building databases for astronomical modeling of environments of cometary comas, ISM, exoplanets — in collaboration with NASA GSFC and CNRS.',
     icon: <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
       stroke-linecap="round" stroke-linejoin="round">
       <path d="M2 22l6-6" />
@@ -62,7 +62,7 @@ const focusCards = [
   {
     num: '04', href: '/research',
     title: 'Mixed Quantum/Classical Theory',
-    body: 'Co-developer of the MQCT code — the only program for inelastic scattering of two general asymmetric top rotors, free to the scientific community.',
+    body: 'Developing MQCT code — the only open-source program to study inelastic scattering of two general asymmetric top rotors.',
     icon: <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
       stroke-linecap="round" stroke-linejoin="round">
       <circle cx="6" cy="12" r="2" />
@@ -92,7 +92,7 @@ export default function Home() {
       <Nav transparent />
 
       {/* HERO */}
-      <section className="relative min-h-screen bg-[#fcfcfc] bg-[url('/Machine-Learning-in-Quantum-Dynamics/assets/bgw.png')] bg-cover bg-center grid grid-cols-1 xl:grid-cols-[65%_35%] items-start xl:items-center overflow-hidden">
+      <section className="relative min-h-screen bg-[#fcfcfc] bg-[url('/Machine-Learning-in-Quantum-Dynamics/assets/bg.png')] bg-cover bg-center grid grid-cols-1 xl:grid-cols-[65%_35%] items-start xl:items-center overflow-hidden">
 
         <div className="absolute inset-0 bg-white/60 shadow-lg"></div>
 
@@ -104,7 +104,7 @@ export default function Home() {
             a <span className="text-[#3d8bfd]">Quantum Physicist</span><br />
             decoding molecular collisions
           </h1>
-          <p className="font-sans text-[0.95rem] font-light text-[#555555]/90 max-w-[400px] leading-[1.85] mb-10 animate-[fadeUp_0.7s_0.2s_ease_both]">
+          <p className="font-sans text-[0.95rem] font-light text-[#1a1a1a]/90 max-w-[400px] leading-[1.85] mb-10 animate-[fadeUp_0.7s_0.2s_ease_both]">
             Postdoctoral Scholar at UNLV researching quantum control of ultracold molecular collisions and applying machine learning to accelerate quantum scattering predictions.
           </p>
           <Link
