@@ -105,7 +105,7 @@ export default function Home() {
             decoding molecular collisions
           </h1>
           <p className="font-sans text-[0.95rem] font-light text-[#1a1a1a]/90 max-w-[400px] leading-[1.85] mb-10 animate-[fadeUp_0.7s_0.2s_ease_both]">
-            Postdoctoral Scholar at UNLV researching quantum control of ultracold molecular collisions and applying machine learning to accelerate quantum scattering predictions.
+            Postdoctoral Scholar at UNLV with research focus in quantum control of ultracold molecular reactions and collisions & machine learning for quantum scattering.
           </p>
           <Link
             href="#about"
