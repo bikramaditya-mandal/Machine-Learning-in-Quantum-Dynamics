@@ -92,7 +92,7 @@ export default function Home() {
       <Nav transparent />
 
       {/* HERO */}
-      <section className="relative min-h-screen bg-[#fcfcfc] bg-[url('/Machine-Learning-in-Quantum-Dynamics/assets/background.png')] bg-cover bg-center grid grid-cols-1 xl:grid-cols-[65%_35%] items-start xl:items-center overflow-hidden">
+      <section className="relative min-h-screen bg-[#fcfcfc] bg-[url('/Machine-Learning-in-Quantum-Dynamics/assets/bgw.png')] bg-cover bg-center grid grid-cols-1 xl:grid-cols-[65%_35%] items-start xl:items-center overflow-hidden">
 
         <div className="absolute inset-0 bg-white/60 shadow-lg"></div>
 
