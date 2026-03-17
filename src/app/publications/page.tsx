@@ -13,13 +13,6 @@ const preprints = [
     title: 'Stereodynamic control of ultracold collisions of BeO with He',
     journal: 'in preparation',
     status: 'In Prep',
-  },
-  {
-    year: '—',
-    authors: 'Mandal B., Jóźwiak H., Wcisło P., Naduvalath B.',
-    title: 'Full-dimensional quantum scattering calculations of rovibrationally excited HD + HD collisions',
-    journal: 'ready for submission',
-    status: 'Ready',
   }
 ]
 
@@ -34,8 +27,10 @@ type JournalEntry = {
 }
 
 const journals: JournalEntry[] = [
-  { year: '2025', authors: 'Santiago Perez-Hernando, Manuel Lara, Mandal B., Sanz-Sanz C., Jambrina P., Naduvalath B., Aoiz J.', title: 'Resonances in inelastic collisions of Ne+D₂ in the cold energy regime', journal: 'Journal of Chemical Physics, 163, 224304, 2025', href: 'https://doi.org/10.1063/5.0303163' },
+  { year: '2026', authors: 'Mandal B., Jóźwiak H., Wcisło P., Naduvalath B.', title: 'Full-dimensional quantum scattering calculations of rovibrationally excited HD+HD collisions', journal: 'Journal of Chemical Physics, 164, 000000, 2026', href: 'https://doi.org/10.1063/5.0318268' },
+  { year: '2026', authors: 'Stordock J., Mandal B., Naduvalath B.', title: 'Nuclear quantum effects on low energy resonant features in He+H₂ scattering', journal: 'Physical Review A, 2026', href: 'https://doi.org/10.1103/1vhq-6kh7' },
   { year: '2025', authors: 'Mandal B., Babikov D., Stancil P., Forrey R., Krems R., Naduvalath B.', title: 'Neural network ensemble for computing cross sections for rotational transitions in H₂O + H₂O collisions', journal: 'Physical Chemistry Chemical Physics, 27, 23000, 2025', note: "Honoring Prof. Narayana Sathyamurthy's 75th birthday", href: 'https://doi.org/10.1039/D5CP02812D' },
+  { year: '2025', authors: 'Santiago Perez-Hernando, Manuel Lara, Mandal B., Sanz-Sanz C., Jambrina P., Naduvalath B., Aoiz J.', title: 'Resonances in inelastic collisions of Ne+D₂ in the cold energy regime', journal: 'Journal of Chemical Physics, 163, 224304, 2025', href: 'https://doi.org/10.1063/5.0303163' },
   { year: '2025', authors: 'Sanz-Sanz C.*, Mandal B.* (*equal contribution), Jambrina P., Aoiz F. J., Naduvalath B.', title: 'Cold collisions of highly vibrationally excited and aligned D₂ with Ne', journal: 'Journal of Chemical Physics, 162, 164307, 2025', href: 'https://doi.org/10.1063/5.0266360' },
   { year: '2025', authors: 'Mandal B., Patkowski K., Jambrina P., Aoiz F. J., Naduvalath B.', title: 'Stereodynamics of cold HD and D₂ collisions with He', journal: 'Journal of Chemical Physics, 162, 104201, 2025', href: 'https://doi.org/10.1063/5.0250522' },
   { year: '2024', authors: 'Joy C., Bostan D., Mandal B., Babikov D.', title: 'Rate coefficients for rotational state-to-state transitions in H₂O + H₂ collisions as predicted by mixed quantum/classical theory', journal: 'Astronomy & Astrophysics, 692, A229, 2024', href: 'https://doi.org/10.1051/0004-6361/202451975' },
