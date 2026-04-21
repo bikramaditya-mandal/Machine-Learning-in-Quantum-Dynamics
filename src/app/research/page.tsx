@@ -49,53 +49,17 @@ const eras: Era[] = [
               { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_HD_He_exp_v2_page-0001.jpg', alt: 'HD + He', caption: 'Comparison of SARP experimental measurements against theoretical simulation of HD+He cold collisions.' },
               { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_D2_Ne_HSARP_XSARP_page-0001.jpg', alt: 'D₂ + Ne', caption: 'Comparison of SARP experimental measurements against theoretical simulation of D₂+Ne cold collisions.' },
             ],
-            paper: [
-              { label: 'HD+D₂: Physical Chemistry Chemical Physics, 26, 18368 (2024)', href: 'https://doi.org/10.1039/D4CP01737D' },
-              { label: 'HD+He and D₂+He: Journal of Chemical Physics, 162, 104201 (2025)', href: 'https://doi.org/10.1063/5.0250522' },
-              { label: 'D₂+Ne: Journal of Chemical Physics, 162, 164307 (2025)', href: 'https://doi.org/10.1063/5.0266360' },
-            ]
         subTopics: [
           {
             title: 'HD and D₂ Collisions with He',
-            body: [
-              'Please refer to our research article for more details. A brief description is provided here.',
-              'The goal of this work is to carry out a rigorous theoretical investigation of rotational quenching of HD and D₂ by collisions with He for vibrational levels v = 2 and v = 4 and rotational levels j = 2 and j = 4 of the two molecules. Prior studies of He + HD for v = 1 and He + D₂ for v = 2 employed the BSP3 potential energy surface (PES) for the He-H₂ system.',
-              'In this work, we primarily focus on rotational quenching from j = 2 → j\' = 0 and j = 2 → j\' = 1 in v = 2, j = 2 → j\' = 1 and j = 4 → j\' = 3 in v = 4 for HD, and j = 4 → j\' = 2 and j = 2 → j\' = 0 in v = 4 for D₂, induced by collisions with He in the cold energy regime.',
-              'A comparison between the experimental H-SARP angular distribution and our theoretical results for rotational quenching in HD (v = 2, j = 2) + He collisions is also done. The comparison is favorable for both Δj = -2 and Δj = -1 transitions for forward and backward scattering angles.',
-            ],
-            images: [
-              { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_HD_He_sigma_page-0001.jpg', alt: 'HD + He integral cross sections', caption: 'Integral cross sections for HD + He rotational quenching' },
-              { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_HD_He_exp_v2_page-0001.jpg', alt: 'HD + He H-SARP comparison v=2', caption: 'Comparison with H-SARP experimental angular distribution (v = 2)' },
-            ],
             paper: { label: 'Journal of Chemical Physics, 162, 104201 (2025)', href: 'https://doi.org/10.1063/5.0250522' },
           },
           {
             title: 'Cold Collisions of D₂ (v = 4) with Ne',
-            body: [
-              'Please refer to our research article for more details. A brief description is provided here.',
-              'Resonant scattering of highly vibrationally excited and aligned D₂ in cold collisions with Ne has recently been probed experimentally using the SARP technique by the research group of Prof. Richard N. Zare. A partial-wave analysis and numerical fitting of the experimental data attributed the measured angular distribution to an l = 2 shape resonance near 1 kelvin.',
-              'Our main goal of this project is to compare against the SARP experiments for rotational quenching of j = 2 → j\' = 0 in v = 4 of D₂. A strong resonance was found at ~2 cm⁻¹ with a peak cross section value of about ~20 Å².',
-            ],
-            images: [
-              { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_D2_Ne_exp_old_page-0001.jpg', alt: 'D₂ + Ne DCS comparison thermal', caption: 'DCS comparison with thermal crossed-beam experiments' },
-              { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_D2_Ne_ICS_L_Lp_page-0001.jpg', alt: 'D₂ + Ne ICS partial wave analysis', caption: 'Partial-wave resolved ICS showing l = 5 shape resonance' },
-              { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_D2_Ne_HSARP_XSARP_page-0001.jpg', alt: 'D₂ + Ne H-SARP vs X-SARP', caption: 'Comparison with H-SARP and X-SARP experimental angular distributions' },
-            ],
             paper: { label: 'Journal of Chemical Physics, 162, 164307 (2025)', href: 'https://doi.org/10.1063/5.0266360' },
           },
           {
             title: 'Collision of HD + D₂',
-            body: [
-              'Please refer to our research article for more details. A brief description is provided here.',
-              'In this work, we performed full-dimensional quantum calculations of stereodynamic control of HD(v = 1, j = 2) + D₂ collisions for the first time that has been probed experimentally by Prof. Richard N. Zare and his research group at Stanford University using the SARP technique.',
-              'It is found that the dominant inelastic channel in the rotational quenching of HD involves an energy transfer to D₂ leading to jD₂ = 0 → j\'D₂ = 2 rotational excitation of the D₂ molecule. This transition conserves the total molecular rotational angular momentum and has a cross section that is four times larger than that of direct relaxation.',
-            ],
-            images: [
-              { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_HD_D2_sigma_1200_1000_1002_page-0001.jpg', alt: 'HD + D₂ cross sections', caption: 'State-to-state cross sections for HD + D₂ collisions' },
-              { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_HD_D2_HSARP_VSARP_dj1_page-0001.jpg', alt: 'HD + D₂ SARP Δj=−1 comparison', caption: 'H-SARP and V-SARP comparison for Δj = −1 transition' },
-              { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_HD_D2_VSARP_dj2_page-0001.jpg', alt: 'HD + D₂ SARP Δj=−2 comparison', caption: 'H-SARP and V-SARP comparison for Δj = −2 transition' },
-              { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_HD_D2_exp_454_703_meV_page-0001.jpg', alt: 'HD + D₂ DCS thermal comparison', caption: 'DCS comparison at 454 and 703 meV collision energies' },
-            ],
             paper: { label: 'Physical Chemistry Chemical Physics, 26, 18368 (2024)', href: 'https://doi.org/10.1039/D4CP01737D' },
           },
         ],
