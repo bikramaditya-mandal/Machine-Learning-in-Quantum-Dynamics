@@ -19,7 +19,7 @@ type Topic = {
   body?: string[]
   formula?: string
   images?: { src: string; alt: string; caption?: string }[]
-  paper?: { label: string; href: string }[]
+  paper?: { label: string; href: string }
 }
 
 type Era = {
