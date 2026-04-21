@@ -89,12 +89,12 @@ const eras: Era[] = [
       },
       {
         num: '03',
-        title: 'Full-Dimensional Quantum Mechanics of Ultracold Reactions',
+        title: 'Non-Adiabatic Effects in Ultracold Reactions',
         body: [
-          'One of the major interests of scientists in chemistry is to understand reactions better. When we look at a reaction from a microscopic level, a reaction is nothing but a form of molecular scattering. Therefore, reactive scattering is crucial to get more insight into chemical reaction.',
-          'Due to the strong interaction potential, alkali metals have been especially interesting to researchers in this field. My goal for this project is to study reaction of lithium trimer together with isotopic substitution. This is a work in progress.',
+          'Chemical reactions are at the core of chemistry and scientists are fascinated to study chemical reactions since ancient times. However, the details of a chemical reaction at the quantum level are a relatively recent topic that has intricate researchers. A proper quantum mechanical description of a chemical reaction was almost impossible until very recently. Today, the exponential advancement in the architecture of computers have made it possible by exploiting unprecedented computational resources; however, the simulation of chemical reaction still remains a huge challenge even for the simplest type of reaction of atom-diatom, including H+H₂ or H+D₂.',
+          'There have been several attempts to find solution to this problem using classical trajectory simulation method since last few decades. However, the common issue with classical mechanics in studying chemical reactions is that it displays a rather similar pattern of dwell times between entering and leaving the deep interacting regime of the higher dimensional potential surface. Another recent approach is statistical methods using quantum mechanics. This approach recently has attracted several researchers to study chemical reactions, however, the reliability of the methodology to obtain accurate measurements of the state-to-state transitions are questionable.',
+          'The adiabatically adjusting principal axis hyperspherical (APH) quantum reactive scattering package (APH3D) is the only suite of codes available to the community for studying a chemical reaction with exact quantum mechanical treatment. In this numerical simulation, the radial part of the time-independent Schrödinger equation (TISE) is solved until the interaction between the atom-diatom dissipates to negligible values or zero which is unusually very large. This formulation of solving the TISE is accurate treatment of the problem, but computationally rather challenging to converge.',
         ],
-        formula: 'Li⁷ + Li⁶₂ → Li⁷Li⁶ + Li⁶',
       },
     ],
   },
