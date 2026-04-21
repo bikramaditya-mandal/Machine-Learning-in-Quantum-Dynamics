@@ -8,7 +8,7 @@ type SubTopic = {
   title: string
   body: string[]
   images?: { src: string; alt: string; caption?: string }[]
-  paper?: { label: string; href: string }[]
+  paper?: { label: string; href: string }
 }
 
 type Topic = {
@@ -19,7 +19,7 @@ type Topic = {
   body?: string[]
   formula?: string
   images?: { src: string; alt: string; caption?: string }[]
-  paper?: { label: string; href: string }[]
+  paper?: { label: string; href: string }
 }
 
 type Era = {
@@ -49,13 +49,17 @@ const eras: Era[] = [
               { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_HD_He_exp_v2_page-0001.jpg', alt: 'HD + He', caption: 'Comparison of SARP experimental measurements against theoretical simulation of HD+He cold collisions.' },
               { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_D2_Ne_HSARP_XSARP_page-0001.jpg', alt: 'D₂ + Ne', caption: 'Comparison of SARP experimental measurements against theoretical simulation of D₂+Ne cold collisions.' },
             ],
+            body: [
+              'Please refer to the research article for more details.',
+            paper: { label: 'Journal of Chemical Physics, 162, 104201 (2025)', href: 'https://doi.org/10.1063/5.0250522' },
+            ],
         subTopics: [
           {
             title: 'HD and D₂ Collisions with He',
             body: [
               'Please refer to the research article for more details.',
             ],
-            paper: [{ label: 'Journal of Chemical Physics, 162, 104201 (2025)', href: 'https://doi.org/10.1063/5.0250522' },]
+            paper: { label: 'Journal of Chemical Physics, 162, 104201 (2025)', href: 'https://doi.org/10.1063/5.0250522' },
           },
           {
             title: 'Cold Collisions of D₂(𝑣=4) with Ne',
@@ -69,7 +73,7 @@ const eras: Era[] = [
               { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_D2_Ne_ICS_L_Lp_page-0001.jpg', alt: 'D₂ + Ne ICS partial wave analysis', caption: 'Partial-wave resolved ICS showing l = 5 shape resonance' },
               { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_D2_Ne_HSARP_XSARP_page-0001.jpg', alt: 'D₂ + Ne H-SARP vs X-SARP', caption: 'Comparison with H-SARP and X-SARP experimental angular distributions' },
             ],
-            paper: [{ label: 'Journal of Chemical Physics, 162, 164307 (2025)', href: 'https://doi.org/10.1063/5.0266360' },]
+            paper: { label: 'Journal of Chemical Physics, 162, 164307 (2025)', href: 'https://doi.org/10.1063/5.0266360' },
           },
           {
             title: 'Collision of HD + D₂',
@@ -84,7 +88,7 @@ const eras: Era[] = [
               { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_HD_D2_VSARP_dj2_page-0001.jpg', alt: 'HD + D₂ SARP Δj=−2 comparison', caption: 'H-SARP and V-SARP comparison for Δj = −2 transition' },
               { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_HD_D2_exp_454_703_meV_page-0001.jpg', alt: 'HD + D₂ DCS thermal comparison', caption: 'DCS comparison at 454 and 703 meV collision energies' },
             ],
-            paper: [{ label: 'Physical Chemistry Chemical Physics, 26, 18368 (2024)', href: 'https://doi.org/10.1039/D4CP01737D' },]
+            paper: { label: 'Physical Chemistry Chemical Physics, 26, 18368 (2024)', href: 'https://doi.org/10.1039/D4CP01737D' },
           },
         ],
       },
@@ -109,7 +113,7 @@ const eras: Era[] = [
               { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_H2O_H2O_MLP_fig_page-0001.jpg', alt: 'MLP neural network architecture', caption: 'Multi-layer perceptron architecture for rate coefficient prediction' },
               { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_H2O_H2O_TACS_Trot300_page-0001.jpg', alt: 'TACS comparison Trot=300K', caption: 'MQCT vs MLP thermally-averaged cross sections at T = 300 K' },
             ],
-            paper: [{ label: 'Physical Chemistry Chemical Physics, 27, 23000 (2025)', href: 'https://doi.org/10.1039/D5CP02812D' },]
+            paper: { label: 'Physical Chemistry Chemical Physics, 27, 23000 (2025)', href: 'https://doi.org/10.1039/D5CP02812D' },
           },
         ],
       },
@@ -199,7 +203,7 @@ const eras: Era[] = [
           'Proteins are one of the major building blocks of our body. Their folded structure and spatial orientation plays a crucial role in doing their jobs. Experimental observation that low millimolar concentrations of the surfactant-like denaturant dodine can induce cooperative unfolding of small proteins and by the need to understand, at molecular resolution, how such potent denaturants act and how protective osmolytes (here, trehalose) counteract them',
           'We performed all-atom molecular-dynamics simulations of a mutated λ-repressor in water in a long time scale of 1000 ns, in the presence of 10 mM dodine, and in ternary mixtures with 0.1–1.0 M trehalose. We found that dodine denatures the protein primarily by its hydrophobic tail and charged guanidinium head binding near the terminal helices (H1, H5), disrupting intra-protein hydrogen bonds and increasing RMSD and helical loss. In this circumstance, trehalose at moderate/high concentrations (0.5–1.0 M) restores stability by replacing dodine and some hydration water in the protein’s first solvation shell, forming favorable protein–trehalose hydrogen bonds, preferentially solvating dodine (reducing protein–dodine electrostatic and vdW interactions), and thereby re-establishing native contacts.',
         ],
-        paper: [{ label: 'Physical Chemistry Chemical Physics, 19, 13160 (2017)', href: 'https://doi.org/10.1039/C6CP08289K' },]
+        paper: { label: 'Physical Chemistry Chemical Physics, 19, 13160 (2017)', href: 'https://doi.org/10.1039/C6CP08289K' },
       },
       {
         num: '10',
@@ -208,7 +212,7 @@ const eras: Era[] = [
           'Modern human life is surrounded by tiny electronic devices powered by batteries. There is a growing need for an alternative technology to power small, distributed devices—such as wireless sensors, medical implants, and embedded monitoring systems—where conventional battery replacement is impractical. This motivated research in vibration-based energy harvesting.',
           'We built numerical simulations modelling devices called vibration energy harvesters using piezoelectric materials. A main property of piezoelectric materials is that they generate voltage when bent or stretched. Our primary focus was on understanding the effect of different initial conditions on the efficiency of energy capture. We address limitations in previous studies that mostly assumed idealized excitations (e.g., sinusoidal or white noise) by analyzing a more realistic scenario in which the mechanical oscillator is driven by colored Gaussian noise representing ambient vibrations. Our investigation is focused on how the interplay between oscillator dynamics (linear vs. nonlinear potentials), environmental noise characteristics, and piezoelectric circuit parameters affects energy harvesting performance. We found that that efficient energy conversion occurs when the output voltage closely follows the oscillator motion and the role of voltage–position correlation. We demonstrated that nonlinear oscillators can yield higher voltage variance and efficiency—especially near autonomous stochastic resonance. The optimal conditions for power transfer through the interaction of resistance, capacitance, and noise properties if reported as well.',
         ],
-        paper: [{ label: 'The European Physical Journal B, 89, 224 (2016)', href: 'https://doi.org/10.1140/epjb/e2016-70271-7' },]
+        paper: { label: 'The European Physical Journal B, 89, 224 (2016)', href: 'https://doi.org/10.1140/epjb/e2016-70271-7' },
       },
     ],
   },
@@ -225,7 +229,7 @@ function ContentWithFloatingImages({
   body?: string[]
   images?: { src: string; alt: string; caption?: string }[]
   formula?: string
-  paper?: { label: string; href: string }[]
+  paper?: { label: string; href: string }
   intro?: string[]
 }) {
   return (
