@@ -86,22 +86,6 @@ const eras: Era[] = [
               { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_H2O_H2O_TACS_Trot300_page-0001.jpg', alt: 'TACS comparison Trot=300K', caption: 'MQCT vs MLP thermally-averaged cross sections at T = 300 K' },
             ],
             paper: { label: '"Structure and dynamics of chemical systems: Honouring N. Sathyamurthy’s 75th birthday", Physical Chemistry Chemical Physics, 27, 23000 (2025)', href: 'https://doi.org/10.1039/D5CP02812D' },
-        subTopics: [
-          {
-            title: 'Rate Coefficients of H₂O + H₂O Using MLP Model',
-            body: [
-              'Please refer to our research article for more details. A brief description is provided here.',
-              'The dependencies of cross sections on the energy difference between initial and final states of the colliding partners indicate a single-exponential behavior near ΔE = 0 regime, while a double-exponential behavior over the entire range of ΔE.',
-              'Our MLP model is composed of one input layer with thirteen neurons corresponding to each feature of our data set, five hidden layers with each having 128 neurons, and one output layer with a single neuron corresponding to the cross section. The agreement between MQCT data and MLP model predicted data is found to be excellent overall.',
-            ],
-            images: [
-              { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_H2O_H2O_sigma_vs_dE.png', alt: 'H₂O cross sections vs ΔE', caption: 'Cross sections as a function of energy gap ΔE showing exponential behavior' },
-              { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_H2O_H2O_MLP_fig_page-0001.jpg', alt: 'MLP neural network architecture', caption: 'Multi-layer perceptron architecture for rate coefficient prediction' },
-              { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_H2O_H2O_TACS_Trot300_page-0001.jpg', alt: 'TACS comparison Trot=300K', caption: 'MQCT vs MLP thermally-averaged cross sections at T = 300 K' },
-            ],
-            paper: { label: 'Physical Chemistry Chemical Physics, 27, 23000 (2025)', href: 'https://doi.org/10.1039/D5CP02812D' },
-          },
-        ],
       },
       {
         num: '03',
