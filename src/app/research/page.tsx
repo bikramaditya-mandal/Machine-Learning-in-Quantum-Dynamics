@@ -52,38 +52,14 @@ const eras: Era[] = [
         subTopics: [
           {
             title: 'HD and D₂ Collisions with He',
-            body: [
-              'Please refer to our research article for more details.',
-            ],
             paper: { label: 'Journal of Chemical Physics, 162, 104201 (2025)', href: 'https://doi.org/10.1063/5.0250522' },
           },
           {
             title: 'Cold Collisions of D₂ (v = 4) with Ne',
-            body: [
-              'Please refer to our research article for more details. A brief description is provided here.',
-              'Resonant scattering of highly vibrationally excited and aligned D₂ in cold collisions with Ne has recently been probed experimentally using the SARP technique by the research group of Prof. Richard N. Zare. A partial-wave analysis and numerical fitting of the experimental data attributed the measured angular distribution to an l = 2 shape resonance near 1 kelvin.',
-              'Our main goal of this project is to compare against the SARP experiments for rotational quenching of j = 2 → j\' = 0 in v = 4 of D₂. A strong resonance was found at ~2 cm⁻¹ with a peak cross section value of about ~20 Å².',
-            ],
-            images: [
-              { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_D2_Ne_exp_old_page-0001.jpg', alt: 'D₂ + Ne DCS comparison thermal', caption: 'DCS comparison with thermal crossed-beam experiments' },
-              { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_D2_Ne_ICS_L_Lp_page-0001.jpg', alt: 'D₂ + Ne ICS partial wave analysis', caption: 'Partial-wave resolved ICS showing l = 5 shape resonance' },
-              { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_D2_Ne_HSARP_XSARP_page-0001.jpg', alt: 'D₂ + Ne H-SARP vs X-SARP', caption: 'Comparison with H-SARP and X-SARP experimental angular distributions' },
-            ],
             paper: { label: 'Journal of Chemical Physics, 162, 164307 (2025)', href: 'https://doi.org/10.1063/5.0266360' },
           },
           {
             title: 'Collision of HD + D₂',
-            body: [
-              'Please refer to our research article for more details. A brief description is provided here.',
-              'In this work, we performed full-dimensional quantum calculations of stereodynamic control of HD(v = 1, j = 2) + D₂ collisions for the first time that has been probed experimentally by Prof. Richard N. Zare and his research group at Stanford University using the SARP technique.',
-              'It is found that the dominant inelastic channel in the rotational quenching of HD involves an energy transfer to D₂ leading to jD₂ = 0 → j\'D₂ = 2 rotational excitation of the D₂ molecule. This transition conserves the total molecular rotational angular momentum and has a cross section that is four times larger than that of direct relaxation.',
-            ],
-            images: [
-              { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_HD_D2_sigma_1200_1000_1002_page-0001.jpg', alt: 'HD + D₂ cross sections', caption: 'State-to-state cross sections for HD + D₂ collisions' },
-              { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_HD_D2_HSARP_VSARP_dj1_page-0001.jpg', alt: 'HD + D₂ SARP Δj=−1 comparison', caption: 'H-SARP and V-SARP comparison for Δj = −1 transition' },
-              { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_HD_D2_VSARP_dj2_page-0001.jpg', alt: 'HD + D₂ SARP Δj=−2 comparison', caption: 'H-SARP and V-SARP comparison for Δj = −2 transition' },
-              { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_HD_D2_exp_454_703_meV_page-0001.jpg', alt: 'HD + D₂ DCS thermal comparison', caption: 'DCS comparison at 454 and 703 meV collision energies' },
-            ],
             paper: { label: 'Physical Chemistry Chemical Physics, 26, 18368 (2024)', href: 'https://doi.org/10.1039/D4CP01737D' },
           },
         ],
