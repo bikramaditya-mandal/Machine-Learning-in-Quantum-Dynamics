@@ -8,7 +8,7 @@ type SubTopic = {
   title: string
   body: string[]
   images?: { src: string; alt: string; caption?: string }[]
-  paper?: { label: string; href: string }
+  paper?: { label: string; href: string }[]
 }
 
 type Topic = {
@@ -42,7 +42,7 @@ const eras: Era[] = [
         intro: [
           'Quantum control of chemical reactions and inelastic scattering of molecules remain at the forefront of modern theoretical and computational chemistry. Quantum control can be achieved through quantum interference effects or quantum state preparations of molecular states, e.g., controlling alignment or orientations of the reactant molecules, generally referred to as stereodynamics. These effects are amplified at low temperatures where quantum effects dominate. Recent advances in molecular cooling and trapping technologies have also led to renewed interest in inelastic and reactive collisions of atom-molecule and molecule-molecule systems. Indeed, collisions of cold and ultracold diatomic molecules are an active area of experimental and theoretical research due to their applications to quantum sensing, ultracold chemistry, quantum computing, and quantum information processing. Although, diatomic species such as CaF, SrF, RbCs, KRb, NaK, etc. are preferred molecules for such applications, their small rotational constants lead to high densities of states making rigorous quantum calculations of diatom-diatom collisions involving these molecules computationally intractable. Therefore, lighter diatomic molecules, such as H₂ and its isotopologues, are generally preferred to benchmark theoretical studies against experiments. These systems are characterized by large rotational constants and low densities of states, thus requiring only a small number of orbital angular momentum partial waves to yield converged cross sections in the micro-kelvin (ultracold) range of collision energies.',
           'Prof. Richard N. Zare and his research group at the Stanford University have recently developed a coherent optical technique, called Stark-induced adiabatic Raman passage (SARP), to study quantum controlled cold collisions of light molecular systems, such as H₂, and its isotopologues. They conducted experiments on lighter molecular systems, starting from HD+H₂, HD+He and HD+D₂, D₂+He, D₂+Ne and D₂+D₂ using the new technique SARP. Their objective was to explore quantum control of molecular collisions in cold collision energy regime, particularly near 1 K. The quantum control is achieved by preparing the alignment of the molecular bond-axis relative to the initial velocity vector. The experiments can prepare parallel alignment, which is called H-SARP or perpendicular alignment, which is called V-SARP. The choice of light molecules such as H₂, HD, and D₂ restricts the number of partial waves to a few, typically below 𝓁=5, mostly, 𝓁 =0, 1 & 2. The experiments essentially created a new sub-field of quantum control of molecular collisions and chemical reactions through quantum state preparation & molecular alignment.',
-          'We conducted theoretical simulations of stereodynamic controlled cold collisions of HD+D₂, HD+He & D₂+He, and D₂+Ne to correctly interpreting experimental results and also to gain insights on molecular interactions and thus chemical reactions as well at a fundamental quantum level. The experiments involve an average over a broad range of collision energies, from nearly zero kelvin to a few kelvin; and thus the experimental results are not energy resolved. Analysis of experimental results relied on numerical fitting of the experimental data to a differential rate constructed from possible outgoing partial waves. This often led to incorrect interpretation of experimental results in terms of specific partial-waves that control the angular distribution. We conducted theoretical investigations to correctly identify specific partial-waves that control the angular distribution and explains the experimental outcome.',
+          'We conducted theoretical simulations of stereodynamic controlled cold collisions of HD+D₂, HD+He & D₂+He, and D₂(𝑣 = 4)+Ne to correctly interpreting experimental results and also to gain insights on molecular interactions and thus chemical reactions as well at a fundamental quantum level. The experiments involve an average over a broad range of collision energies, from nearly zero kelvin to a few kelvin; and thus the experimental results are not energy resolved. Analysis of experimental results relied on numerical fitting of the experimental data to a differential rate constructed from possible outgoing partial waves. This often led to incorrect interpretation of experimental results in terms of specific partial-waves that control the angular distribution. We conducted theoretical investigations to correctly identify specific partial-waves that control the angular distribution and explains the experimental outcome.',
         ],
             images: [
               { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_HD_D2_HSARP_VSARP_dj1_page-0001.jpg', alt: 'HD+D2 SARP', caption: 'Comparison of SARP experimental measurements against theoretical simulation of HD+D₂ cold collisions.' },
@@ -55,10 +55,10 @@ const eras: Era[] = [
             body: [
               'Please refer to the research article for more details.',
             ],
-            paper: { label: 'Journal of Chemical Physics, 162, 104201 (2025)', href: 'https://doi.org/10.1063/5.0250522' },
+            paper: [{ label: 'Journal of Chemical Physics, 162, 104201 (2025)', href: 'https://doi.org/10.1063/5.0250522' },]
           },
           {
-            title: 'Cold Collisions of D₂ (v = 4) with Ne',
+            title: 'Cold Collisions of D₂(𝑣=4) with Ne',
             body: [
               'Please refer to our research article for more details. A brief description is provided here.',
               'Resonant scattering of highly vibrationally excited and aligned D₂ in cold collisions with Ne has recently been probed experimentally using the SARP technique by the research group of Prof. Richard N. Zare. A partial-wave analysis and numerical fitting of the experimental data attributed the measured angular distribution to an l = 2 shape resonance near 1 kelvin.',
@@ -69,7 +69,7 @@ const eras: Era[] = [
               { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_D2_Ne_ICS_L_Lp_page-0001.jpg', alt: 'D₂ + Ne ICS partial wave analysis', caption: 'Partial-wave resolved ICS showing l = 5 shape resonance' },
               { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_D2_Ne_HSARP_XSARP_page-0001.jpg', alt: 'D₂ + Ne H-SARP vs X-SARP', caption: 'Comparison with H-SARP and X-SARP experimental angular distributions' },
             ],
-            paper: { label: 'Journal of Chemical Physics, 162, 164307 (2025)', href: 'https://doi.org/10.1063/5.0266360' },
+            paper: [{ label: 'Journal of Chemical Physics, 162, 164307 (2025)', href: 'https://doi.org/10.1063/5.0266360' },]
           },
           {
             title: 'Collision of HD + D₂',
@@ -84,7 +84,7 @@ const eras: Era[] = [
               { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_HD_D2_VSARP_dj2_page-0001.jpg', alt: 'HD + D₂ SARP Δj=−2 comparison', caption: 'H-SARP and V-SARP comparison for Δj = −2 transition' },
               { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_HD_D2_exp_454_703_meV_page-0001.jpg', alt: 'HD + D₂ DCS thermal comparison', caption: 'DCS comparison at 454 and 703 meV collision energies' },
             ],
-            paper: { label: 'Physical Chemistry Chemical Physics, 26, 18368 (2024)', href: 'https://doi.org/10.1039/D4CP01737D' },
+            paper: [{ label: 'Physical Chemistry Chemical Physics, 26, 18368 (2024)', href: 'https://doi.org/10.1039/D4CP01737D' },]
           },
         ],
       },
@@ -225,7 +225,7 @@ function ContentWithFloatingImages({
   body?: string[]
   images?: { src: string; alt: string; caption?: string }[]
   formula?: string
-  paper?: { label: string; href: string }
+  paper?: { label: string; href: string }[]
   intro?: string[]
 }) {
   return (
