@@ -45,7 +45,7 @@ const eras: Era[] = [
           'We conducted theoretical simulations of stereodynamic controlled cold collisions of HD+D₂, HD+He & D₂+He, and D₂+Ne to correctly interpreting experimental results and also to gain insights on molecular interactions and thus chemical reactions as well at a fundamental quantum level. The experiments involve an average over a broad range of collision energies, from nearly zero kelvin to a few kelvin; and thus the experimental results are not energy resolved. Analysis of experimental results relied on numerical fitting of the experimental data to a differential rate constructed from possible outgoing partial waves. This often led to incorrect interpretation of experimental results in terms of specific partial-waves that control the angular distribution. We conducted theoretical investigations to correctly identify specific partial-waves that control the angular distribution and explains the experimental outcome.',
         ],
             images: [
-              { src: '/Machine-Learning-in-Quantum-Dynamics/public/assets/Fig_HD_D2_HSARP_VSARP_dj1_page-0001.jpg', alt: 'HD+D2 SARP', caption: 'Comparison of SARP experimental measurements against theoretical simulation of HD+D₂ cold collisions.' },
+              { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_HD_D2_HSARP_VSARP_dj1_page-0001.jpg', alt: 'HD+D2 SARP', caption: 'Comparison of SARP experimental measurements against theoretical simulation of HD+D₂ cold collisions. <a href="https://doi.org/10.1039/D4CP01737D" target="_blank">[Read Article]</a>' },
             ],
         subTopics: [
           {
