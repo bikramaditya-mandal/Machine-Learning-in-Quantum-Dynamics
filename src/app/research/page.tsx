@@ -49,10 +49,6 @@ const eras: Era[] = [
               { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_HD_He_exp_v2_page-0001.jpg', alt: 'HD + He', caption: 'Comparison of SARP experimental measurements against theoretical simulation of HD+He cold collisions.' },
               { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_D2_Ne_HSARP_XSARP_page-0001.jpg', alt: 'D₂ + Ne', caption: 'Comparison of SARP experimental measurements against theoretical simulation of D₂+Ne cold collisions.' },
             ],
-            body: [
-              'Please refer to the research article for more details.',
-            paper: { label: 'Journal of Chemical Physics, 162, 104201 (2025)', href: 'https://doi.org/10.1063/5.0250522' },
-            ],
         subTopics: [
           {
             title: 'HD and D₂ Collisions with He',
