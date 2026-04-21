@@ -51,25 +51,25 @@ const eras: Era[] = [
             ],
         subTopics: [
           {
+            title: 'Collision of HD + D₂',
+            body: [
+              'Please refer to the research article for more details.',
+            ],
+            paper: { label: 'HD+D₂: Physical Chemistry Chemical Physics, 26, 18368 (2024)', href: 'https://doi.org/10.1039/D4CP01737D' },
+          },
+          {
             title: 'HD and D₂ Collisions with He',
             body: [
               'Please refer to the research article for more details.',
             ],
-            paper: { label: 'Journal of Chemical Physics, 162, 104201 (2025)', href: 'https://doi.org/10.1063/5.0250522' },
+            paper: { label: 'HD+He & D₂+He: Journal of Chemical Physics, 162, 104201 (2025)', href: 'https://doi.org/10.1063/5.0250522' },
           },
           {
             title: 'Cold Collisions of D₂(𝑣=4) with Ne',
             body: [
               'Please refer to the research article for more details.',
             ],
-            paper: { label: 'Journal of Chemical Physics, 162, 164307 (2025)', href: 'https://doi.org/10.1063/5.0266360' },
-          },
-          {
-            title: 'Collision of HD + D₂',
-            body: [
-              'Please refer to the research article for more details.',
-            ],
-            paper: { label: 'Physical Chemistry Chemical Physics, 26, 18368 (2024)', href: 'https://doi.org/10.1039/D4CP01737D' },
+            paper: { label: 'D₂(𝑣=4)+Ne: Journal of Chemical Physics, 162, 164307 (2025)', href: 'https://doi.org/10.1063/5.0266360' },
           },
         ],
       },
@@ -78,23 +78,15 @@ const eras: Era[] = [
         title: 'Neural Network–Assisted Quantum Scattering',
         intro: [
           'One of the major interests of astronomers is to observe different bodies in our solar system. Several state-of-the-art observatories, like Atacama Large Millimeter Array (ALMA) radio telescope, and other space-exploration telescopes, such as the Spitzer space telescope and, most recently, the James Webb space telescope (JWST), have been deployed to obtain data.',
-          'To understand and correlate with the observed rotational spectra obtained by ALMA or JWST missions, we need modeling with radiation transfer codes, such as RADEX, LIME, or MOLPOP, which in turn requires state-to-state collisional rate coefficients as input for the rotational excitation and quenching processes.',
-          'Our research employs a machine-learning model to compute more rate-coefficients for complex collisions, such as H₂O + H₂O using the existing computed data. We propose a methodology that exploits the physical nature of the cross sections or rate coefficients data to train and build a multi-layer perceptron (MLP) model using neural-network.',
+          'The data collected from the Herschel Space Observatory, ALMA and other ground telescope, JWST and Spitzer space mission on comets and icy moon indicate that ices containing H₂O and HDO are present on coma of several comets. With better HDO and H₂O collision rate-coefficients, astronomical models can achieve more accurate measurement of cometary D/H from those data, which will help test theories regarding the origins of Earth’s water. Measuring cometary D/H accurately in a large sample of comets is one of the key drivers for such a far-IR telescope. Another utility of the proposed rate-coefficients is correctly analysing data collected from this mission.',
+          'Modelling water molecule collisions is especially demanding due to the quantum mechanical complexity of the H₂O+H₂O system. Being an asymmetric top rotor, each water molecule has vast number of quantum states and transitions that must be considered. Moreover, the coupling between vibrational and rotational states further complicates the dynamic description, necessitating advanced theoretical and computational methods. We studied rotational transitions in H₂O+H₂O collisions involving machine learning (ML) as a tool using an ensemble of neural networks (NNs) to predict cross sections to construct a database of rate-coeﬃcients for rotationally inelastic transitions in collisions of complex molecules such as water. The proposed methodology utilized data computed with a MQCT by Mandal et al. from few years ago. The study illustrated that eﬃcient ML models using NNs can be built to accurately interpolate in the space of 12 quantum numbers for rotational transitions in two asymmetric top molecules, spanning both initial and final states. Using only about 10% of the computed data for training, the NNs predicted cross sections of state-to-state rotational transitions in H₂O+H₂O collisions with an average relative root mean squared error of 0.409. The rate-coefficients computed using the predicted state-to-state cross sections were compared against those obtained entirely from MQCT calculations. The agreement was excellent with an average percent deviation of about 13.5% while achieving an estimated computational efficiency by a factor of 50.',
         ],
-        subTopics: [
-          {
-            title: 'Rate Coefficients of H₂O + H₂O Using MLP Model',
-            body: [
-              'Please refer to our research article for more details. A brief description is provided here.',
-              'The dependencies of cross sections on the energy difference between initial and final states of the colliding partners indicate a single-exponential behavior near ΔE = 0 regime, while a double-exponential behavior over the entire range of ΔE.',
-              'Our MLP model is composed of one input layer with thirteen neurons corresponding to each feature of our data set, five hidden layers with each having 128 neurons, and one output layer with a single neuron corresponding to the cross section. The agreement between MQCT data and MLP model predicted data is found to be excellent overall.',
-            ],
             images: [
               { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_H2O_H2O_sigma_vs_dE.png', alt: 'H₂O cross sections vs ΔE', caption: 'Cross sections as a function of energy gap ΔE showing exponential behavior' },
               { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_H2O_H2O_MLP_fig_page-0001.jpg', alt: 'MLP neural network architecture', caption: 'Multi-layer perceptron architecture for rate coefficient prediction' },
               { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_H2O_H2O_TACS_Trot300_page-0001.jpg', alt: 'TACS comparison Trot=300K', caption: 'MQCT vs MLP thermally-averaged cross sections at T = 300 K' },
             ],
-            paper: { label: 'Physical Chemistry Chemical Physics, 27, 23000 (2025)', href: 'https://doi.org/10.1039/D5CP02812D' },
+            paper: { label: '"Structure and dynamics of chemical systems: Honouring N. Sathyamurthy’s 75th birthday": Physical Chemistry Chemical Physics, 27, 23000 (2025)', href: 'https://doi.org/10.1039/D5CP02812D' },
           },
         ],
       },
