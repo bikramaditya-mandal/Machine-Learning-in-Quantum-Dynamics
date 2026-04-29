@@ -76,7 +76,7 @@ const pubs = [
   { year: '2025', href: 'https://doi.org/10.1039/D5CP02812D', title: 'Neural network ensemble for computing cross sections of rotational transitions in H₂O + H₂O collisions', journal: 'Physical Chemistry Chemical Physics, 27, 23000' },
   { year: '2025', href: 'https://doi.org/10.1063/5.0250522', title: 'Stereodynamics of cold HD and D₂ collisions with He', journal: 'Journal of Chemical Physics, 162, 104201' },
   { year: '2024', href: 'https://doi.org/10.1051/0004-6361/202450738', title: 'Rotational state-to-state transition rate coefficients for H₂O + H₂O collisions at nonequilibrium conditions', journal: 'Astronomy & Astrophysics, 688, A208' },
-  { year: '2024', href: 'https://doi.org/10.1016/j.cpc.2023.108938', title: 'MQCT 2024: A program for inelastic scattering of two molecules', journal: 'Computer Physics Communications, 294, 108938'},
+  { year: '2024', href: 'https://doi.org/10.1016/j.cpc.2023.108938', title: 'MQCT 2024: A program for inelastic scattering of two molecules', journal: 'Computer Physics Communications, 294, 108938' },
   { year: '2023', href: 'https://doi.org/10.1021/acs.jpclett.2c03328', title: 'Adiabatic trajectory approximation: a new general method in the toolbox of mixed quantum/classical theory for collisional energy transfer', journal: 'Journal of Physical Chemistry Letters, 14, 817', cover: true },
 ]
 
@@ -98,14 +98,16 @@ export default function Home() {
 
         {/* Text — on mobile align-start so button never gets pushed under the absolute stats bar */}
         <div className="relative z-20 px-[8vw] lg:px-[10vw] pt-28 sm:pt-32 xl:pt-32 pb-28 sm:pb-[200px] md:pb-[160px] lg:pb-40">
-          <p className="bg-white font-sans text-base font-light text-[#1a1a1a] tracking-wide mb-5 animate-[fadeUp_0.7s_ease_both]">Hi there!</p>
-          <h1 className="bg-white font-sans text-[clamp(2rem,3.2vw,3.4rem)] font-extrabold leading-[1.1] tracking-[-0.03em] text-[#1a1a1a] mb-6 animate-[fadeUp_0.7s_0.1s_ease_both]">
+          <p className="font-sans text-base text-[#1a1a1a] tracking-wide mb-5 animate-[fadeUp_0.7s_ease_both]">
+            <span className='backdrop-blur-md'>Hi there!</span>
+            </p>
+          <h1 className="font-sans text-[clamp(2rem,3.2vw,3.4rem)] font-extrabold leading-[1.1] tracking-[-0.03em] text-[#1a1a1a] mb-6 animate-[fadeUp_0.7s_0.1s_ease_both]">
             I'm Dr. Bikramaditya Mandal,<br />
             a <span className="text-[#3d8bfd]">Quantum Physicist</span><br />
             decoding molecular collisions
           </h1>
-          <p className="bg-white font-sans text-[0.95rem] font-light text-[#1a1a1a]/90 max-w-[400px] leading-[1.85] mb-10 animate-[fadeUp_0.7s_0.2s_ease_both]">
-            Postdoctoral Scholar at UNLV with research focus in quantum control of ultracold molecular reactions and collisions & machine learning for quantum scattering.
+          <p className="font-sans text-[0.95rem] text-[#1a1a1a]/90 max-w-[400px] leading-[1.85] mb-10 animate-[fadeUp_0.7s_0.2s_ease_both]">
+          <span className='backdrop-blur-md'>Postdoctoral Scholar at UNLV with research focus in quantum control of ultracold molecular reactions and collisions & machine learning for quantum scattering.</span>
           </p>
           <Link
             href="#about"
@@ -155,7 +157,7 @@ export default function Home() {
                 <span className="font-sans text-[1.5rem] font-extrabold tracking-[-0.03em] text-[#1a1a1a] leading-none">
                   {s.n}
                 </span>
-                <span className="font-mono text-[0.55rem] tracking-[0.15em] uppercase text-[#555555] whitespace-nowrap">
+                <span className="font-mono text-[0.55rem] tracking-[0.15em] uppercase text-[#4A4A4A] whitespace-nowrap">
                   {s.l}
                 </span>
               </div>

@@ -24,19 +24,20 @@ type JournalEntry = {
   href: string
   cover?: boolean
   note?: string
+  image?: string
 }
 
 const journals: JournalEntry[] = [
   { year: '2026', authors: 'Mandal B., Jóźwiak H., Wcisło P., Naduvalath B.', title: 'Full-dimensional quantum scattering calculations of rovibrationally excited HD+HD collisions', journal: 'Journal of Chemical Physics, 164, 000000, 2026', href: 'https://doi.org/10.1063/5.0318268' },
   { year: '2026', authors: 'Stordock J., Mandal B., Naduvalath B.', title: 'Nuclear quantum effects on low energy resonant features in He+H₂ scattering', journal: 'Physical Review A, 2026', href: 'https://doi.org/10.1103/1vhq-6kh7' },
-  { year: '2025', authors: 'Mandal B., Babikov D., Stancil P., Forrey R., Krems R., Naduvalath B.', title: 'Neural network ensemble for computing cross sections for rotational transitions in H₂O + H₂O collisions', journal: 'Physical Chemistry Chemical Physics, 27, 23000, 2025', note: "Honoring Prof. Narayana Sathyamurthy's 75th birthday", href: 'https://doi.org/10.1039/D5CP02812D' },
-  { year: '2025', authors: 'Santiago Perez-Hernando, Manuel Lara, Mandal B., Sanz-Sanz C., Jambrina P., Naduvalath B., Aoiz J.', title: 'Resonances in inelastic collisions of Ne+D₂ in the cold energy regime', journal: 'Journal of Chemical Physics, 163, 224304, 2025', href: 'https://doi.org/10.1063/5.0303163' },
+  { year: '2025', authors: 'Mandal B., Babikov D., Stancil P., Forrey R., Krems R., Naduvalath B.', title: 'Neural network ensemble for computing cross sections for rotational transitions in H₂O + H₂O collisions', journal: 'Physical Chemistry Chemical Physics, 27, 23000, 2025', note: "Honoring Prof. Narayana Sathyamurthy's 75th birthday", href: 'https://doi.org/10.1039/D5CP02812D', image: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_H2O_H2O_MLP_fig_page-0001.jpg' },
+  { year: '2025', authors: 'Santiago Perez-Hernando, Manuel Lara, Mandal B., Sanz-Sanz C., Jambrina P., Naduvalath B., Aoiz J.', title: 'Resonances in inelastic collisions of Ne+D₂ in the cold energy regime', journal: 'Journal of Chemical Physics, 163, 224304, 2025', href: 'https://doi.org/10.1063/5.0303163', image: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_D2_Ne_HSARP_XSARP_page-0001.jpg' },
   { year: '2025', authors: 'Sanz-Sanz C.*, Mandal B.* (*equal contribution), Jambrina P., Aoiz F. J., Naduvalath B.', title: 'Cold collisions of highly vibrationally excited and aligned D₂ with Ne', journal: 'Journal of Chemical Physics, 162, 164307, 2025', href: 'https://doi.org/10.1063/5.0266360' },
-  { year: '2025', authors: 'Mandal B., Patkowski K., Jambrina P., Aoiz F. J., Naduvalath B.', title: 'Stereodynamics of cold HD and D₂ collisions with He', journal: 'Journal of Chemical Physics, 162, 104201, 2025', href: 'https://doi.org/10.1063/5.0250522' },
+  { year: '2025', authors: 'Mandal B., Patkowski K., Jambrina P., Aoiz F. J., Naduvalath B.', title: 'Stereodynamics of cold HD and D₂ collisions with He', journal: 'Journal of Chemical Physics, 162, 104201, 2025', href: 'https://doi.org/10.1063/5.0250522', image: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_HD_He_sigma_page-0001.jpg' },
   { year: '2024', authors: 'Joy C., Bostan D., Mandal B., Babikov D.', title: 'Rate coefficients for rotational state-to-state transitions in H₂O + H₂ collisions as predicted by mixed quantum/classical theory', journal: 'Astronomy & Astrophysics, 692, A229, 2024', href: 'https://doi.org/10.1051/0004-6361/202451975' },
   { year: '2024', authors: 'Bostan D., Mandal B., Babikov D.', title: 'Mixed quantum/classical theory for rotationally inelastic scattering of identical collision partners revised', journal: 'Physical Chemistry Chemical Physics, 26, 27567, 2024', href: 'https://doi.org/10.1039/D4CP02806F' },
   { year: '2024', authors: 'Mandal B., Żółtowski M., Cordiner M., Lique F., Babikov D.', title: 'Rotational state-to-state transition rate coefficients for H₂O + H₂O collisions at non-equilibrium conditions', journal: 'Astronomy & Astrophysics, 688, A208, 2024', href: 'https://doi.org/10.1051/0004-6361/202450738' },
-  { year: '2024', authors: 'Mandal B., Kroft J., Jambrina P., Guo H., Aoiz F. J., Naduvalath B.', title: 'Stereodynamical control of cold HD + D₂ collisions', journal: 'Physical Chemistry Chemical Physics, 26, 18368, 2024', href: 'https://doi.org/10.1039/D4CP01737D' },
+  { year: '2024', authors: 'Mandal B., Kroft J., Jambrina P., Guo H., Aoiz F. J., Naduvalath B.', title: 'Stereodynamical control of cold HD + D₂ collisions', journal: 'Physical Chemistry Chemical Physics, 26, 18368, 2024', href: 'https://doi.org/10.1039/D4CP01737D', image: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_HD_D2_sigma_1200_1000_1002_page-0001.jpg' },
   { year: '2024', authors: 'Joy C., Mandal B., Bostan D., Dubernet M. L., Babikov D.', title: 'Mixed quantum/classical theory (MQCT) approach to the dynamics of molecule–molecule collisions in complex systems', journal: 'Faraday Discussions, 251, 225, 2024', href: 'https://doi.org/10.1039/D3FD00166K' },
   { year: '2024', authors: 'Bostan D., Mandal B., Joy C., Żółtowski M., Lique F., Loreau J., Quintas-Sánchez E., Batista-Planas A., Dawes R., Babikov D.', title: 'Mixed quantum/classical calculations of rotationally inelastic scattering in the CO + CO system', journal: 'Physical Chemistry Chemical Physics, 26, 6627, 2024', href: 'https://doi.org/10.1039/D3CP05369E', cover: true },
   { year: '2024', authors: 'Dubernet M. L., ..., Mandal B., ..., et al.', title: 'BASECOL2023 scientific content', journal: 'Astronomy & Astrophysics, 683, A40, 2024', href: 'https://doi.org/10.1051/0004-6361/202348233' },
@@ -45,8 +46,8 @@ const journals: JournalEntry[] = [
   { year: '2023', authors: 'Joy C., Mandal B., Bostan D., Babikov D.', title: 'Mixed quantum/classical theory for rotational energy exchange in symmetric-top-rotor + linear-rotor collisions: ND₃ + D₂', journal: 'Physical Chemistry Chemical Physics, 25, 17287, 2023', href: 'https://doi.org/10.1039/D3CP01642K' },
   { year: '2023', authors: 'Bostan D., Mandal B., Joy C., Babikov D.', title: 'Description of quantum interference using mixed quantum/classical theory of inelastic scattering', journal: 'Physical Chemistry Chemical Physics, 25, 15683, 2023', href: 'https://doi.org/10.1039/D3CP01070H' },
   { year: '2023', authors: 'Mandal B., Babikov D.', title: 'Rate coefficients for rotational state-to-state transitions in H₂O + H₂O collisions for cometary and planetary applications', journal: 'Astronomy & Astrophysics, 671, A51, 2023', href: 'https://doi.org/10.1051/0004-6361/202245699' },
-  { year: '2023', authors: 'Mandal B., Joy C., Bostan D., Eng A., Babikov D.', title: 'Adiabatic trajectory approximation — new general method in the toolbox of mixed quantum/classical theory for collisional energy transfer', journal: 'The Journal of Physical Chemistry Letters, 14, 817, 2023', href: 'https://doi.org/10.1021/acs.jpclett.2c03328', cover: true },
-  { year: '2022', authors: 'Mandal B., Joy C., Semenov A., Babikov D.', title: 'Mixed quantum/classical theory for collisional quenching of PAHs in the interstellar media', journal: 'ACS Earth and Space Chemistry, 6, 521, 2022', href: 'https://doi.org/10.1021/acsearthspacechem.1c00418' },
+  { year: '2023', authors: 'Mandal B., Joy C., Bostan D., Eng A., Babikov D.', title: 'Adiabatic trajectory approximation — new general method in the toolbox of mixed quantum/classical theory for collisional energy transfer', journal: 'The Journal of Physical Chemistry Letters, 14, 817, 2023', href: 'https://doi.org/10.1021/acs.jpclett.2c03328', cover: true, image: '/Machine-Learning-in-Quantum-Dynamics/assets/JPCL_cover.jpg' },
+  { year: '2022', authors: 'Mandal B., Joy C., Semenov A., Babikov D.', title: 'Mixed quantum/classical theory for collisional quenching of PAHs in the interstellar media', journal: 'ACS Earth and Space Chemistry, 6, 521, 2022', href: 'https://doi.org/10.1021/acsearthspacechem.1c00418', image: '/Machine-Learning-in-Quantum-Dynamics/assets/AstroPAH.png' },
   { year: '2020', authors: 'Mandal B., Semenov A., Babikov D.', title: 'Adiabatic trajectory approximation within the framework of mixed quantum/classical theory', journal: 'The Journal of Physical Chemistry A, 124, 9877, 2020', href: 'https://doi.org/10.1021/acs.jpca.0c07547' },
   { year: '2020', authors: 'Boursier C., Mandal B., Dubernet M. L., Babikov D.', title: 'New H₂O-H₂O collisional rate coefficients for cometary applications', journal: 'Monthly Notices of the Royal Astronomical Society, 498, 5489, 2020', href: 'https://doi.org/10.1093/mnras/staa2713' },
   { year: '2020', authors: 'Semenov A.*, Mandal B.* (*equal contribution), Babikov D.', title: 'MQCT: User-ready program for calculations of inelastic scattering of two molecules', journal: 'Computer Physics Communications, 252, 107155, 2020', href: 'https://doi.org/10.1016/j.cpc.2020.107155' },
@@ -132,7 +133,7 @@ export default function Publications() {
             <PubGroup label="Preprints & Upcoming">
               {preprints.map((p, i) => (
                 <FadeUp key={i} delay={i * 50}>
-                  <div className="grid grid-cols-[52px_1fr_auto] gap-6 items-start py-5 border-b border-[#1a1a1a]/[0.07] max-sm:grid-cols-[40px_1fr]">
+                  <div className="grid grid-cols-[52px_1fr_140px_auto] gap-6 items-center py-5 border-b border-[#1a1a1a]/[0.07] max-sm:grid-cols-[40px_1fr]">
                     <span className="font-mono text-[0.72rem] text-[#3d8bfd] pt-0.5">{p.year}</span>
                     <div>
                       <p className="font-sans text-[0.8rem] text-[#1a1a1a]/50 mb-1 leading-[1.5]">
@@ -140,6 +141,15 @@ export default function Publications() {
                       </p>
                       <p className="font-sans text-[0.88rem] font-semibold text-[#1a1a1a] leading-[1.5] mb-1">{p.title}</p>
                       <p className="font-mono text-[0.72rem] text-[#1a1a1a]/40">{p.journal}</p>
+                    </div>
+                    <div className="max-md:hidden flex justify-center">
+                      {(p as any).image && (
+                        <img 
+                          src={(p as any).image} 
+                          alt="Paper Highlight" 
+                          className="h-16 w-32 object-cover rounded border border-[#1a1a1a]/[0.05] shadow-sm hover:scale-110 transition-transform duration-300"
+                        />
+                      )}
                     </div>
                     <div className="pt-0.5 max-sm:hidden">
                       <span className="font-mono text-[0.62rem] text-[#1a1a1a]/40 border border-[#1a1a1a]/[0.10] rounded px-3 py-1 uppercase tracking-wider whitespace-nowrap">
@@ -161,7 +171,7 @@ export default function Publications() {
                     href={p.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="grid grid-cols-[52px_1fr_auto] gap-6 items-start py-5 border-b border-[#1a1a1a]/[0.07] transition-colors hover:bg-[#3d8bfd]/[0.02] group max-sm:grid-cols-[40px_1fr]"
+                    className="grid grid-cols-[52px_1fr_140px_auto] gap-6 items-center py-5 border-b border-[#1a1a1a]/[0.07] transition-colors hover:bg-[#3d8bfd]/[0.02] group max-sm:grid-cols-[40px_1fr]"
                   >
                     <span className="font-mono text-[0.72rem] text-[#3d8bfd] pt-0.5">{p.year}</span>
                     <div>
@@ -178,6 +188,15 @@ export default function Publications() {
                       </p>
                       <p className="font-mono text-[0.72rem] text-[#1a1a1a]/40">{p.journal}</p>
                       {p.note && <p className="font-serif text-[0.72rem] text-[#1a1a1a]/40 mt-0.5 italic">{p.note}</p>}
+                    </div>
+                    <div className="max-md:hidden flex justify-center">
+                      {p.image && (
+                        <img 
+                          src={p.image} 
+                          alt="Paper Highlight" 
+                          className="h-16 w-32 object-cover rounded border border-[#1a1a1a]/[0.05] shadow-sm group-hover:scale-110 transition-transform duration-300"
+                        />
+                      )}
                     </div>
                     <div className="pt-0.5 max-sm:hidden">
                       <span className="font-mono text-[0.68rem] text-[#3d8bfd] border border-[#3d8bfd]/30 rounded px-3 py-1 transition-all group-hover:bg-[#3d8bfd]/10 group-hover:border-[#3d8bfd] whitespace-nowrap">
@@ -199,7 +218,7 @@ export default function Publications() {
                     href={p.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="grid grid-cols-[52px_1fr_auto] gap-6 items-start py-5 border-b border-[#1a1a1a]/[0.07] transition-colors hover:bg-[#3d8bfd]/[0.02] group max-sm:grid-cols-[40px_1fr]"
+                    className="grid grid-cols-[52px_1fr_140px_auto] gap-6 items-center py-5 border-b border-[#1a1a1a]/[0.07] transition-colors hover:bg-[#3d8bfd]/[0.02] group max-sm:grid-cols-[40px_1fr]"
                   >
                     <span className="font-mono text-[0.72rem] text-[#3d8bfd] pt-0.5">{p.year}</span>
                     <div>
@@ -208,6 +227,15 @@ export default function Publications() {
                       </p>
                       <p className="font-sans text-[0.88rem] font-semibold text-[#1a1a1a] leading-[1.5] mb-1">{p.title}</p>
                       <p className="font-mono text-[0.72rem] text-[#1a1a1a]/40">{p.journal}</p>
+                    </div>
+                    <div className="max-md:hidden flex justify-center">
+                      {(p as any).image && (
+                        <img 
+                          src={(p as any).image} 
+                          alt="Paper Highlight" 
+                          className="h-16 w-32 object-cover rounded border border-[#1a1a1a]/[0.05] shadow-sm group-hover:scale-110 transition-transform duration-300"
+                        />
+                      )}
                     </div>
                     <div className="pt-0.5 max-sm:hidden">
                       <span className="font-mono text-[0.68rem] text-[#3d8bfd] border border-[#3d8bfd]/30 rounded px-3 py-1 transition-all group-hover:bg-[#3d8bfd]/10 group-hover:border-[#3d8bfd] whitespace-nowrap">
