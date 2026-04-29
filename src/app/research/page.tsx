@@ -40,53 +40,36 @@ const eras: Era[] = [
         num: '01',
         title: 'Quantum Controlled Ultracold Inelastic Scattering',
         intro: [
-          'Quantum control of chemical reactions and inelastic scattering of molecules remain at the forefront of modern theoretical and computational chemistry. Quantum control can be achieved through quantum interference effects or quantum state preparations of molecular states, e.g., controlling alignment or orientations of the reactant molecules, generally referred to as stereodynamics. These effects are amplified at low temperatures where quantum effects dominate.',
-          'Recent advances in molecular cooling and trapping technologies have also led to renewed interest in inelastic and reactive collisions of atom-molecule and molecule-molecule systems. Indeed, collisions of cold and ultracold diatomic molecules are an active area of experimental and theoretical research due to their applications to quantum sensing, ultracold chemistry, quantum computing, and quantum information processing. Although, diatomic species such as CaF, SrF, RbCs, KRb, NaK, etc. are preferred molecules for such applications, their small rotational constants lead to high densities of states making rigorous quantum calculations of diatom-diatom collisions involving these molecules computationally intractable. Therefore, lighter diatomic molecules, such as H₂ and its isotopologues, are generally preferred to benchmark theoretical studies against experiments.',
-          'Prof. Richard N. Zare and his research group at Stanford University have recently developed a coherent optical technique, called Stark-induced adiabatic Raman passage (SARP), to study quantum controlled cold collisions of light molecular systems, such as H₂, HD and D₂. The SARP technique allows preparation of a phase-coherent superposition of degenerate aligned states (mj) within a single ro-vibrational state.',
+          'Quantum control of chemical reactions and inelastic scattering of molecules remain at the forefront of modern theoretical and computational chemistry. Quantum control can be achieved through quantum interference effects or quantum state preparations of molecular states, e.g., controlling alignment or orientations of the reactant molecules, generally referred to as stereodynamics. These effects are amplified at low temperatures where quantum effects dominate. Recent advances in molecular cooling and trapping technologies have also led to renewed interest in inelastic and reactive collisions of atom-molecule and molecule-molecule systems. Indeed, collisions of cold and ultracold diatomic molecules are an active area of experimental and theoretical research due to their applications to quantum sensing, ultracold chemistry, quantum computing, and quantum information processing. Although, diatomic species such as CaF, SrF, RbCs, KRb, NaK, etc. are preferred molecules for such applications, their small rotational constants lead to high densities of states making rigorous quantum calculations of diatom-diatom collisions involving these molecules computationally intractable. Therefore, lighter diatomic molecules, such as H₂ and its isotopologues, are generally preferred to benchmark theoretical studies against experiments. These systems are characterized by large rotational constants and low densities of states, thus requiring only a small number of orbital angular momentum partial waves to yield converged cross sections in the micro-kelvin (ultracold) range of collision energies.',
+          'Prof. Richard N. Zare and his research group at the Stanford University have recently developed a coherent optical technique, called Stark-induced adiabatic Raman passage (SARP), to study quantum controlled cold collisions of light molecular systems, such as H₂, and its isotopologues. They conducted experiments on lighter molecular systems, starting from HD+H₂, HD+He and HD+D₂, D₂+He, D₂+Ne and D₂+D₂ using the new technique SARP. Their objective was to explore quantum control of molecular collisions in cold collision energy regime, particularly near 1 K. The quantum control is achieved by preparing the alignment of the molecular bond-axis relative to the initial velocity vector. The experiments can prepare parallel alignment, which is called H-SARP or perpendicular alignment, which is called V-SARP. The choice of light molecules such as H₂, HD, and D₂ restricts the number of partial waves to a few, typically below 𝓁=5, mostly, 𝓁 =0, 1 & 2. The experiments essentially created a new sub-field of quantum control of molecular collisions and chemical reactions through quantum state preparation & molecular alignment.',
+          'We conducted theoretical simulations of stereodynamic controlled cold collisions of HD+D₂, HD+He & D₂+He, and D₂(𝑣 = 4)+Ne to correctly interpreting experimental results and also to gain insights on molecular interactions and thus chemical reactions as well at a fundamental quantum level. The experiments involve an average over a broad range of collision energies, from nearly zero kelvin to a few kelvin; and thus the experimental results are not energy resolved. Analysis of experimental results relied on numerical fitting of the experimental data to a differential rate constructed from possible outgoing partial waves. This often led to incorrect interpretation of experimental results in terms of specific partial-waves that control the angular distribution. We conducted theoretical investigations to correctly identify specific partial-waves that control the angular distribution and explains the experimental outcome.',
         ],
+            images: [
+              { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_HD_D2_HSARP_VSARP_dj1_page-0001.jpg', alt: 'HD+D2 SARP', caption: 'Comparison of SARP experimental measurements against theoretical simulation of HD+D₂ cold collisions.' },
+              { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_HD_He_exp_v2_page-0001.jpg', alt: 'HD + He', caption: 'Comparison of SARP experimental measurements against theoretical simulation of HD+He cold collisions.' },
+              { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_D2_Ne_HSARP_XSARP_page-0001.jpg', alt: 'D₂ + Ne', caption: 'Comparison of SARP experimental measurements against theoretical simulation of D₂+Ne cold collisions.' },
+            ],
         subTopics: [
-          {
-            title: 'HD and D₂ Collisions with He',
-            body: [
-              'Please refer to our research article for more details. A brief description is provided here.',
-              'The goal of this work is to carry out a rigorous theoretical investigation of rotational quenching of HD and D₂ by collisions with He for vibrational levels v = 2 and v = 4 and rotational levels j = 2 and j = 4 of the two molecules. Prior studies of He + HD for v = 1 and He + D₂ for v = 2 employed the BSP3 potential energy surface (PES) for the He-H₂ system.',
-              'In this work, we primarily focus on rotational quenching from j = 2 → j\' = 0 and j = 2 → j\' = 1 in v = 2, j = 2 → j\' = 1 and j = 4 → j\' = 3 in v = 4 for HD, and j = 4 → j\' = 2 and j = 2 → j\' = 0 in v = 4 for D₂, induced by collisions with He in the cold energy regime.',
-              'A comparison between the experimental H-SARP angular distribution and our theoretical results for rotational quenching in HD (v = 2, j = 2) + He collisions is also done. The comparison is favorable for both Δj = -2 and Δj = -1 transitions for forward and backward scattering angles.',
-            ],
-            images: [
-              { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_HD_He_sigma_page-0001.jpg', alt: 'HD + He integral cross sections', caption: 'Integral cross sections for HD + He rotational quenching' },
-              { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_HD_He_exp_v2_page-0001.jpg', alt: 'HD + He H-SARP comparison v=2', caption: 'Comparison with H-SARP experimental angular distribution (v = 2)' },
-            ],
-            paper: { label: 'Journal of Chemical Physics, 162, 104201 (2025)', href: 'https://doi.org/10.1063/5.0250522' },
-          },
-          {
-            title: 'Cold Collisions of D₂ (v = 4) with Ne',
-            body: [
-              'Please refer to our research article for more details. A brief description is provided here.',
-              'Resonant scattering of highly vibrationally excited and aligned D₂ in cold collisions with Ne has recently been probed experimentally using the SARP technique by the research group of Prof. Richard N. Zare. A partial-wave analysis and numerical fitting of the experimental data attributed the measured angular distribution to an l = 2 shape resonance near 1 kelvin.',
-              'Our main goal of this project is to compare against the SARP experiments for rotational quenching of j = 2 → j\' = 0 in v = 4 of D₂. A strong resonance was found at ~2 cm⁻¹ with a peak cross section value of about ~20 Å².',
-            ],
-            images: [
-              { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_D2_Ne_exp_old_page-0001.jpg', alt: 'D₂ + Ne DCS comparison thermal', caption: 'DCS comparison with thermal crossed-beam experiments' },
-              { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_D2_Ne_ICS_L_Lp_page-0001.jpg', alt: 'D₂ + Ne ICS partial wave analysis', caption: 'Partial-wave resolved ICS showing l = 5 shape resonance' },
-              { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_D2_Ne_HSARP_XSARP_page-0001.jpg', alt: 'D₂ + Ne H-SARP vs X-SARP', caption: 'Comparison with H-SARP and X-SARP experimental angular distributions' },
-            ],
-            paper: { label: 'Journal of Chemical Physics, 162, 164307 (2025)', href: 'https://doi.org/10.1063/5.0266360' },
-          },
           {
             title: 'Collision of HD + D₂',
             body: [
-              'Please refer to our research article for more details. A brief description is provided here.',
-              'In this work, we performed full-dimensional quantum calculations of stereodynamic control of HD(v = 1, j = 2) + D₂ collisions for the first time that has been probed experimentally by Prof. Richard N. Zare and his research group at Stanford University using the SARP technique.',
-              'It is found that the dominant inelastic channel in the rotational quenching of HD involves an energy transfer to D₂ leading to jD₂ = 0 → j\'D₂ = 2 rotational excitation of the D₂ molecule. This transition conserves the total molecular rotational angular momentum and has a cross section that is four times larger than that of direct relaxation.',
+              'Please refer to the research article for more details.',
             ],
-            images: [
-              { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_HD_D2_sigma_1200_1000_1002_page-0001.jpg', alt: 'HD + D₂ cross sections', caption: 'State-to-state cross sections for HD + D₂ collisions' },
-              { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_HD_D2_HSARP_VSARP_dj1_page-0001.jpg', alt: 'HD + D₂ SARP Δj=−1 comparison', caption: 'H-SARP and V-SARP comparison for Δj = −1 transition' },
-              { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_HD_D2_VSARP_dj2_page-0001.jpg', alt: 'HD + D₂ SARP Δj=−2 comparison', caption: 'H-SARP and V-SARP comparison for Δj = −2 transition' },
-              { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_HD_D2_exp_454_703_meV_page-0001.jpg', alt: 'HD + D₂ DCS thermal comparison', caption: 'DCS comparison at 454 and 703 meV collision energies' },
+            paper: { label: 'HD+D₂: Physical Chemistry Chemical Physics, 26, 18368 (2024)', href: 'https://doi.org/10.1039/D4CP01737D' },
+          },
+          {
+            title: 'HD and D₂ Collisions with He',
+            body: [
+              'Please refer to the research article for more details.',
             ],
-            paper: { label: 'Physical Chemistry Chemical Physics, 26, 18368 (2024)', href: 'https://doi.org/10.1039/D4CP01737D' },
+            paper: { label: 'HD+He & D₂+He: Journal of Chemical Physics, 162, 104201 (2025)', href: 'https://doi.org/10.1063/5.0250522' },
+          },
+          {
+            title: 'Cold Collisions of D₂(𝑣=4) with Ne',
+            body: [
+              'Please refer to the research article for more details.',
+            ],
+            paper: { label: 'D₂(𝑣=4)+Ne: Journal of Chemical Physics, 162, 164307 (2025)', href: 'https://doi.org/10.1063/5.0266360' },
           },
         ],
       },
@@ -95,34 +78,23 @@ const eras: Era[] = [
         title: 'Neural Network–Assisted Quantum Scattering',
         intro: [
           'One of the major interests of astronomers is to observe different bodies in our solar system. Several state-of-the-art observatories, like Atacama Large Millimeter Array (ALMA) radio telescope, and other space-exploration telescopes, such as the Spitzer space telescope and, most recently, the James Webb space telescope (JWST), have been deployed to obtain data.',
-          'To understand and correlate with the observed rotational spectra obtained by ALMA or JWST missions, we need modeling with radiation transfer codes, such as RADEX, LIME, or MOLPOP, which in turn requires state-to-state collisional rate coefficients as input for the rotational excitation and quenching processes.',
-          'Our research employs a machine-learning model to compute more rate-coefficients for complex collisions, such as H₂O + H₂O using the existing computed data. We propose a methodology that exploits the physical nature of the cross sections or rate coefficients data to train and build a multi-layer perceptron (MLP) model using neural-network.',
+          'The data collected from the Herschel Space Observatory, ALMA and other ground telescope, JWST and Spitzer space mission on comets and icy moon indicate that ices containing H₂O and HDO are present on coma of several comets. With better HDO and H₂O collision rate-coefficients, astronomical models can achieve more accurate measurement of cometary D/H from those data, which will help test theories regarding the origins of Earth’s water. Measuring cometary D/H accurately in a large sample of comets is one of the key drivers for such a far-IR telescope. Another utility of the proposed rate-coefficients is correctly analysing data collected from this mission.',
+          'Modelling water molecule collisions is especially demanding due to the quantum mechanical complexity of the H₂O+H₂O system. Being an asymmetric top rotor, each water molecule has vast number of quantum states and transitions that must be considered. Moreover, the coupling between vibrational and rotational states further complicates the dynamic description, necessitating advanced theoretical and computational methods. We studied rotational transitions in H₂O+H₂O collisions involving machine learning (ML) as a tool using an ensemble of neural networks (NNs) to predict cross sections to construct a database of rate-coeﬃcients for rotationally inelastic transitions in collisions of complex molecules such as water. The proposed methodology utilized data computed with a MQCT by Mandal et al. from few years ago. The study illustrated that eﬃcient ML models using NNs can be built to accurately interpolate in the space of 12 quantum numbers for rotational transitions in two asymmetric top molecules, spanning both initial and final states. Using only about 10% of the computed data for training, the NNs predicted cross sections of state-to-state rotational transitions in H₂O+H₂O collisions with an average relative root mean squared error of 0.409. The rate-coefficients computed using the predicted state-to-state cross sections were compared against those obtained entirely from MQCT calculations. The agreement was excellent with an average percent deviation of about 13.5% while achieving an estimated computational efficiency by a factor of 50.',
         ],
-        subTopics: [
-          {
-            title: 'Rate Coefficients of H₂O + H₂O Using MLP Model',
-            body: [
-              'Please refer to our research article for more details. A brief description is provided here.',
-              'The dependencies of cross sections on the energy difference between initial and final states of the colliding partners indicate a single-exponential behavior near ΔE = 0 regime, while a double-exponential behavior over the entire range of ΔE.',
-              'Our MLP model is composed of one input layer with thirteen neurons corresponding to each feature of our data set, five hidden layers with each having 128 neurons, and one output layer with a single neuron corresponding to the cross section. The agreement between MQCT data and MLP model predicted data is found to be excellent overall.',
-            ],
             images: [
-              { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_H2O_H2O_sigma_vs_dE.png', alt: 'H₂O cross sections vs ΔE', caption: 'Cross sections as a function of energy gap ΔE showing exponential behavior' },
               { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_H2O_H2O_MLP_fig_page-0001.jpg', alt: 'MLP neural network architecture', caption: 'Multi-layer perceptron architecture for rate coefficient prediction' },
               { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_H2O_H2O_TACS_Trot300_page-0001.jpg', alt: 'TACS comparison Trot=300K', caption: 'MQCT vs MLP thermally-averaged cross sections at T = 300 K' },
             ],
-            paper: { label: 'Physical Chemistry Chemical Physics, 27, 23000 (2025)', href: 'https://doi.org/10.1039/D5CP02812D' },
-          },
-        ],
+            paper: { label: '"Structure and dynamics of chemical systems: Honouring N. Sathyamurthy’s 75th birthday", Physical Chemistry Chemical Physics, 27, 23000 (2025)', href: 'https://doi.org/10.1039/D5CP02812D' },
       },
       {
         num: '03',
-        title: 'Full-Dimensional Quantum Mechanics of Ultracold Reactions',
+        title: 'Non-Adiabatic Effects in Ultracold Reactions',
         body: [
-          'One of the major interests of scientists in chemistry is to understand reactions better. When we look at a reaction from a microscopic level, a reaction is nothing but a form of molecular scattering. Therefore, reactive scattering is crucial to get more insight into chemical reaction.',
-          'Due to the strong interaction potential, alkali metals have been especially interesting to researchers in this field. My goal for this project is to study reaction of lithium trimer together with isotopic substitution. This is a work in progress.',
+          'Chemical reactions are at the core of chemistry and scientists are fascinated to study chemical reactions since ancient times. However, the details of a chemical reaction at the quantum level are a relatively recent topic that has intricate researchers. A proper quantum mechanical description of a chemical reaction was almost impossible until very recently. Today, the exponential advancement in the architecture of computers have made it possible by exploiting unprecedented computational resources; however, the simulation of chemical reaction still remains a huge challenge even for the simplest type of reaction of atom-diatom, including H+H₂ or H+D₂.',
+          'There have been several attempts to find solution to this problem using classical trajectory simulation method since last few decades. However, the common issue with classical mechanics in studying chemical reactions is that it displays a rather similar pattern of dwell times between entering and leaving the deep interacting regime of the higher dimensional potential surface. Another recent approach is statistical methods using quantum mechanics. This approach recently has attracted several researchers to study chemical reactions, however, the reliability of the methodology to obtain accurate measurements of the state-to-state transitions are questionable.',
+          'The adiabatically adjusting principal axis hyperspherical (APH) quantum reactive scattering package (APH3D) is the only suite of codes available to the community for studying a chemical reaction with exact quantum mechanical treatment. In this numerical simulation, the radial part of the time-independent Schrödinger equation (TISE) is solved until the interaction between the atom-diatom dissipates to negligible values or zero which is unusually very large. This formulation of solving the TISE is accurate treatment of the problem, but computationally rather challenging to converge.',
         ],
-        formula: 'Li⁷ + Li⁶₂ → Li⁷Li⁶ + Li⁶',
       },
     ],
   },
