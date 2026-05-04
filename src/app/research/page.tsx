@@ -352,14 +352,10 @@ export default function Research() {
                     <div className={`overflow-hidden transition-all duration-500 ${isOpen ? 'max-h-[9000px]' : 'max-h-0'}`}>
                       <div className="px-16 pb-10 max-md:px-6">
 
-                        {/* Intro paragraphs — no images at this level */}
-                        {topic.intro?.map((p, i) => (
-                          <p key={i} className="font-serif text-[#1a1a1a]/85 text-[0.95rem] leading-[1.9] mb-4">{p}</p>
-                        ))}
-
-                        {/* Body + grid layout */}
-                        {(topic.body || topic.images || topic.formula || topic.papers) && (
+                        {/* Content + grid layout */}
+                        {(topic.intro || topic.body || topic.images || topic.formula || topic.papers) && (
                           <ContentSection
+                            intro={topic.intro}
                             body={topic.body}
                             images={topic.images}
                             formula={topic.formula}
