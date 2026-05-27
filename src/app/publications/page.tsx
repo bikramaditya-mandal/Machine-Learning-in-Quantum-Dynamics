@@ -53,7 +53,7 @@ const journals: JournalEntry[] = [
   { year: '2020', authors: 'Semenov A.*, Mandal B.* (*equal contribution), Babikov D.', title: 'MQCT: User-ready program for calculations of inelastic scattering of two molecules', journal: 'Computer Physics Communications, 252, 107155, 2020', href: 'https://doi.org/10.1016/j.cpc.2020.107155' },
   { year: '2018', authors: 'Mandal B., Semenov A., Babikov D.', title: 'Calculations of differential cross sections using mixed quantum/classical theory of inelastic scattering', journal: 'The Journal of Physical Chemistry A, 122, 6157, 2018', href: 'https://doi.org/10.1021/acs.jpca.8b04025' },
   { year: '2017', authors: 'Borgohain G., Mandal B., Paul S.', title: 'Molecular dynamics approach to understand the denaturing effect of a millimolar concentration of dodine on a λ-repressor', journal: 'Physical Chemistry Chemical Physics, 19, 13160, 2017', href: 'https://doi.org/10.1039/C6CP08289K' },
-  { year: '2016', authors: 'Ray S., Mondal S., Mandal B., Bag B. C.', title: 'The role of interplay between the potential and ambient energies on the vibration energy harvesting', journal: 'The European Physical Journal B, 89, 224, 2016', href: 'https://doi.org/10.1140/epjb/e2016-70271-7' },
+  { year: '2016', authors: 'Ray S., Mondal S., Mandal B., Bag B. C.', title: 'The role of interplay between the potential and ambient energies on the vibration energy harvesting', journal: 'The European Physical Journal B, 89, 224, 2016', href: 'https://doi.org/10.1140/epjb/e2016-70271-7', image: '/Machine-Learning-in-Quantum-Dynamics/assets/JPCL_cover.jpg' },
 ]
 
 const conferences = [
