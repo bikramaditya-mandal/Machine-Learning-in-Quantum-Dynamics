@@ -49,6 +49,9 @@ const eras: Era[] = [
               { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_HD_He_exp_v2_page-0001.jpg', alt: 'HD + He', caption: 'Comparison of SARP experimental measurements against theoretical simulation of HD+He cold collisions.' },
               { src: '/Machine-Learning-in-Quantum-Dynamics/assets/Fig_D2_Ne_HSARP_XSARP_page-0001.jpg', alt: 'D₂ + Ne', caption: 'Comparison of SARP experimental measurements against theoretical simulation of D₂+Ne cold collisions.' },
             ],
+            papers: [{ label: 'HD+D₂: Physical Chemistry Chemical Physics, 26, 18368 (2024)', href: 'https://doi.org/10.1039/D4CP01737D' }],
+            papers: [{ label: 'HD+He & D₂+He: Journal of Chemical Physics, 162, 104201 (2025)', href: 'https://doi.org/10.1063/5.0250522' }],
+            papers: [{ label: 'D₂(𝑣=4)+Ne: Journal of Chemical Physics, 162, 164307 (2025)', href: 'https://doi.org/10.1063/5.0266360' }],
         subTopics: [
           {
             title: 'Collision of HD + D₂',
@@ -62,7 +65,7 @@ const eras: Era[] = [
             body: [
               'Please refer to the research article for more details.',
             ],
-            papers: [{ label: 'HD+He & D₂+He: Journal of Chemical Physics, 162, 104201 (2025)', href: 'https://doi.org/10.1063/5.0250522' }],
+            C
           },
           {
             title: 'Cold Collisions of D₂(𝑣=4) with Ne',
