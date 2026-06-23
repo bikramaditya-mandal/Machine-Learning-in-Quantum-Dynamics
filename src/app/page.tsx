@@ -22,8 +22,8 @@ const stats = [
 const focusCards = [
   {
     num: '01', href: '/research#ultracold',
-    title: 'Ultracold Quantum Collisions',
-    body: 'Full-dimensional quantum calculations of stereodynamic control in cold molecular collisions — benchmarked against SARP experiments at Stanford.',
+    title: 'Ultracold Quantum Reactions',
+    body: 'Non-adiabatic effects in chemical reactions — quantum-mechanical treatment of chemical reactions of alkali Earth metal dimers',
     icon: <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
       stroke-linecap="round" stroke-linejoin="round">
       <circle cx="7" cy="12" r="2" />
@@ -36,7 +36,7 @@ const focusCards = [
   {
     num: '02', href: '/research#nn-scattering', gold: true,
     title: 'Neural Network–Assisted Scattering',
-    body: 'Machine-Learning assisted quantum scattering that predict H₂O+H₂O rate coefficients — compressing millions of CPU hours into thousands of inference.',
+    body: 'Machine-Learning assisted quantum scattering that predict collisional rate coefficients — compressing millions of CPU hours into thousands of inference.',
     icon: <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
       stroke-linecap="round" stroke-linejoin="round">
       <circle cx="6" cy="6" r="2" />
@@ -49,8 +49,8 @@ const focusCards = [
   },
   {
     num: '03', href: '/research',
-    title: 'Astrophysical Rate Coefficients',
-    body: 'Building databases for astronomical modeling of environments of cometary comas, ISM, exoplanets — in collaboration with NASA GSFC and CNRS.',
+    title: 'Collisional Energy Transfer in Astrophysical Environments',
+    body: 'Studies of energy transfer processes in astronomical modeling of environments of cometary comas, ISM, exoplanets — in collaboration with NASA GSFC and CNRS.',
     icon: <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
       stroke-linecap="round" stroke-linejoin="round">
       <path d="M2 22l6-6" />
@@ -61,7 +61,7 @@ const focusCards = [
   },
   {
     num: '04', href: '/research',
-    title: 'Mixed Quantum/Classical Theory',
+    title: 'Mixed Quantum/Classical Theory (MQCT)',
     body: 'Developing MQCT code — the only open-source program to study inelastic scattering of two general asymmetric top rotors.',
     icon: <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
       stroke-linecap="round" stroke-linejoin="round">
@@ -123,7 +123,7 @@ export default function Home() {
             src="/Machine-Learning-in-Quantum-Dynamics/assets/bikramaditya-mandal.jpg"
             alt="Dr. Bikramaditya Mandal"
             fill
-            className="object-cover object-top opacity-90 shadow-xl"
+            className="object-cover object-top opacity-70 shadow-xl"
             style={{
               // maskImage: `
               //   linear-gradient(to right, transparent 0%, black 20%, black 65%, transparent 100%),
@@ -190,25 +190,25 @@ export default function Home() {
         <div className="max-w-[1200px] mx-auto grid grid-cols-[1fr_1.15fr] gap-24 items-start max-lg:grid-cols-1 max-lg:gap-12">
           <FadeUp>
             <div className="relative w-full aspect-[4/5] md:aspect-[3/2] md:max-h-[700px] lg:aspect-[4/5] lg:max-h-none overflow-hidden rounded">
-              <Image src="https://bikramaditya-mandal.github.io/NeuralQuantumScattering/images/self.jpg"
+              <Image src="https://github.com/bikramaditya-mandal/Machine-Learning-in-Quantum-Dynamics/blob/main/public/assets/bikramaditya-mandal.jpg"
                 alt="Dr. Bikramaditya Mandal" fill className="object-cover object-top" sizes="500px" />
             </div>
           </FadeUp>
           <FadeUp delay={100}>
             <h2 className="font-sans text-[clamp(1.8rem,3vw,2.6rem)] font-extrabold text-[#1a1a1a] leading-[1.1] tracking-[-0.03em] mb-7">
-              Bikramaditya Mandal is<br /><span className="font-extrabold">always computing</span>
+              Dr. Bikramaditya Mandal
             </h2>
             <div className="space-y-4 text-[#555] text-[0.95rem] font-light leading-[1.85]">
 
               <div>
-                Hello! My name is <span className='font-bold'>Bikramaditya Mandal</span>. I am a <span className='font-bold'>Postdoctoral Scholar</span> working with Prof. Balakrishnan Naduvalath at <span className='font-bold'>University of Nevada, Las Vegas (UNLV)</span> since January 2023.
+                Hello! My name is <span className='font-bold'>Bikramaditya Mandal</span>. I am a <span className='font-bold'>Postdoctoral Scholar</span> working with <a href="https://www.unlv.edu/people/balakrishnan-naduvalath"><span className='font-bold underline'>Prof. Balakrishnan Naduvalath</span></a> at <span className='font-bold'>University of Nevada, Las Vegas (UNLV)</span> since January 2023.
                 My research at UNLV is primarily focused on <span className='font-bold'>quantum control of cold and ultracold inelastic collisions and reactions</span> of alkali metals. Additionally,
                 I initiated a project where we applied <span className='font-bold'>Machine Learning (ML) using Neural Networks (NNs)</span> to build databases of rate coefficients for astronomical modelling of exoplanet atmospheres,
                 the interstellar medium (ISM), and comets.
               </div>
 
               <div>
-                Prior to UNLV, I worked as a Postdoctoral Scholar with Prof. Dmitri Babikov at <span className='font-bold'>Marquette University</span> (May 2021 – December 2022).
+                Prior to UNLV, I worked as a Postdoctoral Scholar with <a href="https://www.marquette.edu/chemistry/directory/dmitri-babikov.php"><span className='font-bold underline'>Prof. Dmitri Babikov</span></a> at <span className='font-bold'>Marquette University</span> (May 2021 – December 2022).
                 My primary research was the development of <span className='font-bold'>Mixed Quantum/Classical Theory (MQCT)</span> to study inelastic scattering of molecules.
               </div>
 
@@ -269,7 +269,7 @@ export default function Home() {
           <div className="mb-14">
             <span className="eyebrow dark font-mono text-[#3d8bfd]">Research Focus</span>
             <h2 className="font-sans text-[clamp(2rem,4vw,3rem)] font-extrabold text-[#1a1a1a] leading-[1.1] tracking-[-0.03em]">
-              Where Physics Meets<br /><span className="text-[#3d8bfd]">the Frontier</span>
+              Where Chemical-Physics Meets<br /><span className="text-[#3d8bfd]">the Machine-Learning</span>
             </h2>
           </div>
           <div className="grid grid-cols-2 gap-px bg-[#1a1a1a]/[0.07] border border-[#1a1a1a]/[0.07] rounded-lg overflow-hidden max-md:grid-cols-1">
