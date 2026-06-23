@@ -194,7 +194,7 @@ export default function Publications() {
                         <img 
                           src={p.image} 
                           alt="Paper Highlight" 
-                          className="h-16 w-32 object-cover rounded border border-[#1a1a1a]/[0.05] shadow-sm group-hover:scale-110 transition-transform duration-300"
+                          className="h-32 w-32 object-cover rounded border border-[#1a1a1a]/[0.05] shadow-sm group-hover:scale-110 transition-transform duration-300"
                         />
                       )}
                     </div>
