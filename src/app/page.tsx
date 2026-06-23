@@ -120,7 +120,7 @@ export default function Home() {
         {/* Photo */}
         <div className="absolute inset-0 z-10 xl:relative xl:inset-auto xl:h-full xl:h-[78vh] xl:mt-[10%] xl:-ml-[32%] xl:w-[135%] overflow-hidden hidden xl:block">
           <Image
-            src="/Machine-Learning-in-Quantum-Dynamics/assets/bikramaditya-mandal.png"
+            src="/Machine-Learning-in-Quantum-Dynamics/assets/bikramaditya-mandal.jpg"
             alt="Dr. Bikramaditya Mandal"
             fill
             className="object-cover object-top opacity-90 shadow-xl"
