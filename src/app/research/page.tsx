@@ -63,7 +63,6 @@ const eras: Era[] = [
             body: [
               'Please refer to the research article for more details.',
             ],
-            C
           },
           {
             title: 'Cold Collisions of D₂(𝑣=4) with Ne',
