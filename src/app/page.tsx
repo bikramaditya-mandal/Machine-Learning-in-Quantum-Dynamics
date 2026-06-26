@@ -190,7 +190,7 @@ export default function Home() {
         <div className="max-w-[1200px] mx-auto grid grid-cols-[1fr_1.15fr] gap-24 items-start max-lg:grid-cols-1 max-lg:gap-12">
           <FadeUp>
             <div className="relative w-full aspect-[4/5] md:aspect-[3/2] md:max-h-[700px] lg:aspect-[4/5] lg:max-h-none overflow-hidden rounded">
-              <Image src="https://github.com/bikramaditya-mandal/Machine-Learning-in-Quantum-Dynamics/blob/main/public/assets/bikramaditya-mandal.jpg"
+              <Image src="/Machine-Learning-in-Quantum-Dynamics/blob/main/public/assets/bikramaditya-mandal.jpg"
                 alt="Dr. Bikramaditya Mandal" fill className="object-cover object-top" sizes="500px" />
             </div>
           </FadeUp>
