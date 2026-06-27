@@ -219,7 +219,7 @@ export default function Home() {
 
             </div>
             <div className="flex gap-4 flex-wrap mt-8">
-              <a href="https://www.dropbox.com/scl/fi/egq8ebodea3eoebwcef67/CV_Bikramaditya_Mandal.pdf?rlkey=l37vepygbl7uv78vw1y3blvub&dl=0"
+              <a href="https://www.dropbox.com/scl/fi/egsm3u4eetehkerpuncm2/CV_Mandal_Bikramaditya.pdf?rlkey=dk8alarls71k2exu1pwpvt7h7&st=98c8qoqn&dl=0"
                 target="_blank" rel="noopener noreferrer" className="btn-home">CURRICULUM VITAE</a>
               <a href="https://scholar.google.com/citations?user=EP27zCQAAAAJ"
                 target="_blank" rel="noopener noreferrer" className="btn-outline-dark">GOOGLE SCHOLAR</a>
