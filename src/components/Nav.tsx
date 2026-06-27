@@ -8,7 +8,7 @@ const links = [
   { href: '/research',     label: 'Research' },
   { href: '/publications', label: 'Publications' },
   { href: '/teaching',     label: 'Teaching' },
-  { href: 'https://www.dropbox.com/scl/fi/egq8ebodea3eoebwcef67/CV_Bikramaditya_Mandal.pdf?rlkey=l37vepygbl7uv78vw1y3blvub&dl=0', label: 'CV', external: true },
+  { href: 'https://www.dropbox.com/scl/fi/egsm3u4eetehkerpuncm2/CV_Mandal_Bikramaditya.pdf?rlkey=dk8alarls71k2exu1pwpvt7h7&st=98c8qoqn&dl=0', label: 'CV', external: true },
   { href: '/contact',      label: 'Contact' },
 ]
 
