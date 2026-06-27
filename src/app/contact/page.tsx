@@ -110,7 +110,7 @@ export default function Contact() {
               <div className="py-6 border-b border-[#1a1a1a]/[0.07]">
                 <span className="block font-sans text-[0.68rem] font-semibold tracking-[0.2em] uppercase text-[#3d8bfd] mb-3">CV</span>
                 <a
-                  href="https://www.dropbox.com/scl/fi/egq8ebodea3eoebwcef67/CV_Bikramaditya_Mandal.pdf?rlkey=l37vepygbl7uv78vw1y3blvub&dl=0"
+                  href="https://www.dropbox.com/scl/fi/egsm3u4eetehkerpuncm2/CV_Mandal_Bikramaditya.pdf?rlkey=dk8alarls71k2exu1pwpvt7h7&st=98c8qoqn&dl=0"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-block px-6 py-2.5 bg-[#3d8bfd] text-white font-sans text-xs font-semibold tracking-[0.14em] uppercase rounded-full transition-all hover:bg-[#2d7be0]"
