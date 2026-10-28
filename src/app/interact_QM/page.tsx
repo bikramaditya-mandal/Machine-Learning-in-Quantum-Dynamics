@@ -35,6 +35,10 @@ const eras: Era[] = [
         blocks: [
           {
             title: 'Explore light waves by changing intensity and frequency. Compare red, green, and blue light, investigate amplitude and wavelength, and discover how photon energy depends on frequency.',
+            items: [
+              'Prepared in-class teaching material including Born-Oppenheimer Approximation, Hartree Self-Consistent-Field (SCF) method, and Hartree-Fock theory.',
+              'Created structured lessons primarily focused on applications, helping students translate theoretical concepts into computational practice within quantum chemistry.',
+            ],
           },
           {
             title: 'In-Class Instruction',
