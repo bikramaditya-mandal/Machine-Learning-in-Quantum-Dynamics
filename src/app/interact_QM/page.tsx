@@ -25,8 +25,8 @@ type Era = {
 
 const eras: Era[] = [
   {
-    label: 'Fall 2023 - 26',
-    inst: 'University of Nevada Las Vegas',
+    label: ' ',
+    inst: ' ',
     title: 'Interactive Quantum Mechanics',
     topics: [
       {
@@ -36,8 +36,7 @@ const eras: Era[] = [
           {
             title: 'Explore light waves by changing intensity and frequency. Compare red, green, and blue light, investigate amplitude and wavelength, and discover how photon energy depends on frequency.',
             items: [
-              'Prepared in-class teaching material including Born-Oppenheimer Approximation, Hartree Self-Consistent-Field (SCF) method, and Hartree-Fock theory.',
-              'Created structured lessons primarily focused on applications, helping students translate theoretical concepts into computational practice within quantum chemistry.',
+              ' ',
             ],
           },
           {
