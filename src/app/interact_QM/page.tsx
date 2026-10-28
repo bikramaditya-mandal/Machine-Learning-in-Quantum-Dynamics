@@ -70,75 +70,6 @@ const eras: Era[] = [
       },
     ],
   },
-  {
-    label: 'Fall 2016, 2017, 2019 · Spring 2019',
-    inst: 'Marquette University',
-    title: 'Graduate Teaching Assistant',
-    topics: [
-      {
-        num: '02',
-        title: 'Chemistry Laboratory Duties',
-        blocks: [
-          {
-            title: 'Teaching & Instruction',
-            items: [
-              'Conducted weekly undergraduate laboratory sessions, guiding students through experimental procedures and fostering a positive learning environment.',
-              'Explained complex chemistry concepts in a practical context to enhance understanding and retention in the lab.',
-            ],
-          },
-          {
-            title: 'Student Support & Mentoring',
-            items: [
-              'Held weekly office hours for one-to-one support on course material and addressed academic concerns individually.',
-              'Provided academic mentoring that contributed to improved course performance and student confidence.',
-            ],
-          },
-          {
-            title: 'Assessment & Feedback',
-            items: [
-              'Graded laboratory reports, in-class quizzes, and exams with a focus on fairness and accuracy.',
-              'Provided constructive feedback to improve students\' scientific writing skills for chemistry labs.',
-              'Ensured timely grading and consistent assessment standards in coordination with the course instructor.',
-            ],
-          },
-          {
-            title: 'Organization & Collaboration',
-            items: [
-              'Coordinated with course instructors Dr. Vijay Vyas and Dr. Llanie Noble, and with other TAs, to provide feedback on experiment handouts, lab report templates, and grading rubrics aligned with course objectives.',
-              'Managed student records and maintained accurate grading documentation using D2L (Desire2Learn).',
-            ],
-          },
-        ],
-      },
-      {
-        num: '03',
-        title: 'Teaching Chemistry Through Discussion Sessions',
-        blocks: [
-          {
-            title: 'Teaching & Instruction',
-            items: [
-              'Facilitated weekly recitation sessions to reinforce lecture material, clarify complex concepts, and guide students through problem-solving exercises.',
-              'Developed and presented additional instructional content tailored to student needs and the course syllabus.',
-            ],
-          },
-          {
-            title: 'Engagement & Critical Thinking',
-            items: [
-              'Encouraged interactive discussions and critical thinking by posing conceptual questions and fostering collaboration through group discussion during recitations.',
-              'Responded to spontaneous student questions, adapting explanations in real time to improve comprehension.',
-            ],
-          },
-          {
-            title: 'Curriculum Support & Delivery',
-            items: [
-              'Assisted the instructor in aligning recitation topics with weekly lecture objectives and upcoming assessments.',
-              'Utilized a mix of whiteboard work, slides, and real-time demonstrations to accommodate diverse learning styles.',
-            ],
-          },
-        ],
-      },
-    ],
-  },
 ]
 
 export default function Teaching() {
@@ -156,12 +87,12 @@ export default function Teaching() {
       <div className="bg-[#fcfcfc] border-b border-[#1a1a1a]/[0.07]">
         <div className="pt-36 pb-16 max-w-[1200px] mx-auto px-16 max-md:px-6">
           <FadeUp>
-            <span className="font-mono text-[0.68rem] tracking-[0.18em] uppercase text-[#3d8bfd] mb-3 block">Teaching</span>
+            <span className="font-mono text-[0.68rem] tracking-[0.18em] uppercase text-[#3d8bfd] mb-3 block">Test</span>
             <h1 className="font-sans text-[clamp(2.5rem,5vw,4rem)] font-extrabold text-[#1a1a1a] leading-[1.05] tracking-[-0.03em] mb-3">
-              Educating the <span className="text-[#3d8bfd]">Next Generation</span>
+              <span className="text-[#3d8bfd]">Learning Quantum Mechanics Interactively</span>
             </h1>
             <p className="font-serif text-[#1a1a1a]/70 text-[1rem] max-w-[600px] leading-relaxed">
-              A summary of my teaching experience across curriculum design, laboratory instruction, and student mentoring during my PhD and Postdoctoral tenure. Expand each section to learn more.
+              Discover Quantum Mechanics Through Experimental Simulations. Adjust experimental parameters, visualize physical phenomena, investigate mathematical relationships, and develop an intuitive understanding of how the quantum world works.
             </p>
           </FadeUp>
         </div>
@@ -229,21 +160,6 @@ export default function Teaching() {
             })}
           </div>
         ))}
-
-        {/* Philosophy */}
-        <FadeUp>
-          <div className="bg-[#f5f5f5] border-t border-b border-[#1a1a1a]/[0.07] py-20 px-16 max-md:px-6">
-            <div className="max-w-[800px] mx-auto">
-              <span className="font-mono text-[0.68rem] tracking-[0.18em] uppercase text-[#3d8bfd] mb-3 block">Philosophy</span>
-              <blockquote className="font-sans text-[clamp(1.3rem,2.5vw,1.8rem)] font-bold text-[#1a1a1a] leading-[1.4] tracking-[-0.02em] border-l-[3px] border-[#3d8bfd] pl-8 my-6">
-                "Effective teaching bridges the gap between abstract theory and tangible application — translating the language of mathematics into the intuition of a scientist."
-              </blockquote>
-              <p className="font-serif text-[#1a1a1a]/75 text-[0.95rem] leading-[1.9]">
-                My approach emphasizes active learning, hands-on computation, and building student confidence through structured challenge. I believe that the best scientists are those who can not only solve problems but articulate why the solutions are physically meaningful.
-              </p>
-            </div>
-          </div>
-        </FadeUp>
       </div>
 
       <Footer />
