@@ -25,46 +25,14 @@ type Era = {
 
 const eras: Era[] = [
   {
-    label: 'Fall 2023 - 26',
-    inst: 'University of Nevada Las Vegas',
-    title: 'Computational Chemistry',
+    title: 'Interactive Quantum Mechanics',
     topics: [
       {
         num: '01',
-        title: 'Curriculum Design & In-Class Instruction',
+        title: 'Understand Light Intensity and Frequency',
         blocks: [
           {
-            title: 'Curriculum Design',
-            items: [
-              'Prepared in-class teaching material including Born-Oppenheimer Approximation, Hartree Self-Consistent-Field (SCF) method, and Hartree-Fock theory.',
-              'Created structured lessons primarily focused on applications, helping students translate theoretical concepts into computational practice within quantum chemistry.',
-            ],
-          },
-          {
-            title: 'In-Class Instruction',
-            intro: 'Guided students through practical quantum chemistry calculations using Gaussian09, focusing on:',
-            items: [
-              'Molecular geometry and energy optimization',
-              'Vibrational frequency analysis',
-              'Construction of potential energy surfaces (PES)',
-              'Transition state identification and reaction path mapping via intrinsic reaction coordinates (IRC)',
-            ],
-          },
-          {
-            title: 'Developing Software Skills',
-            items: [
-              'Taught students to analyze and interpret Gaussian09 output data using Avogadro — an open-source molecular modeling and visualization tool.',
-              'Demonstrated molecule building, structure manipulation, and visualization techniques essential for understanding chemical phenomena at the molecular level.',
-              'Taught Python to extract geometry and potential values to build and plot potential energy surfaces.',
-              'Explained shell scripting for managing HPC jobs and workflows.',
-            ],
-          },
-          {
-            title: 'Instructional Resource Development',
-            items: [
-              'Produced and distributed a suite of instructional video tutorials supporting pre-class preparation and independent learning.',
-              'Topics included HPC access and navigation, Unix command line, cross-platform software installation (macOS, Linux, Windows), and molecular modeling workflows.',
-            ],
+            title: 'Explore light waves by changing intensity and frequency. Compare red, green, and blue light, investigate amplitude and wavelength, and discover how photon energy depends on frequency.',
           },
         ],
       },
@@ -87,7 +55,7 @@ export default function Teaching() {
       <div className="bg-[#fcfcfc] border-b border-[#1a1a1a]/[0.07]">
         <div className="pt-36 pb-16 max-w-[1200px] mx-auto px-16 max-md:px-6">
           <FadeUp>
-            <span className="font-mono text-[0.68rem] tracking-[0.18em] uppercase text-[#3d8bfd] mb-3 block">Test</span>
+            <span className="font-mono text-[0.68rem] tracking-[0.18em] uppercase text-[#3d8bfd] mb-3 block">Quantum Lab</span>
             <h1 className="font-sans text-[clamp(2.5rem,5vw,4rem)] font-extrabold text-[#1a1a1a] leading-[1.05] tracking-[-0.03em] mb-3">
               <span className="text-[#3d8bfd]">Learning Quantum Mechanics Interactively</span>
             </h1>
