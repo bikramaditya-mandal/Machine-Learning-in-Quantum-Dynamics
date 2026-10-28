@@ -36,33 +36,7 @@ const eras: Era[] = [
           {
             title: 'Explore light waves by changing intensity and frequency. Compare red, green, and blue light, investigate amplitude and wavelength, and discover how photon energy depends on frequency.',
             items: [
-              ' ',
-            ],
-          },
-          {
-            title: 'In-Class Instruction',
-            intro: 'Guided students through practical quantum chemistry calculations using Gaussian09, focusing on:',
-            items: [
-              'Molecular geometry and energy optimization',
-              'Vibrational frequency analysis',
-              'Construction of potential energy surfaces (PES)',
-              'Transition state identification and reaction path mapping via intrinsic reaction coordinates (IRC)',
-            ],
-          },
-          {
-            title: 'Developing Software Skills',
-            items: [
-              'Taught students to analyze and interpret Gaussian09 output data using Avogadro — an open-source molecular modeling and visualization tool.',
-              'Demonstrated molecule building, structure manipulation, and visualization techniques essential for understanding chemical phenomena at the molecular level.',
-              'Taught Python to extract geometry and potential values to build and plot potential energy surfaces.',
-              'Explained shell scripting for managing HPC jobs and workflows.',
-            ],
-          },
-          {
-            title: 'Instructional Resource Development',
-            items: [
-              'Produced and distributed a suite of instructional video tutorials supporting pre-class preparation and independent learning.',
-              'Topics included HPC access and navigation, Unix command line, cross-platform software installation (macOS, Linux, Windows), and molecular modeling workflows.',
+              'Click Here!',
             ],
           },
         ],
