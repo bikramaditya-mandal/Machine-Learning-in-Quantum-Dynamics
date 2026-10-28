@@ -25,6 +25,8 @@ type Era = {
 
 const eras: Era[] = [
   {
+    label: 'Fall 2023 - 26',
+    inst: 'University of Nevada Las Vegas',
     title: 'Interactive Quantum Mechanics',
     topics: [
       {
