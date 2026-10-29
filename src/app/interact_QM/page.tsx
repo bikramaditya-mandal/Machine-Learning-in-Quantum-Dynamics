@@ -46,7 +46,7 @@ const eras: Era[] = [
             items: [
               {
                 label: 'Click Here!',
-                href: '../intensity_frequency.html',
+                href: '/Machine-Learning-in-Quantum-Dynamics/assets/intensity_frequency.html',
               },
             ],
           },
