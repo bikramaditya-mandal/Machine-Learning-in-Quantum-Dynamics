@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Light-Wave Explorer</title>
+    <!-- Using Tailwind CSS via CDN as in the original file -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: #ffffff; /* Pure white background */
+            color: #0f172a;
+            margin: 0;
+            padding: 0;
+        }
+
+        .canvas-container {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            background-color: #ffffff;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+            border: 1px solid #cbd5e1;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .play-pause-btn {
+            position: absolute;
+            bottom: 1rem;
+            left: 1rem;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid #94a3b8;
+            color: #0f172a;
+            border-radius: 9999px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+        .play-pause-btn:hover {
+            background: #f1f5f9;
+            transform: scale(1.05);
+        }
+
+        .vertical-slider-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0 10px;
+        }
+
+        input[type=range].vertical-slider {
+            -webkit-appearance: slider-vertical;
+            writing-mode: bt-lr;
+            width: 8px;
+            height: 200px;
+            background: #cbd5e1;
+            border-radius: 4px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        input[type=range].spectrum-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 12px;
+            border-radius: 6px;
+            outline: none;
+            cursor: pointer;
+            background: linear-gradient(to right, 
+                #ea4335 0%, 
+                #ff9900 15%, 
+                #fbbc05 30%, 
+                #34a853 50%, 
+                #4285f4 75%, 
+                #8b00ff 100%);
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        input[type=range].spectrum-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #ffffff;
+            border: 2px solid #0f172a;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            transition: transform 0.1s;
+        }
+
+        .checkbox-custom {
+            accent-color: currentColor;
+            width: 1.25rem;
+            height: 1.25rem;
+            cursor: pointer;
+        }
+
+        /* Quiz Specific Styles */
+        .quiz-option {
+            transition: all 0.2s;
+        }
+        .quiz-option:hover:not(.disabled) {
+            background-color: #f1f5f9;
+        }
+        .quiz-option.selected {
+            border-color: #3b82f6;
+            background-color: #eff6ff;
+        }
+        .quiz-option.correct {
+            border-color: #22c55e;
+            background-color: #f0fdf4;
+        }
+        .quiz-option.incorrect {
+            border-color: #ef4444;
+            background-color: #fef2f2;
+        }
+        .quiz-option.disabled {
+            cursor: not-allowed;
+            opacity: 0.8;
+        }
+        .math-block {
+            overflow-x: auto;
+            padding: 0.5rem 0;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8 min-h-screen flex flex-col">
+
+    <header class="max-w-6xl mx-auto w-full mb-8">
+        <h1 class="text-3xl md:text-4xl font-bold mb-4 text-slate-800">
+            Interactive Intensity/Frequency Explorer
+        </h1>
+        <div class="bg-slate-50 rounded-lg p-6 border border-slate-200 shadow-sm">
+            <div class="text-sm text-slate-700">
+                <ul class="list-disc pl-5 space-y-2">
+                    <li>
+                        <strong>Intensity</strong> represents the wave's amplitude.
+                        Increasing intensity makes the wave taller, but does not
+                        alter its frequency or color.
+                    </li>
+                    <li>
+                        <strong>Frequency</strong> is the oscillation rate.
+                        Higher frequency means more rapid oscillations (tighter waves).
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto w-full flex-grow flex flex-col gap-12">
+        
+        <!-- VISUALIZATION SECTION -->
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+            <!-- PLOT 1: RGB Comparison -->
+            <section class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex flex-col">
+                <div class="mb-4">
+                    <h2 class="text-2xl font-bold text-slate-800 mb-1">1. Red, Green and Blue Lights</h2>
+                </div>
+
+                <div class="flex gap-4 mb-4">
+                    <div class="canvas-container flex-grow" id="canvas-container-1">
+                        <canvas id="canvas1"></canvas>
+                        <button id="btn-play1" class="play-pause-btn" aria-label="Play/Pause Plot 1"></button>
+                    </div>
+                    <div class="vertical-slider-container w-12 bg-slate-50 rounded-lg border border-slate-200 py-4">
+                        <span class="text-xs text-slate-500 mb-2 font-semibold">Intensity</span>
+                        <input type="range" id="intensity1" class="vertical-slider" min="0" max="100" value="70">
+                        <span id="int-val1" class="text-xs text-slate-600 mt-2">70%</span>
+                    </div>
+                </div>
+
+                <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 mb-4">
+                    <h3 class="text-sm font-semibold text-slate-600 mb-3 uppercase tracking-wider">Toggle Wave Components</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <label class="flex items-start space-x-3 cursor-pointer p-2 rounded hover:bg-slate-100 transition">
+                            <input type="checkbox" id="toggle-red" class="checkbox-custom" style="color: #ea4335;" checked>
+                            <div>
+                                <span class="block font-bold" style="color: #ea4335;">Red</span>
+                                <span class="block text-xs text-slate-500">~ 430 THz</span>
+                                <span class="block text-xs text-slate-400" id="wl-red"></span>
+                            </div>
+                        </label>
+                        <label class="flex items-start space-x-3 cursor-pointer p-2 rounded hover:bg-slate-100 transition">
+                            <input type="checkbox" id="toggle-green" class="checkbox-custom" style="color: #34a853;" checked>
+                            <div>
+                                <span class="block font-bold" style="color: #34a853;">Green</span>
+                                <span class="block text-xs text-slate-500">~ 540 THz</span>
+                                <span class="block text-xs text-slate-400" id="wl-green"></span>
+                            </div>
+                        </label>
+                        <label class="flex items-start space-x-3 cursor-pointer p-2 rounded hover:bg-slate-100 transition">
+                            <input type="checkbox" id="toggle-blue" class="checkbox-custom" style="color: #4285f4;" checked>
+                            <div>
+                                <span class="block font-bold" style="color: #4285f4;">Blue</span>
+                                <span class="block text-xs text-slate-500">~ 670 THz</span>
+                                <span class="block text-xs text-slate-400" id="wl-blue"></span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="mt-auto">
+                    <label class="flex items-center space-x-3 cursor-pointer p-3 bg-slate-50 rounded-lg border border-slate-200 hover:border-slate-300 transition">
+                        <input type="checkbox" id="toggle-mode" class="w-5 h-5 accent-slate-600">
+                        <div>
+                            <span class="block font-semibold text-slate-800">Enable Same-Frequency Mode</span>
+                        </div>
+                    </label>
+                </div>
+            </section>
+
+
+            <!-- PLOT 2: Visible Spectrum Explorer -->
+            <section class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex flex-col">
+                <div class="mb-4">
+                    <h2 class="text-2xl font-bold text-slate-800 mb-1">2. Visible-Spectrum Explorer</h2>
+                </div>
+
+                <div class="flex gap-4 mb-4">
+                    <div class="canvas-container flex-grow" id="canvas-container-2">
+                        <canvas id="canvas2"></canvas>
+                        <button id="btn-play2" class="play-pause-btn" aria-label="Play/Pause Plot 2"></button>
+                    </div>
+                    <div class="vertical-slider-container w-12 bg-slate-50 rounded-lg border border-slate-200 py-4">
+                        <span class="text-xs text-slate-500 mb-2 font-semibold">Intensity</span>
+                        <input type="range" id="intensity2" class="vertical-slider" min="0" max="100" value="70">
+                        <span id="int-val2" class="text-xs text-slate-600 mt-2">70%</span>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <div class="flex justify-between text-xs text-slate-500 mb-1 font-mono">
+                        <span>400 THz</span>
+                        <span>Visible Range</span>
+                        <span>790 THz</span>
+                    </div>
+                    <input type="range" id="frequency-slider" class="spectrum-slider" min="400" max="790" value="550" step="1">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 mt-auto">
+                    <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 text-center flex flex-col justify-center">
+                        <span class="text-xs text-slate-500 block mb-1">Frequency (<i>f</i>)</span>
+                        <span class="text-lg font-bold text-slate-800 font-mono" id="readout-freq">--</span>
+                        <span class="text-xs text-slate-400">THz</span>
+                    </div>
+                    <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 text-center flex flex-col justify-center" id="color-box">
+                        <span class="text-xs text-slate-500 block mb-1">Color</span>
+                        <span class="text-lg font-bold font-mono tracking-wide" id="readout-color">--</span>
+                        <span class="text-xs text-slate-400">Approximate</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- QUIZ SECTION -->
+        <section id="quiz-section" class="bg-white rounded-xl p-6 md:p-8 border border-slate-200 shadow-sm mt-8 border-t-4 border-t-blue-600">
+            <div class="mb-6">
+                <h2 class="text-3xl font-bold text-slate-800 mb-2">Light Intensity and Frequency: Interactive Quiz</h2>
+                <p class="text-slate-600">Test your understanding of light waves, intensity, frequency, wavelength, and photon energy.</p>
+            </div>
+
+            <!-- Quiz Main Container -->
+            <div id="quiz-container" class="relative">
+                
+                <!-- Progress Bar -->
+                <div class="mb-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-sm font-bold text-slate-700" id="quiz-progress-text">Question 1 of 10</span>
+                        <span class="text-sm text-slate-500" id="quiz-status-text">Not answered</span>
+                    </div>
+                    <div class="w-full bg-slate-200 rounded-full h-2.5">
+                        <div class="bg-blue-600 h-2.5 rounded-full transition-all duration-300" id="quiz-progress-bar" style="width: 10%;"></div>
+                    </div>
+                </div>
+
+                <!-- Question Area -->
+                <div id="question-area" class="mb-8">
+                    <h3 class="text-xl font-semibold text-slate-800 mb-4" id="question-text"></h3>
+                    <div id="options-container" class="space-y-3">
+                        <!-- Options will be injected here via JS -->
+                    </div>
+                </div>
+
+                <!-- Feedback Area (Hidden by default) -->
+                <div id="feedback-area" class="hidden mb-6 p-4 rounded-lg border">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span id="feedback-icon" class="text-xl"></span>
+                        <h4 id="feedback-title" class="font-bold text-lg"></h4>
+                    </div>
+                    <p id="feedback-text" class="text-slate-700"></p>
+                </div>
+
+                <!-- Quiz Controls -->
+                <div class="flex justify-between items-center pt-4 border-t border-slate-200">
+                    <button id="btn-prev" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded disabled:opacity-50 disabled:cursor-not-allowed transition">
+                        Back
+                    </button>
+                    
+                    <button id="btn-submit" class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded disabled:opacity-50 disabled:cursor-not-allowed transition">
+                        Submit Answer
+                    </button>
+
+                    <button id="btn-next" class="hidden px-6 py-2 bg-slate-800 hover:bg-slate-900 text-white font-semibold rounded transition">
+                        Next Question
+                    </button>
+                </div>
+            </div>
+
+            <!-- Results Container (Hidden by default) -->
+            <div id="results-container" class="hidden">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2">Quiz Complete!</h2>
+                    <div class="inline-block bg-slate-50 border border-slate-200 rounded-xl p-6 mt-4 shadow-sm">
+                        <div class="text-5xl font-black text-blue-600 mb-2" id="score-display">8/10</div>
+                        <div class="text-lg font-semibold text-slate-600 mb-4" id="percentage-display">80%</div>
+                        <p class="text-slate-700 max-w-md mx-auto" id="score-summary"></p>
+                    </div>
+                </div>
+
+                <div class="mb-8">
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 border-b pb-2">Review Your Answers</h3>
+                    <div id="review-container" class="space-y-6">
+                        <!-- Review items will be injected here -->
+                    </div>
+                </div>
+
+                <div class="text-center pt-6 border-t border-slate-200">
+                    <button id="btn-restart" class="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg shadow transition">
+                        Restart Quiz
+                    </button>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <script>
+        // --- VISUALIZATION SCRIPT ---
+        const c_km_s = 299792.458; 
+        const h_eV_s = 4.135667696e-15; 
+        
+        const getWavelength_nm = (f_THz) => c_km_s / f_THz;
+        const getEnergy_eV = (f_THz) => h_eV_s * (f_THz * 1e12);
+
+        function wavelengthToRGB(Wavelength) {
+            let R, G, B;
+            if (Wavelength >= 380 && Wavelength < 440) {
+                R = -(Wavelength - 440) / (440 - 380);
+                G = 0.0; B = 1.0;
+            } else if (Wavelength >= 440 && Wavelength < 490) {
+                R = 0.0; G = (Wavelength - 440) / (490 - 440); B = 1.0;
+            } else if (Wavelength >= 490 && Wavelength < 510) {
+                R = 0.0; G = 1.0; B = -(Wavelength - 510) / (510 - 490);
+            } else if (Wavelength >= 510 && Wavelength < 580) {
+                R = (Wavelength - 510) / (580 - 510); G = 1.0; B = 0.0;
+            } else if (Wavelength >= 580 && Wavelength < 645) {
+                R = 1.0; G = -(Wavelength - 645) / (645 - 580); B = 0.0;
+            } else if (Wavelength >= 645 && Wavelength <= 780) {
+                R = 1.0; G = 0.0; B = 0.0;
+            } else {
+                R = 0.0; G = 0.0; B = 0.0;
+            }
+
+            let factor = 1.0;
+            if (Wavelength >= 380 && Wavelength < 420) factor = 0.3 + 0.7 * (Wavelength - 380) / (420 - 380);
+            else if (Wavelength >= 700 && Wavelength <= 780) factor = 0.3 + 0.7 * (780 - Wavelength) / (780 - 700);
+            else if (Wavelength < 380 || Wavelength > 780) factor = 0.0;
+
+            const gamma = 0.80; 
+            const r = R === 0 ? 0 : Math.round(255 * Math.pow(R * factor, gamma));
+            const g = G === 0 ? 0 : Math.round(255 * Math.pow(G * factor, gamma));
+            const b = B === 0 ? 0 : Math.round(255 * Math.pow(B * factor, gamma));
+            
+            return { r, g, b, css: `rgb(${r}, ${g}, ${b})` };
+        }
+        
+        function getColorName(f_THz) {
+            if (f_THz < 400) return "Infrared";
+            if (f_THz < 484) return "Red";
+            if (f_THz < 508) return "Orange";
+            if (f_THz < 526) return "Yellow";
+            if (f_THz < 606) return "Green";
+            if (f_THz < 666) return "Blue";
+            if (f_THz <= 790) return "Violet";
+            return "Ultraviolet";
+        }
+
+        const iconPlay = `<svg viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path d="M8 5v14l11-7z"/></svg>`;
+        const iconPause = `<svg viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`;
+
+        function drawGrid(ctx, w, h) {
+            ctx.strokeStyle = '#e2e8f0'; 
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            
+            const gridSpacing = 60;
+            for (let x = 0; x <= w; x += gridSpacing) {
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, h);
+            }
+            
+            for (let y = 0; y <= h; y += gridSpacing) {
+                ctx.moveTo(0, y);
+                ctx.lineTo(w, y);
+            }
+            ctx.stroke();
+
+            ctx.strokeStyle = '#64748b'; 
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(0, h / 2);
+            ctx.lineTo(w, h / 2);
+            ctx.stroke();
+        }
+
+        let lastTime = performance.now();
+        
+        function animate(time) {
+            const dt = (time - lastTime) / 1000;
+            lastTime = time;
+
+            plot1.update(dt);
+            plot1.draw();
+
+            plot2.update(dt);
+            plot2.draw();
+
+            requestAnimationFrame(animate);
+        }
+
+        const plot1 = {
+            canvas: document.getElementById('canvas1'),
+            ctx: document.getElementById('canvas1').getContext('2d'),
+            container: document.getElementById('canvas-container-1'),
+            isPlaying: true,
+            intensity: 70,
+            showRed: true,
+            showGreen: true,
+            showBlue: true,
+            sameFrequencyMode: false,
+            
+            freqRed: 430,
+            freqGreen: 540,
+            freqBlue: 670,
+
+            phaseRed: 0,
+            phaseGreen: 0,
+            phaseBlue: 0,
+            
+            init() {
+                this.resize();
+                document.getElementById('wl-red').innerText = `λ ≈ ${getWavelength_nm(this.freqRed).toFixed(0)} nm`;
+                document.getElementById('wl-green').innerText = `λ ≈ ${getWavelength_nm(this.freqGreen).toFixed(0)} nm`;
+                document.getElementById('wl-blue').innerText = `λ ≈ ${getWavelength_nm(this.freqBlue).toFixed(0)} nm`;
+
+                window.addEventListener('resize', () => this.resize());
+                
+                const btnPlay = document.getElementById('btn-play1');
+                btnPlay.innerHTML = iconPause;
+                btnPlay.addEventListener('click', () => {
+                    this.isPlaying = !this.isPlaying;
+                    btnPlay.innerHTML = this.isPlaying ? iconPause : iconPlay;
+                });
+
+                const intSlider = document.getElementById('intensity1');
+                const intVal = document.getElementById('int-val1');
+                intSlider.addEventListener('input', (e) => {
+                    this.intensity = parseInt(e.target.value);
+                    intVal.innerText = `${this.intensity}%`;
+                });
+
+                document.getElementById('toggle-red').addEventListener('change', e => this.showRed = e.target.checked);
+                document.getElementById('toggle-green').addEventListener('change', e => this.showGreen = e.target.checked);
+                document.getElementById('toggle-blue').addEventListener('change', e => this.showBlue = e.target.checked);
+                document.getElementById('toggle-mode').addEventListener('change', e => this.sameFrequencyMode = e.target.checked);
+            },
+
+            resize() {
+                const dpr = window.devicePixelRatio || 1;
+                const rect = this.container.getBoundingClientRect();
+                this.canvas.width = rect.width * dpr;
+                this.canvas.height = rect.height * dpr;
+                this.ctx.scale(dpr, dpr);
+                this.width = rect.width;
+                this.height = rect.height;
+            },
+
+            update(dt) {
+                if (!this.isPlaying) return;
+
+                const speedScale = 0.005; 
+                const actFreqR = this.sameFrequencyMode ? 550 : this.freqRed;
+                const actFreqG = this.sameFrequencyMode ? 550 : this.freqGreen;
+                const actFreqB = this.sameFrequencyMode ? 550 : this.freqBlue;
+
+                const speedModR = this.sameFrequencyMode ? 1.0 : 1.4;
+                const speedModG = this.sameFrequencyMode ? 1.0 : 1.0;
+                const speedModB = this.sameFrequencyMode ? 1.0 : 0.6;
+
+                this.phaseRed += actFreqR * speedScale * speedModR * dt;
+                this.phaseGreen += actFreqG * speedScale * speedModG * dt;
+                this.phaseBlue += actFreqB * speedScale * speedModB * dt;
+            },
+
+            draw() {
+                const ctx = this.ctx;
+                const w = this.width;
+                const h = this.height;
+
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, w, h);
+
+                drawGrid(ctx, w, h);
+
+                const maxAmplitude = (h / 2) * 0.85; 
+                const currentAmplitude = maxAmplitude * (this.intensity / 100);
+
+                const spaceScale = 0.00005; 
+                
+                const drawWave = (baseFreq, phaseOffset, color, isSameFreqModeOffset) => {
+                    const actFreq = this.sameFrequencyMode ? 550 : baseFreq;
+                    const k = actFreq * spaceScale;
+                    
+                    ctx.beginPath();
+                    ctx.strokeStyle = color;
+                    ctx.lineWidth = 4;
+                    ctx.shadowBlur = 0;
+
+                    for (let x = 0; x <= w; x += 2) {
+                        const renderPhase = phaseOffset + (this.sameFrequencyMode ? isSameFreqModeOffset : 0);
+                        const y = (h / 2) - currentAmplitude * Math.sin(k * x - renderPhase);
+                        if (x === 0) ctx.moveTo(x, y);
+                        else ctx.lineTo(x, y);
+                    }
+                    ctx.stroke();
+                };
+
+                if (this.showRed) drawWave(this.freqRed, this.phaseRed, '#ea4335', 0);
+                if (this.showGreen) drawWave(this.freqGreen, this.phaseGreen, '#34a853', 0.5);
+                if (this.showBlue) drawWave(this.freqBlue, this.phaseBlue, '#4285f4', 1.0);
+            }
+        };
+
+        const plot2 = {
+            canvas: document.getElementById('canvas2'),
+            ctx: document.getElementById('canvas2').getContext('2d'),
+            container: document.getElementById('canvas-container-2'),
+            isPlaying: true,
+            intensity: 70,
+            frequency: 550, 
+            phase: 0,
+            
+            init() {
+                this.resize();
+                this.updateReadouts();
+
+                window.addEventListener('resize', () => this.resize());
+                
+                const btnPlay = document.getElementById('btn-play2');
+                btnPlay.innerHTML = iconPause;
+                btnPlay.addEventListener('click', () => {
+                    this.isPlaying = !this.isPlaying;
+                    btnPlay.innerHTML = this.isPlaying ? iconPause : iconPlay;
+                });
+
+                const intSlider = document.getElementById('intensity2');
+                const intVal = document.getElementById('int-val2');
+                intSlider.addEventListener('input', (e) => {
+                    this.intensity = parseInt(e.target.value);
+                    intVal.innerText = `${this.intensity}%`;
+                });
+
+                const freqSlider = document.getElementById('frequency-slider');
+                freqSlider.addEventListener('input', (e) => {
+                    this.frequency = parseFloat(e.target.value);
+                    this.updateReadouts();
+                });
+            },
+
+            updateReadouts() {
+                const f = this.frequency;
+                const wl = getWavelength_nm(f);
+                const rgb = wavelengthToRGB(wl);
+                const colName = getColorName(f);
+
+                document.getElementById('readout-freq').innerText = f.toFixed(0);
+                
+                const colorBox = document.getElementById('color-box');
+                const colorText = document.getElementById('readout-color');
+                colorText.innerText = colName;
+                colorText.style.color = rgb.css;
+                
+                colorBox.style.borderColor = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.5)`;
+                this.currentColor = rgb.css;
+            },
+
+            resize() {
+                const dpr = window.devicePixelRatio || 1;
+                const rect = this.container.getBoundingClientRect();
+                this.canvas.width = rect.width * dpr;
+                this.canvas.height = rect.height * dpr;
+                this.ctx.scale(dpr, dpr);
+                this.width = rect.width;
+                this.height = rect.height;
+            },
+
+            update(dt) {
+                if (!this.isPlaying) return;
+                const speedScale = 0.005; 
+                this.phase += this.frequency * speedScale * dt;
+            },
+
+            draw() {
+                const ctx = this.ctx;
+                const w = this.width;
+                const h = this.height;
+
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, w, h);
+                drawGrid(ctx, w, h);
+
+                const maxAmplitude = (h / 2) * 0.85;
+                const currentAmplitude = maxAmplitude * (this.intensity / 100);
+                
+                const spaceScale = 0.00005;
+                const k = this.frequency * spaceScale;
+
+                ctx.beginPath();
+                ctx.strokeStyle = this.currentColor || '#000000';
+                ctx.lineWidth = 4;
+                ctx.shadowBlur = 0;
+
+                for (let x = 0; x <= w; x += 2) {
+                    const y = (h / 2) - currentAmplitude * Math.sin(k * x - this.phase);
+                    if (x === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+            }
+        };
+
+        // --- QUIZ SCRIPT ---
+        const quizData = [
+            {
+                topic: "Intensity and Amplitude",
+                question: "If you double the electric-field amplitude (<i>A</i>) of a classical light wave, how does its intensity (<i>I</i>) change, given the relationship <i>I</i> &propto; <i>A</i><sup>2</sup>?",
+                options: [
+                    "Intensity remains the same.",
+                    "Intensity doubles.",
+                    "Intensity quadruples.",
+                    "Intensity is reduced by half."
+                ],
+                correct: 2,
+                explanation: "Because intensity is proportional to the square of the amplitude (<i>I</i> &propto; <i>A</i><sup>2</sup>), doubling the amplitude increases the intensity by a factor of 2<sup>2</sup>, which is 4."
+            },
+            {
+                topic: "Frequency and Oscillation Rate",
+                question: "In the interactive plot, if you increase the frequency of a light wave, what visual change represents this physical effect?",
+                options: [
+                    "The wave becomes vertically taller.",
+                    "The wave oscillates more rapidly, with crests appearing closer together.",
+                    "The entire wave shifts to a completely dark shade.",
+                    "The wave moves significantly faster across the screen without changing shape."
+                ],
+                correct: 1,
+                explanation: "Frequency determines the temporal oscillation rate. Visually, a higher frequency means more oscillations occur in the same space, making the wave appear tighter with crests closer together."
+            },
+            {
+                topic: "Frequency and Wavelength",
+                question: "A photon of red light has a frequency of 400 THz. Using the relationship <i>c</i> = <i>f</i>&lambda;, what happens to the wavelength if a different light source emits at 800 THz in a vacuum?",
+                options: [
+                    "The wavelength is doubled.",
+                    "The wavelength remains the same.",
+                    "The wavelength is reduced by half.",
+                    "The wavelength is quadrupled."
+                ],
+                correct: 2,
+                explanation: "In a vacuum, the speed of light (<i>c</i>) is constant. Because <i>c</i> = <i>f</i>&lambda;, frequency (<i>f</i>) and wavelength (&lambda;) are inversely proportional. Doubling the frequency from 400 THz to 800 THz halves the wavelength."
+            },
+            {
+                topic: "Visible-Light Color",
+                question: "What physical property of monochromatic visible light fundamentally determines its perceived color?",
+                options: [
+                    "The wave's vertical amplitude.",
+                    "The wave's intensity.",
+                    "The medium it travels through.",
+                    "The wave's frequency or wavelength."
+                ],
+                correct: 3,
+                explanation: "Visible color is fundamentally associated with the wave's frequency (or corresponding wavelength in a vacuum). Amplitude and intensity determine brightness, not color."
+            },
+            {
+                topic: "Red, Green, and Blue Comparison",
+                question: "In the simulation, red, green, and blue are represented by approximate frequencies. Which of the following is true regarding these colors in reality?",
+                options: [
+                    "Each color corresponds to exactly one unique, absolute frequency.",
+                    "Red light always has a higher frequency than blue light.",
+                    "Each color category represents a range of frequencies, not a single exact value.",
+                    "All three colors have the exact same wavelength in a vacuum."
+                ],
+                correct: 2,
+                explanation: "Colors like 'red', 'green', and 'blue' correspond to continuous bands or ranges of wavelengths/frequencies within the visible spectrum, rather than single, sharply defined values."
+            },
+            {
+                topic: "Same-Frequency Comparison Mode",
+                question: "When 'Same-Frequency Mode' is enabled in the first plot, the red, green, and blue traces all oscillate at the same rate. What does this represent physically?",
+                options: [
+                    "Three physically distinct colors of light that happen to share the same frequency.",
+                    "A comparison where the display colors merely identify the three traces, rather than representing true physical RGB colors.",
+                    "White light naturally separating into identical component colors.",
+                    "The effect of a vacuum making all light frequencies equal."
+                ],
+                correct: 1,
+                explanation: "If they have the same frequency, they are physically the same color of light. The red, green, and blue pixels on your screen are just used to help you distinguish between the three drawn traces, not to represent distinct physical colors."
+            },
+            {
+                topic: "Photon Energy",
+                question: "According to the equation <i>E</i> = <i>hf</i>, how does the energy of a single photon of blue light (670 THz) compare to that of red light (430 THz)?",
+                options: [
+                    "The red light photon has higher energy.",
+                    "The blue light photon has higher energy.",
+                    "Both photons have the exact same energy.",
+                    "Photon energy depends only on the wave's intensity."
+                ],
+                correct: 1,
+                explanation: "Photon energy (<i>E</i>) is directly proportional to frequency (<i>f</i>). Since blue light has a higher frequency (670 THz) than red light (430 THz), its individual photons have higher energy."
+            },
+            {
+                topic: "Independent Control of Intensity and Frequency",
+                question: "If you use the slider to increase the intensity of a light wave while keeping the frequency fixed at 550 THz, what happens to the light on a photon level?",
+                options: [
+                    "The energy of each individual photon increases.",
+                    "The wavelength of the light decreases.",
+                    "The number of photons arriving per second increases, but the energy of each individual photon stays the same.",
+                    "The color of the light shifts significantly towards the blue end of the spectrum."
+                ],
+                correct: 2,
+                explanation: "At a fixed frequency, photon energy (<i>E</i> = <i>hf</i>) remains constant. Increasing the total intensity means more optical energy is delivered per second, which is achieved by a higher rate of photons, not by making each photon more energetic."
+            },
+            {
+                topic: "Visible-Spectrum Exploration",
+                question: "As you move the frequency slider in Plot 2 from 400 THz (Infrared/Red region) up to 790 THz (Violet region), how do the wavelength and photon energy change?",
+                options: [
+                    "Wavelength increases and photon energy decreases.",
+                    "Both wavelength and photon energy increase.",
+                    "Both wavelength and photon energy decrease.",
+                    "Wavelength decreases and photon energy increases."
+                ],
+                correct: 3,
+                explanation: "As frequency (<i>f</i>) increases, wavelength (&lambda; = <i>c</i>/<i>f</i>) must decrease. Simultaneously, photon energy (<i>E</i> = <i>hf</i>) increases."
+            },
+            {
+                topic: "Scientific Interpretation",
+                question: "Consider Wave A with a very high amplitude and a frequency of 450 THz, and Wave B with a low amplitude and a frequency of 700 THz. Which statement is correct?",
+                options: [
+                    "Wave A is more intense, and its individual photons have higher energy than Wave B's.",
+                    "Wave B is more intense, and its individual photons have higher energy than Wave A's.",
+                    "Wave A is more intense, but Wave B's individual photons have higher energy.",
+                    "Both waves have the same intensity, but Wave A has a longer wavelength."
+                ],
+                correct: 2,
+                explanation: "Wave A has a higher amplitude, meaning higher intensity (brightness). However, Wave B has a higher frequency (700 THz &gt; 450 THz), so its individual photons carry more energy (<i>E</i> = <i>hf</i>)."
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        const userAnswers = new Array(10).fill(null);
+        const submitted = new Array(10).fill(false);
+
+        const UI = {
+            quizContainer: document.getElementById('quiz-container'),
+            resultsContainer: document.getElementById('results-container'),
+            questionText: document.getElementById('question-text'),
+            optionsContainer: document.getElementById('options-container'),
+            progressText: document.getElementById('quiz-progress-text'),
+            statusText: document.getElementById('quiz-status-text'),
+            progressBar: document.getElementById('quiz-progress-bar'),
+            feedbackArea: document.getElementById('feedback-area'),
+            feedbackTitle: document.getElementById('feedback-title'),
+            feedbackText: document.getElementById('feedback-text'),
+            feedbackIcon: document.getElementById('feedback-icon'),
+            btnPrev: document.getElementById('btn-prev'),
+            btnSubmit: document.getElementById('btn-submit'),
+            btnNext: document.getElementById('btn-next'),
+            btnRestart: document.getElementById('btn-restart'),
+            scoreDisplay: document.getElementById('score-display'),
+            percentDisplay: document.getElementById('percentage-display'),
+            summaryText: document.getElementById('score-summary'),
+            reviewContainer: document.getElementById('review-container')
+        };
+
+        function renderQuestion() {
+            const q = quizData[currentQuestionIndex];
+            UI.questionText.innerHTML = `${currentQuestionIndex + 1}. ${q.question}`;
+            
+            UI.progressText.innerText = `Question ${currentQuestionIndex + 1} of 10`;
+            UI.progressBar.style.width = `${((currentQuestionIndex + 1) / 10) * 100}%`;
+
+            UI.optionsContainer.innerHTML = '';
+            
+            const isSub = submitted[currentQuestionIndex];
+            const currentSelected = userAnswers[currentQuestionIndex];
+
+            q.options.forEach((optText, index) => {
+                const btn = document.createElement('button');
+                btn.className = `quiz-option w-full text-left p-4 rounded-lg border-2 border-slate-200 font-medium ${isSub ? 'disabled' : ''}`;
+                
+                const letter = String.fromCharCode(65 + index); // A, B, C, D
+                btn.innerHTML = `<span class="inline-block w-8 font-bold text-slate-500">${letter}.</span> <span class="text-slate-700">${optText}</span>`;
+                
+                if (isSub) {
+                    if (index === q.correct) {
+                        btn.classList.add('correct');
+                    } else if (index === currentSelected && currentSelected !== q.correct) {
+                        btn.classList.add('incorrect');
+                    }
+                } else {
+                    if (index === currentSelected) {
+                        btn.classList.add('selected');
+                    }
+                    btn.onclick = () => selectOption(index);
+                }
+                
+                UI.optionsContainer.appendChild(btn);
+            });
+
+            UI.btnPrev.disabled = currentQuestionIndex === 0;
+            
+            if (isSub) {
+                showFeedback(q, currentSelected);
+                UI.btnSubmit.classList.add('hidden');
+                UI.btnNext.classList.remove('hidden');
+                UI.statusText.innerText = (currentSelected === q.correct) ? "Correct" : "Incorrect";
+                UI.statusText.className = (currentSelected === q.correct) ? "text-sm font-bold text-green-600" : "text-sm font-bold text-red-600";
+            } else {
+                hideFeedback();
+                UI.btnSubmit.classList.remove('hidden');
+                UI.btnNext.classList.add('hidden');
+                UI.btnSubmit.disabled = currentSelected === null;
+                UI.statusText.innerText = "Not answered";
+                UI.statusText.className = "text-sm text-slate-500";
+            }
+        }
+
+        function selectOption(index) {
+            if (submitted[currentQuestionIndex]) return;
+            userAnswers[currentQuestionIndex] = index;
+            renderQuestion(); // Re-render to show selection
+        }
+
+        function submitAnswer() {
+            if (userAnswers[currentQuestionIndex] === null || submitted[currentQuestionIndex]) return;
+            submitted[currentQuestionIndex] = true;
+            renderQuestion(); 
+        }
+
+        function showFeedback(q, selectedIdx) {
+            UI.feedbackArea.classList.remove('hidden');
+            const isCorrect = selectedIdx === q.correct;
+            
+            if (isCorrect) {
+                UI.feedbackArea.className = 'mb-6 p-4 rounded-lg border-2 border-green-200 bg-green-50';
+                UI.feedbackTitle.innerText = "Correct!";
+                UI.feedbackTitle.className = "font-bold text-lg text-green-800";
+                UI.feedbackIcon.innerText = "✅";
+            } else {
+                UI.feedbackArea.className = 'mb-6 p-4 rounded-lg border-2 border-red-200 bg-red-50';
+                UI.feedbackTitle.innerText = "Incorrect";
+                UI.feedbackTitle.className = "font-bold text-lg text-red-800";
+                UI.feedbackIcon.innerText = "❌";
+            }
+            
+            UI.feedbackText.innerHTML = `<strong>Explanation:</strong> ${q.explanation}`;
+        }
+
+        function hideFeedback() {
+            UI.feedbackArea.classList.add('hidden');
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < 9) {
+                currentQuestionIndex++;
+                renderQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                renderQuestion();
+            }
+        }
+
+        function showResults() {
+            UI.quizContainer.classList.add('hidden');
+            UI.resultsContainer.classList.remove('hidden');
+            
+            let score = 0;
+            const weakTopics = [];
+            
+            UI.reviewContainer.innerHTML = '';
+
+            quizData.forEach((q, i) => {
+                const userAns = userAnswers[i];
+                const isCorrect = userAns === q.correct;
+                if (isCorrect) score++;
+                else weakTopics.push(q.topic);
+
+                const reviewBlock = document.createElement('div');
+                reviewBlock.className = `p-5 rounded-lg border ${isCorrect ? 'border-green-200 bg-green-50' : 'border-red-200 bg-red-50'}`;
+                
+                const userText = userAns !== null ? q.options[userAns] : "No answer";
+                const correctText = q.options[q.correct];
+
+                reviewBlock.innerHTML = `
+                    <h4 class="font-bold text-slate-800 mb-2">Q${i + 1}: ${q.question}</h4>
+                    <p class="text-sm mb-1 ${isCorrect ? 'text-green-700' : 'text-red-700'}">
+                        <strong>Your Answer:</strong> ${userText} ${isCorrect ? '✅' : '❌'}
+                    </p>
+                    ${!isCorrect ? `<p class="text-sm mb-3 text-green-700"><strong>Correct Answer:</strong> ${correctText}</p>` : ''}
+                    <p class="text-sm text-slate-700 mt-2 p-3 bg-white rounded border border-slate-200">
+                        ${q.explanation}
+                    </p>
+                `;
+                UI.reviewContainer.appendChild(reviewBlock);
+            });
+
+            UI.scoreDisplay.innerText = `${score}/10`;
+            UI.percentDisplay.innerText = `${(score / 10) * 100}%`;
+
+            if (score === 10) {
+                UI.summaryText.innerText = "Perfect score! You have an excellent grasp of light intensity, frequency, and photon energy concepts.";
+            } else if (score >= 7) {
+                UI.summaryText.innerText = "Great job! You understand most of the core concepts. Review the explanations below for the specific questions you missed.";
+            } else {
+                const uniqueWeakTopics = [...new Set(weakTopics)].slice(0, 3).join(", ");
+                UI.summaryText.innerText = `Good effort! It looks like you might need to review a few concepts, specifically around: ${uniqueWeakTopics}. Check the review section below to see how to improve.`;
+            }
+        }
+
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            for (let i = 0; i < 10; i++) {
+                userAnswers[i] = null;
+                submitted[i] = false;
+            }
+            UI.resultsContainer.classList.add('hidden');
+            UI.quizContainer.classList.remove('hidden');
+            renderQuestion();
+            UI.quizContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Quiz Event Listeners
+        UI.btnPrev.addEventListener('click', prevQuestion);
+        UI.btnNext.addEventListener('click', nextQuestion);
+        UI.btnSubmit.addEventListener('click', submitAnswer);
+        UI.btnRestart.addEventListener('click', restartQuiz);
+
+        window.onload = function() {
+            // Init visualizations
+            plot1.init();
+            plot2.init();
+            requestAnimationFrame(animate);
+            
+            // Init quiz
+            renderQuestion();
+        };
+
+    </script>
+</body>
+</html>
