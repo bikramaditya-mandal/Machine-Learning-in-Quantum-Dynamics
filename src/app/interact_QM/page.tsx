@@ -4,6 +4,11 @@ import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import FadeUp from '@/components/FadeUp'
 
+type TeachingItem = {
+  label: string
+  href: string
+}
+
 type TeachingBlock = {
   title: string
   intro?: string
@@ -13,7 +18,7 @@ type TeachingBlock = {
 type Topic = {
   num: string
   title: string
-  blocks: TeachingBlock[]
+  blocks: TeachingItem[]
 }
 
 type Era = {
@@ -36,8 +41,10 @@ const eras: Era[] = [
           {
             title: 'Explore light waves by changing intensity and frequency. Compare red, green, and blue light, investigate amplitude and wavelength, and discover how photon energy depends on frequency.',
             items: [
-              label: "Click Here!",
-              href: "intensity_frequency.html"
+              {
+                label: 'Click Here!',
+                href: '/intensity_frequency.html',
+              },
             ],
           },
         ],
@@ -117,11 +124,14 @@ export default function Teaching() {
                               <p className="font-serif text-[#1a1a1a]/70 text-[0.95rem] leading-[1.8] mb-2">{block.intro}</p>
                             )}
                             <ul className="space-y-2">
-                              {block.items.map((item, ii) => (
-                                <li key={ii} className="relative pl-5 font-serif text-[#1a1a1a]/75 text-[0.95rem] leading-[1.8]">
-                                  <span className="absolute left-0 top-[0.15rem] text-[#3d8bfd] text-[0.75rem]">—</span>
-                                  {item}
-                                </li>
+                              {{block.items.map((item) => (
+                                <a
+                                  key={item.href}
+                                  href={item.href}
+                                  className="text-indigo-600 underline hover:text-indigo-800"
+                                >
+                                  {item.label}
+                                </a>
                               ))}
                             </ul>
                           </div>
