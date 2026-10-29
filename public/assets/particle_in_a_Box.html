@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Particle in a Box: Quantum Simulation</title>
+<style>
+:root {
+  --paper: #FFFFFF;
+  --card: #FFFFFF;
+  --ink: #111827;
+  --muted: #4B5563;
+  --rule: #E5E7EB;
+  --wave: #2563EB; /* Blue */
+  --prob: #DB2777; /* Magenta */
+  --level: #059669;
+  --trans: #D97706;
+  --serif: "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+* { box-sizing: border-box; }
+body { 
+  margin: 0; 
+  background: var(--paper); 
+  color: var(--ink); 
+  font: 16px/1.6 var(--sans); 
+}
+header { 
+  max-width: 1280px; 
+  margin: 0 auto; 
+  padding: 28px 24px 16px; 
+  border-bottom: 1px solid var(--rule);
+}
+h1 { font: 700 clamp(28px, 4vw, 36px)/1.2 var(--sans); margin: 0 0 8px; letter-spacing: -0.02em; }
+h2 { font: 600 20px/1.2 var(--sans); margin: 0 0 16px; border-bottom: 2px solid var(--rule); padding-bottom: 8px;}
+h3 { font: 600 17px/1.3 var(--sans); margin: 0 0 8px; }
+.lede { margin: 0; color: var(--muted); max-width: 80ch; font-size: 1.05rem; }
+main { 
+  max-width: 1280px; 
+  margin: 0 auto; 
+  padding: 24px; 
+  display: grid; 
+  grid-template-columns: 320px minmax(0, 1fr); 
+  gap: 24px; 
+  align-items: start; 
+}
+@media (max-width: 960px) { main { grid-template-columns: 1fr; padding: 16px; } }
+.card { 
+  background: var(--card); 
+  border: 1px solid var(--rule); 
+  border-radius: 8px; 
+  padding: 20px; 
+  min-width: 0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+}
+.controls { position: sticky; top: 24px; }
+@media (max-width: 960px) { .controls { position: static; } }
+.stage { display: flex; flex-direction: column; gap: 24px; min-width: 0; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+@media (max-width: 800px) { .grid2 { grid-template-columns: 1fr; } }
+.cap { margin: 0 0 12px; color: var(--muted); font-size: 14px; }
+canvas.plot { display: block; width: 100%; height: 260px; }
+canvas.tall { height: 320px; }
+canvas.short { height: 200px; }
+.field { border: 0; margin: 0 0 20px; padding: 0; min-width: 0; }
+.field > label, .field legend { display: block; font-weight: 600; font-size: 15px; margin-bottom: 8px; padding: 0; }
+.field output { font: 500 14px var(--mono); color: var(--level); margin-left: 8px; background: #ECFDF5; padding: 2px 6px; border-radius: 4px; }
+input[type=range] { width: 100%; accent-color: var(--wave); margin-top: 8px; }
+select, input[type=number] { 
+  font: 15px var(--sans); 
+  padding: 8px 12px; 
+  border: 1px solid #D1D5DB; 
+  border-radius: 6px; 
+  background: #fff; 
+  color: var(--ink); 
+  width: 100%;
+  transition: border-color 0.2s;
+}
+select:focus, input[type=number]:focus { outline: none; border-color: var(--wave); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2); }
+.hint { color: var(--muted); font-size: 13px; margin: 6px 0 0; }
+.radio-line { display: flex; flex-wrap: wrap; gap: 8px; }
+.seg { position: relative; display: inline-flex; align-items: center; justify-content: center; height: 38px; padding: 0 14px; border: 1px solid #D1D5DB; border-radius: 6px; background: #fff; cursor: pointer; font: 500 14px var(--sans); user-select: none; flex: 1;}
+.seg input { position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0; pointer-events: none; }
+.seg:has(input:checked) { background: var(--wave); color: #fff; border-color: var(--wave); }
+.seg:has(input:focus-visible) { outline: 3px solid rgba(37, 99, 235, 0.4); outline-offset: 2px; }
+button { font: 600 15px var(--sans); padding: 10px 16px; border-radius: 6px; border: 1px solid var(--wave); background: var(--wave); color: #fff; cursor: pointer; transition: all 0.2s; }
+button:hover { background: #1D4ED8; border-color: #1D4ED8; }
+button.ghost { background: transparent; color: var(--ink); width: 100%; margin-top: 10px; border-color: var(--rule); }
+button.ghost:hover { background: #F3F4F6; }
+dl { margin: 0; display: grid; grid-template-columns: minmax(140px, max-content) 1fr; gap: 8px 16px; font-size: 15px; }
+dt { color: var(--muted); font-weight: 500; }
+dd { margin: 0; font-family: var(--mono); font-size: 15px; overflow-wrap: anywhere; }
+.row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin: 12px 0; }
+.row label { font-size: 15px; font-weight: 500;}
+.note { font-size: 14px; color: var(--muted); margin: 12px 0 0; }
+.checkbox-line { display: flex; gap: 16px; margin-bottom: 12px; font-size: 14px; font-weight: 500; align-items: center;}
+.checkbox-line label { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+.checkbox-line input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--wave); cursor: pointer;}
+.legend-dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+
+/* Quiz Styles */
+.quiz-container { display: flex; flex-direction: column; gap: 16px; }
+.quiz-question { font-size: 18px; font-weight: 600; margin-bottom: 12px; }
+.quiz-options { display: flex; flex-direction: column; gap: 8px; }
+.quiz-option { 
+  display: flex; align-items: center; gap: 12px; padding: 12px 16px; 
+  border: 1px solid var(--rule); border-radius: 6px; cursor: pointer; 
+  transition: background 0.2s; font-size: 15px;
+}
+.quiz-option:hover { background: #F9FAFB; }
+.quiz-option.selected { border-color: var(--wave); background: #EFF6FF; }
+.quiz-option.correct { border-color: var(--level); background: #ECFDF5; }
+.quiz-option.wrong { border-color: #E11D48; background: #FFF1F2; }
+.quiz-feedback { padding: 16px; border-radius: 6px; margin-top: 16px; font-size: 15px; display: none; }
+.quiz-feedback.show { display: block; }
+.quiz-feedback.success { background: #ECFDF5; color: #065F46; border: 1px solid #A7F3D0; }
+.quiz-feedback.error { background: #FFF1F2; color: #9F1239; border: 1px solid #FECDD3; }
+.quiz-controls { margin-top: 20px; display: flex; justify-content: flex-end; }
+.quiz-score { font-size: 24px; font-weight: 700; text-align: center; margin: 32px 0; color: var(--wave); }
+.quiz-summary-item { margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid var(--rule); }
+.quiz-summary-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.quiz-summary-question { font-weight: 600; margin-bottom: 8px; font-size: 16px; }
+.quiz-summary-user { margin-bottom: 4px; font-size: 15px; }
+.quiz-summary-correct-ans { margin-bottom: 4px; font-size: 15px; color: var(--level); }
+.quiz-summary-explanation { margin-top: 8px; font-size: 14px; color: var(--muted); background: #F9FAFB; padding: 12px; border-radius: 6px; border: 1px solid #E5E7EB; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Particle in a Box</h1>
+  <p class="lede">Explore the quantum mechanics of a particle trapped between two infinitely high walls.</p>
+</header>
+
+<main>
+  <!-- Controls Area -->
+  <aside class="card controls" aria-label="Simulation settings">
+    <h2>Settings</h2>
+
+    <div class="field">
+      <label for="maxLevels">Maximum number of levels</label>
+      <input type="number" id="maxLevels" min="2" max="20" step="1" value="6">
+      <p class="hint">Sets the highest quantum number available (2–20).</p>
+    </div>
+
+    <div class="field">
+      <label for="nSelect">Current quantum state (n)</label>
+      <select id="nSelect"></select>
+    </div>
+
+    <div class="field">
+      <label for="L">Box width L <output id="Lout"></output></label>
+      <input type="range" id="L" min="0.10" max="2.00" step="0.01" value="0.5">
+      <p class="hint">Walls at x = 0 and x = L. Units: nanometers (nm).</p>
+    </div>
+
+    <div class="field">
+      <label for="particle">Particle</label>
+      <select id="particle">
+        <option value="electron">Electron</option>
+        <option value="proton">Proton</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="massInput">Mass (in mₑ)</label>
+      <input type="number" id="massInput" min="0.0001" step="any" value="1">
+      <p class="hint">Mass expressed in multiples of electron mass.</p>
+    </div>
+
+    <fieldset class="field">
+      <legend>Energy unit</legend>
+      <div class="radio-line">
+        <label class="seg"><input type="radio" name="unit" value="eV" checked><span>eV</span></label>
+        <label class="seg"><input type="radio" name="unit" value="J"><span>J</span></label>
+      </div>
+    </fieldset>
+
+    <button type="button" id="reset" class="ghost">Reset to defaults</button>
+  </aside>
+
+  <!-- Main Stage Area -->
+  <div class="stage">
+    
+    <!-- Simulation Top row -->
+    <section class="grid2">
+      <figure class="card" style="margin:0">
+        <h3>Experiment: Potential V(x)</h3>
+        <p class="cap">Infinite walls at x = 0 and x = L. Particle is trapped inside, where V = 0.</p>
+        <canvas id="cPot" class="plot short" role="img" aria-label="Infinite square well"></canvas>
+      </figure>
+      
+      <figure class="card" style="margin:0">
+        <h3>Wavefunction & Probability</h3>
+        <div class="checkbox-line">
+          <label><input type="checkbox" id="chkWave" checked> <span class="legend-dot" style="background:var(--wave)"></span> Wavefunction (ψ)</label>
+          <label><input type="checkbox" id="chkProb" checked> <span class="legend-dot" style="background:var(--prob)"></span> Probability (|ψ|²)</label>
+        </div>
+        <canvas id="cComb" class="plot" role="img" aria-label="Combined Wavefunction and Probability Plot"></canvas>
+      </figure>
+    </section>
+
+    <!-- Simulation Bottom row -->
+    <section class="grid2">
+      <figure class="card" style="margin:0">
+        <h3>Energy levels</h3>
+        <p class="cap" id="levelNote"></p>
+        <canvas id="cLev" class="plot tall" role="img" aria-label="Energy-level diagram"></canvas>
+      </figure>
+
+      <figure class="card" style="margin:0">
+        <h3>Transitions & Spectrum</h3>
+        <div class="row">
+          <label for="ni">Initial nᵢ</label>
+          <select id="ni"></select>
+          <label for="nf">Final n_f</label>
+          <select id="nf"></select>
+        </div>
+        <dl id="trDl" style="margin-top:16px"></dl>
+        <canvas id="cSpec" class="plot short" role="img" aria-label="Spectrum showing transition wavelength" style="margin-top:16px"></canvas>
+      </figure>
+    </section>
+
+    <!-- Interactive Quiz -->
+    <section class="card" id="quizSection">
+      <h2>Knowledge Check: 10-Question Quiz</h2>
+      <div id="quizContainer" class="quiz-container">
+        <!-- Quiz content rendered via JS -->
+      </div>
+    </section>
+    
+  </div>
+</main>
+
+<script>
+/* ---------- Physical constants (SI) ---------- */
+const H  = 6.62607015e-34;        // Planck constant, J·s
+const C  = 299792458;             // speed of light, m/s
+const ME = 9.1093837015e-31;      // electron mass, kg
+const MP = 1.67262192369e-27;     // proton mass, kg
+const EV = 1.602176634e-19;       // joules per eV
+
+const SANS = 'system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif';
+const COL = {ink:'#111827', muted:'#6B7280', grid:'#E5E7EB', wave:'#2563EB', prob:'#DB2777',
+             level:'#059669', trans:'#D97706', outside:'#F3F4F6', paper:'#FFFFFF', dim:'#9CA3AF'};
+
+const DEFAULTS = { maxLevels: 6, n: 1, L: 0.5, particle: 'electron', massMe: 1, unit: 'eV', ni: 1, nf: 2, showWave: true, showProb: true };
+const state = Object.assign({}, DEFAULTS);
+const $ = id => document.getElementById(id);
+
+/* ---------- Physics Helpers ---------- */
+
+function massOf(){ return state.massMe * ME; }
+
+function En(n, m = massOf(), Lnm = state.L){
+  const Lm = Lnm * 1e-9;
+  return n * n * H * H / (8 * m * Lm * Lm);
+}
+
+function toUnit(J){ return state.unit === 'eV' ? J / EV : J; }
+function unitLabel(){ return state.unit === 'eV' ? 'eV' : 'J'; }
+
+function psi(n, x, L){ return Math.sqrt(2 / L) * Math.sin(n * Math.PI * x / L); }
+function dens(n, x, L){ const p = psi(n, x, L); return p * p; }
+
+function fmt(v, d = 4, html = true){
+  if(!isFinite(v)) return '—';
+  if(v === 0) return '0';
+  const a = Math.abs(v);
+  if(a >= 1e-3 && a < 1e5) return String(Number(v.toPrecision(d)));
+  const [m, e] = v.toExponential(d - 1).split('e');
+  const ex = parseInt(e, 10);
+  return html ? `${m}×10<sup>${ex}</sup>` : `${m}×10^${ex}`;
+}
+
+/* ---------- Canvas Core ---------- */
+
+function setup(cv){
+  const w = cv.clientWidth, h = cv.clientHeight;
+  if(!w || !h) return null;
+  const dpr = window.devicePixelRatio || 1;
+  cv.width = Math.round(w * dpr);
+  cv.height = Math.round(h * dpr);
+  const ctx = cv.getContext('2d');
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.clearRect(0, 0, w, h);
+  return {ctx, w, h};
+}
+
+function mapper(w, h, m, xr, yr){
+  const pw = w - m.l - m.r, ph = h - m.t - m.b;
+  const box = {x0: m.l, y0: m.t, x1: m.l + pw, y1: m.t + ph};
+  return {
+    X: x => m.l + (x - xr[0]) / (xr[1] - xr[0]) * pw,
+    Y: y => m.t + (1 - (y - yr[0]) / (yr[1] - yr[0])) * ph,
+    box
+  };
+}
+
+function drawAxes(ctx, M, xt, yt, xLabel, yLabel){
+  const b = M.box;
+  ctx.save();
+  ctx.font = '12px ' + SANS;
+  ctx.fillStyle = COL.muted;
+  ctx.strokeStyle = COL.grid;
+  ctx.lineWidth = 1;
+  xt.forEach(t => {
+    const x = M.X(t.v);
+    ctx.beginPath(); ctx.moveTo(x, b.y1); ctx.lineTo(x, b.y1 - 6); ctx.stroke();
+    ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+    ctx.fillText(t.l, x, b.y1 + 5);
+  });
+  yt.forEach(t => {
+    const y = M.Y(t.v);
+    ctx.beginPath(); ctx.moveTo(b.x0, y); ctx.lineTo(b.x0 + 6, y); ctx.stroke();
+    ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+    ctx.fillText(t.l, b.x0 - 6, y);
+  });
+  ctx.strokeStyle = COL.ink; ctx.lineWidth = 1.5;
+  ctx.strokeRect(b.x0, b.y0, b.x1 - b.x0, b.y1 - b.y0);
+  
+  if(xLabel){
+      ctx.textAlign = 'right'; ctx.textBaseline = 'bottom';
+      ctx.fillText(xLabel, b.x1, b.y1 - 6);
+  }
+  ctx.restore();
+}
+
+const PM = {l: 50, r: 20, t: 20, b: 40};
+function xTicksNm(L){ return [0, 0.25, 0.5, 0.75, 1].map(f => ({v: f * L, l: fmt(f * L, 3, false)})); }
+
+/* ---------- Visualizations ---------- */
+
+function drawPotential(){
+  const s = setup($('cPot')); if(!s) return;
+  const {ctx, w, h} = s;
+  const L = state.L;
+  const M = mapper(w, h, {l: 16, r: 16, t: 16, b: 44}, [-0.2, 1.2], [0, 1]);
+  const b = M.box;
+
+  ctx.fillStyle = COL.outside;
+  ctx.fillRect(b.x0, b.y0, M.X(0) - b.x0, b.y1 - b.y0);
+  ctx.fillRect(M.X(1), b.y0, b.x1 - M.X(1), b.y1 - b.y0);
+  ctx.fillStyle = COL.muted;
+  ctx.font = '13px ' + SANS;
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillText('V = ∞', (b.x0 + M.X(0)) / 2, (b.y0 + b.y1) / 2);
+  ctx.fillText('V = ∞', (M.X(1) + b.x1) / 2, (b.y0 + b.y1) / 2);
+
+  ctx.fillStyle = COL.paper;
+  ctx.fillRect(M.X(0), b.y0, M.X(1) - M.X(0), b.y1 - b.y0);
+  
+  ctx.strokeStyle = COL.ink;
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(M.X(0), b.y0);
+  ctx.lineTo(M.X(0), b.y1);
+  ctx.lineTo(M.X(1), b.y1);
+  ctx.lineTo(M.X(1), b.y0);
+  ctx.stroke();
+
+  ctx.textBaseline = 'top';
+  ctx.fillStyle = COL.ink; ctx.font = '500 14px ' + SANS;
+  ctx.fillText('L = ' + fmt(L, 3, false) + ' nm', (M.X(0) + M.X(1)) / 2, b.y1 + 8);
+}
+
+function drawCombined(){
+  const s = setup($('cComb')); if(!s) return;
+  const {ctx, w, h} = s;
+  const {n, L, showWave, showProb} = state;
+  
+  // Map axes to normalized amplitude [-1.2, 1.2]
+  const M = mapper(w, h, PM, [0, L], [-1.2, 1.2]);
+  
+  const yTicks = [{v: -1, l: '-1'}, {v: 0, l: '0'}, {v: 1, l: '1'}];
+  drawAxes(ctx, M, xTicksNm(L), yTicks);
+  
+  // Center line
+  ctx.save();
+  ctx.setLineDash([4, 4]); ctx.strokeStyle = COL.muted; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(M.X(0), M.Y(0)); ctx.lineTo(M.X(L), M.Y(0)); ctx.stroke();
+  ctx.restore();
+
+  const pts = 400;
+  const psiMax = Math.sqrt(2 / L);
+  const probMax = 2 / L;
+
+  // Draw Probability first (so it stays in background if filled)
+  if(showProb) {
+      ctx.beginPath();
+      ctx.moveTo(M.X(0), M.Y(0));
+      for(let i=0; i<=pts; i++){
+          const x = L * i / pts;
+          const yNormalized = dens(n, x, L) / probMax; 
+          ctx.lineTo(M.X(x), M.Y(yNormalized));
+      }
+      ctx.lineTo(M.X(L), M.Y(0));
+      ctx.fillStyle = 'rgba(219, 39, 119, 0.15)'; // Magenta transparent
+      ctx.fill();
+
+      ctx.beginPath();
+      for(let i=0; i<=pts; i++){
+          const x = L * i / pts;
+          const yNormalized = dens(n, x, L) / probMax;
+          if(i===0) ctx.moveTo(M.X(x), M.Y(yNormalized)); else ctx.lineTo(M.X(x), M.Y(yNormalized));
+      }
+      ctx.strokeStyle = COL.prob; ctx.lineWidth = 2.5; ctx.stroke();
+  }
+
+  // Draw Wavefunction
+  if(showWave) {
+      ctx.beginPath();
+      for(let i=0; i<=pts; i++){
+          const x = L * i / pts;
+          const yNormalized = psi(n, x, L) / psiMax;
+          if(i===0) ctx.moveTo(M.X(x), M.Y(yNormalized)); else ctx.lineTo(M.X(x), M.Y(yNormalized));
+      }
+      ctx.strokeStyle = COL.wave; ctx.lineWidth = 2.5; ctx.stroke();
+  }
+  
+  ctx.font = '12px ' + SANS; ctx.fillStyle = COL.muted;
+  ctx.textAlign = 'right'; ctx.textBaseline = 'top';
+  ctx.fillText('x (nm)', M.box.x1, M.box.y1 + 22);
+}
+
+function drawLevels(){
+  const s = setup($('cLev')); if(!s) return;
+  const {ctx, w, h} = s;
+  const Emax = toUnit(En(state.maxLevels));
+  const top = Emax * 1.05;
+  const M = mapper(w, h, {l: 60, r: 16, t: 20, b: 20}, [0, 1], [0, top]);
+  const u = unitLabel();
+
+  drawAxes(ctx, M, [], [{v: 0, l: '0'}, {v: Emax / 2, l: fmt(Emax / 2, 3, false)}, {v: Emax, l: fmt(Emax, 3, false)}]);
+
+  for(let n = 1; n <= state.maxLevels; n++){
+    const y = M.Y(toUnit(En(n)));
+    const sel = n === state.n;
+    ctx.strokeStyle = sel ? COL.level : COL.grid;
+    ctx.lineWidth = sel ? 4 : 1.5;
+    ctx.beginPath(); ctx.moveTo(M.X(0.15), y); ctx.lineTo(M.X(0.85), y); ctx.stroke();
+
+    ctx.font = (sel ? 'bold ' : '') + '13px ' + SANS;
+    ctx.fillStyle = sel ? COL.level : COL.ink;
+    ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+    ctx.fillText('n = ' + n, M.X(0.02), y);
+    ctx.textAlign = 'right'; ctx.textBaseline = 'bottom';
+    ctx.fillText(fmt(toUnit(En(n)), 3, false) + ' ' + u, M.X(0.85), y - 4);
+  }
+
+  if(state.ni !== state.nf){
+    const yi = M.Y(toUnit(En(state.ni))), yf = M.Y(toUnit(En(state.nf)));
+    const xa = M.X(0.5), d = yf > yi ? 1 : -1;
+    ctx.strokeStyle = COL.trans; ctx.fillStyle = COL.trans; ctx.lineWidth = 2.5;
+    ctx.beginPath(); ctx.moveTo(xa, yi); ctx.lineTo(xa, yf - d * 9); ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(xa, yf); ctx.lineTo(xa - 6, yf - d * 10); ctx.lineTo(xa + 6, yf - d * 10);
+    ctx.closePath(); ctx.fill();
+    ctx.font = '600 12px ' + SANS; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+    ctx.fillText('ΔE', xa + 10, (yi + yf) / 2);
+  }
+}
+
+function transitionData(){
+  const Ei = En(state.ni), Ef = En(state.nf);
+  const dE = Math.abs(Ef - Ei);
+  const kind = state.nf > state.ni ? 'absorption' : state.nf < state.ni ? 'emission' : 'none';
+  const f = dE / H;                       
+  const lambdaM = H * C / dE;             
+  return {Ei, Ef, dE, kind, f, lambdaNm: lambdaM * 1e9 };
+}
+
+function updateTransition(){
+  const t = transitionData();
+  const u = unitLabel();
+  const dl = $('trDl');
+  if(t.kind === 'none'){
+    dl.innerHTML = '<dt>Status</dt><dd>Select two different levels.</dd>';
+    return;
+  }
+  const lamText = t.lambdaNm >= 1000 ? `${fmt(t.lambdaNm, 4)} nm (${fmt(t.lambdaNm / 1000, 4)} µm)` : `${fmt(t.lambdaNm, 4)} nm`;
+  dl.innerHTML =
+    `<dt>Eᵢ → E_f</dt><dd>${fmt(toUnit(t.Ei), 4)} → ${fmt(toUnit(t.Ef), 4)} ${u}</dd>` +
+    `<dt>Energy ΔE</dt><dd>${fmt(toUnit(t.dE), 4)} ${u}</dd>` +
+    `<dt>Wavelength λ</dt><dd>${lamText}</dd>`;
+}
+
+function drawSpectrum(){
+  const s = setup($('cSpec')); if(!s) return;
+  const {ctx, w, h} = s;
+  const M = mapper(w, h, {l: 20, r: 20, t: 20, b: 40}, [1, 6], [0, 1]);
+  const b = M.box;
+
+  ctx.fillStyle = 'rgba(139, 92, 246, 0.15)'; // visible band
+  ctx.fillRect(M.X(Math.log10(380)), b.y0, M.X(Math.log10(750)) - M.X(Math.log10(380)), b.y1 - b.y0);
+
+  drawAxes(ctx, M, [
+    {v: 1, l: '10 nm'}, {v: 2, l: '100 nm'}, {v: 3, l: '1 µm'},
+    {v: 4, l: '10 µm'}, {v: 5, l: '0.1 mm'}, {v: 6, l: '1 mm'}
+  ], []);
+  ctx.font = '11px ' + SANS; ctx.fillStyle = COL.muted;
+  ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+  ctx.fillText('visible', M.X(Math.log10(565)), b.y1 - 14);
+
+  const lo = Math.min(state.ni, state.nf), hi = Math.max(state.ni, state.nf);
+  for(let i = 1; i <= state.maxLevels; i++){
+    for(let j = i + 1; j <= state.maxLevels; j++){
+      const lam = H * C / Math.abs(En(j) - En(i)) * 1e9;
+      const xl = Math.log10(lam);
+      if(xl < 1 || xl > 6) continue;
+      const x = M.X(xl);
+      const isSel = (i === lo && j === hi);
+      if(isSel) continue;
+      ctx.strokeStyle = 'rgba(17, 24, 39, 0.15)'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(x, b.y1); ctx.lineTo(x, b.y1 - 0.4 * (b.y1 - b.y0)); ctx.stroke();
+    }
+  }
+
+  if(state.ni !== state.nf){
+    const t = transitionData();
+    const xl = Math.log10(t.lambdaNm);
+    ctx.strokeStyle = COL.trans; ctx.lineWidth = 3;
+    ctx.font = 'bold 12px ' + SANS; ctx.fillStyle = COL.trans;
+    const label = `λ = ${fmt(t.lambdaNm, 3, false)} nm`;
+    
+    if(xl >= 1 && xl <= 6){
+      const x = M.X(xl);
+      ctx.beginPath(); ctx.moveTo(x, b.y1); ctx.lineTo(x, b.y0 + 10); ctx.stroke();
+      const right = x > b.x1 - 100;
+      ctx.textAlign = right ? 'right' : 'left';
+      ctx.textBaseline = 'bottom';
+      ctx.fillText(label, x + (right ? -8 : 8), b.y0 + 20);
+    }
+  }
+}
+
+/* ---------- UI logic ---------- */
+
+function updateDropdowns() {
+    const makeOptions = (selId, currentVal) => {
+        const sel = $(selId);
+        sel.innerHTML = '';
+        for (let i = 1; i <= state.maxLevels; i++) {
+            const opt = document.createElement('option');
+            opt.value = i;
+            opt.textContent = i;
+            if (i === currentVal) opt.selected = true;
+            sel.appendChild(opt);
+        }
+        if (currentVal > state.maxLevels) {
+            sel.value = state.maxLevels;
+            return state.maxLevels;
+        }
+        return currentVal;
+    };
+    state.n = makeOptions('nSelect', state.n);
+    state.ni = makeOptions('ni', state.ni);
+    state.nf = makeOptions('nf', state.nf);
+}
+
+function syncControls(){
+  document.querySelector(`input[name=unit][value="${state.unit}"]`).checked = true;
+  $('L').value = state.L;
+  $('Lout').innerHTML = `${state.L.toFixed(2)} nm`;
+  
+  $('maxLevels').value = state.maxLevels;
+  updateDropdowns();
+
+  $('particle').value = state.particle;
+  $('massInput').value = state.massMe;
+  
+  $('chkWave').checked = state.showWave;
+  $('chkProb').checked = state.showProb;
+}
+
+function render(){
+  $('levelNote').textContent = ``;
+  drawPotential();
+  drawCombined();
+  drawLevels();
+  drawSpectrum();
+  updateTransition();
+}
+
+
+/* ---------- Quiz Subsystem ---------- */
+
+const QUIZ_DATA = [
+  { q: "What does the principal quantum number (n) represent in the particle in a box model?", options: ["The mass of the particle", "The quantized energy state", "The speed of light", "The width of the box"], correct: 1, explanation: "n dictates the quantized state of the particle; higher n means higher energy and more spatial nodes." },
+  { q: "Where is the potential energy zero in this standard model?", options: ["Outside the box", "At the walls", "Inside the box (between 0 and L)", "At infinity"], correct: 2, explanation: "The particle is entirely free to move inside the box, so potential energy is defined as 0 there, while walls are infinite." },
+  { q: "Why can't the particle have exactly zero energy (E = 0)?", options: ["Because the box is small", "Due to the Heisenberg Uncertainty Principle", "Because electrons always spin", "Because mass cannot be zero"], correct: 1, explanation: "If E=0, momentum is 0 exactly. Since the particle is bounded in space, exact zero momentum would violate the uncertainty principle." },
+  { q: "How does the energy of a specific state change as the box width (L) doubles?", options: ["It doubles", "It halves", "It is reduced by a factor of 4", "It remains constant"], correct: 2, explanation: "Energy is proportional to 1/L². Therefore, doubling L results in E being divided by 4." },
+  { q: "What is a 'node' in a wavefunction?", options: ["The point of maximum probability", "A location where the wavefunction crosses zero", "The total energy of the state", "A particle collision point"], correct: 1, explanation: "Nodes are points where the amplitude of the wavefunction ψ(x) is exactly zero, meaning 0 probability of finding the particle there." },
+  { q: "How many internal nodes does the state n = 3 have?", options: ["1", "2", "3", "0"], correct: 1, explanation: "State n has exactly n - 1 internal nodes. So n=3 has 2 internal nodes." },
+  { q: "How does the energy of state n compare to the ground state energy E₁?", options: ["E_n = n × E₁", "E_n = E₁ / n", "E_n = n² × E₁", "E_n = n³ × E₁"], correct: 2, explanation: "Energy scales quadratically with the quantum number, so E_n = n²E₁." },
+  { q: "What happens to the energy levels if the mass of the particle is doubled (e.g., from an electron to something heavier)?", options: ["They double", "They are halved", "They quadruple", "They do not change"], correct: 1, explanation: "Energy is inversely proportional to mass (1/m). Doubling the mass halves the energy." },
+  { q: "Which property guarantees the total probability of finding the particle somewhere inside the box is 100%?", options: ["Quantization", "Superposition", "Normalization", "Diffraction"], correct: 2, explanation: "Normalization scales the wavefunction so that the integral of |ψ|² over the entire space equals exactly 1 (or 100%)." },
+  { q: "What determines the wavelength of a photon emitted during a transition between two states?", options: ["The sum of the energies", "The difference in energy between the two states (ΔE)", "The maximum amplitude of the wave", "The size of the particle"], correct: 1, explanation: "The photon carries away exactly the energy difference (ΔE = hc/λ), which defines its wavelength." }
+];
+
+let currentQ = 0;
+let score = 0;
+let quizState = 'question'; // 'question' or 'feedback'
+let userAnswers = [];
+
+function renderQuiz() {
+    const qc = $('quizContainer');
+    if (currentQ >= QUIZ_DATA.length) {
+        let summaryHtml = `<div class="quiz-score">Quiz Complete! Score: ${score}/${QUIZ_DATA.length}</div>`;
+        summaryHtml += `<div class="quiz-summary" style="margin-top: 24px;">`;
+        
+        QUIZ_DATA.forEach((q, idx) => {
+            const uAnsIdx = userAnswers[idx];
+            const isCorrect = uAnsIdx === q.correct;
+            const uAnsText = uAnsIdx !== undefined && uAnsIdx !== -1 ? q.options[uAnsIdx] : 'No answer selected';
+            const userColor = isCorrect ? 'var(--level)' : '#E11D48';
+            
+            summaryHtml += `
+                <div class="quiz-summary-item">
+                    <div class="quiz-summary-question">${idx + 1}. ${q.q}</div>
+                    <div class="quiz-summary-user" style="color: ${userColor};">
+                        <strong>Your Answer:</strong> ${uAnsText} ${isCorrect ? '(Correct)' : '(Incorrect)'}
+                    </div>
+                    ${!isCorrect ? `<div class="quiz-summary-correct-ans"><strong>Correct Answer:</strong> ${q.options[q.correct]}</div>` : ''}
+                    <div class="quiz-summary-explanation">
+                        <strong>Explanation:</strong> ${q.explanation}
+                    </div>
+                </div>`;
+        });
+        
+        summaryHtml += `</div>
+                        <button type="button" id="btnRestartQuiz" class="ghost" style="max-width:200px; margin:32px auto 0; display:block;">Restart Quiz</button>`;
+                        
+        qc.innerHTML = summaryHtml;
+        $('btnRestartQuiz').addEventListener('click', () => { currentQ=0; score=0; userAnswers=[]; quizState='question'; renderQuiz(); });
+        return;
+    }
+    
+    const qData = QUIZ_DATA[currentQ];
+    
+    if (quizState === 'question') {
+        let html = `<div class="quiz-question">Question ${currentQ + 1} of ${QUIZ_DATA.length}: ${qData.q}</div>
+                    <div class="quiz-options" id="quizOptions">`;
+        qData.options.forEach((opt, idx) => {
+            html += `<div class="quiz-option" data-idx="${idx}">
+                        <input type="radio" name="quizOpt" value="${idx}" style="pointer-events:none">
+                        <span>${opt}</span>
+                     </div>`;
+        });
+        html += `</div>
+                 <div class="quiz-controls">
+                     <button type="button" id="btnQuizSubmit" disabled>Submit Answer</button>
+                 </div>`;
+        qc.innerHTML = html;
+        
+        let selectedIdx = -1;
+        const opts = document.querySelectorAll('.quiz-option');
+        opts.forEach(opt => {
+            opt.addEventListener('click', () => {
+                opts.forEach(o => { o.classList.remove('selected'); o.querySelector('input').checked = false; });
+                opt.classList.add('selected');
+                opt.querySelector('input').checked = true;
+                selectedIdx = parseInt(opt.dataset.idx);
+                $('btnQuizSubmit').disabled = false;
+            });
+        });
+        
+        $('btnQuizSubmit').addEventListener('click', () => {
+            if(selectedIdx !== -1) {
+                userAnswers[currentQ] = selectedIdx;
+                const isCorrect = (selectedIdx === qData.correct);
+                if(isCorrect) score++;
+                quizState = 'feedback';
+                
+                // Show feedback UI
+                opts.forEach(o => {
+                    o.style.pointerEvents = 'none'; // disable clicks
+                    const idx = parseInt(o.dataset.idx);
+                    if(idx === qData.correct) o.classList.add('correct');
+                    else if(idx === selectedIdx && !isCorrect) o.classList.add('wrong');
+                });
+                
+                const fbClass = isCorrect ? 'success' : 'error';
+                const fbText = isCorrect ? 'Correct!' : 'Incorrect.';
+                
+                const fbDiv = document.createElement('div');
+                fbDiv.className = `quiz-feedback show ${fbClass}`;
+                fbDiv.innerHTML = `<strong>${fbText}</strong> ${qData.explanation}`;
+                
+                $('quizOptions').parentNode.insertBefore(fbDiv, document.querySelector('.quiz-controls'));
+                
+                $('btnQuizSubmit').textContent = 'Next Question';
+                $('btnQuizSubmit').id = 'btnQuizNext';
+                $('btnQuizNext').addEventListener('click', () => {
+                    currentQ++;
+                    quizState = 'question';
+                    renderQuiz();
+                });
+            }
+        });
+    }
+}
+
+
+/* ---------- Initialization and Listeners ---------- */
+
+function init(){
+  
+  // Unit toggle
+  document.querySelectorAll('input[name=unit]').forEach(r =>
+    r.addEventListener('change', () => { state.unit = r.value; render(); }));
+
+  // Number Inputs & Range
+  $('maxLevels').addEventListener('change', e => { 
+      let val = parseInt(e.target.value);
+      if(isNaN(val) || val < 2) val = 2;
+      if(val > 20) val = 20;
+      state.maxLevels = val;
+      e.target.value = val;
+      updateDropdowns(); 
+      render(); 
+  });
+  
+  $('L').addEventListener('input', e => { 
+      state.L = parseFloat(e.target.value); 
+      $('Lout').innerHTML = `${state.L.toFixed(2)} nm`;
+      render(); 
+  });
+
+  // Level Dropdowns
+  $('nSelect').addEventListener('change', e => { state.n = parseInt(e.target.value); render(); });
+  $('ni').addEventListener('change', e => { state.ni = parseInt(e.target.value); render(); });
+  $('nf').addEventListener('change', e => { state.nf = parseInt(e.target.value); render(); });
+
+  // Mass & Particle logic
+  $('particle').addEventListener('change', e => {
+      state.particle = e.target.value;
+      if(state.particle === 'electron') state.massMe = 1;
+      else if(state.particle === 'proton') state.massMe = MP / ME;
+      $('massInput').value = state.massMe;
+      render();
+  });
+  
+  $('massInput').addEventListener('input', e => {
+      let val = parseFloat(e.target.value);
+      if(isNaN(val) || val <= 0) return; // Keep previous valid state.massMe behind the scenes until valid
+      state.massMe = val;
+      state.particle = 'other';
+      $('particle').value = 'other';
+      render();
+  });
+
+  // Graph toggles
+  $('chkWave').addEventListener('change', e => { state.showWave = e.target.checked; render(); });
+  $('chkProb').addEventListener('change', e => { state.showProb = e.target.checked; render(); });
+
+  $('reset').addEventListener('click', () => {
+    Object.assign(state, DEFAULTS);
+    syncControls();
+    render();
+  });
+
+  window.addEventListener('resize', render);
+  
+  // Start up
+  syncControls();
+  render();
+  renderQuiz();
+}
+
+init();
+</script>
+</body>
+</html>

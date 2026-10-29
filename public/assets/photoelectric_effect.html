@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photoelectric Effect Simulation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: #ffffff;
+            color: #0f172a;
+            margin: 0;
+            padding: 0;
+        }
+        .canvas-container {
+            position: relative;
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+            border: 1px solid #cbd5e1;
+        }
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            margin-bottom: 1rem;
+        }
+        .input-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #475569;
+        }
+        .custom-input {
+            background-color: #ffffff;
+            border: 1px solid #94a3b8;
+            color: #0f172a;
+            padding: 0.5rem;
+            border-radius: 0.375rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .custom-input:focus {
+            border-color: #3b82f6;
+        }
+        .btn-primary {
+            background-color: #3b82f6;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            border: none;
+            width: 100%;
+        }
+        .btn-primary:hover {
+            background-color: #2563eb;
+        }
+        .btn-primary:disabled {
+            background-color: #94a3b8;
+            cursor: not-allowed;
+        }
+        @keyframes flashText {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
+        }
+        .flashing-question {
+            animation: flashText 1.5s infinite ease-in-out;
+            text-align: center;
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #ef4444;
+            margin-top: 1.5rem;
+            padding-bottom: 2rem;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8 min-h-screen flex flex-col">
+
+    <header class="max-w-7xl mx-auto w-full mb-6">
+        <h1 class="text-3xl md:text-4xl font-bold text-slate-800 mb-2">
+            Photoelectric Effect Simulation
+        </h1>
+        <p class="text-slate-600">
+            Observe how light frequency and a metal's work function determine the kinetic energy of emitted electrons.
+        </p>
+    </header>
+
+    <main class="max-w-7xl mx-auto w-full flex-grow grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <aside class="bg-slate-50 p-6 rounded-xl border border-slate-200 shadow-sm h-fit">
+            <h2 class="text-xl font-bold text-slate-800 mb-4 border-b border-slate-200 pb-2">Parameters</h2>
+            <div class="input-group">
+                <label class="input-label" for="metal-select">Metal Target</label>
+                <select id="metal-select" class="custom-input">
+                    <option value="2.28">Sodium</option>
+                    <option value="2.90">Calcium</option>
+                    <option value="4.08">Aluminum</option>
+                    <option value="4.26">Silver</option>
+                    <option value="5.10">Gold</option>
+                    <option value="6.35">Platinum</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <div class="input-group" id="custom-wf-group">
+                <label class="input-label" for="work-function">Work Function (eV)</label>
+                <input type="number" id="work-function" class="custom-input" min="0.1" step="0.1" value="2.28">
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="input-group">
+                    <label class="input-label" for="min-freq">Min Freq (PHz)</label>
+                    <input type="number" id="min-freq" class="custom-input" min="0.1" max="5.0" step="0.1" value="0.1">
+                </div>
+                <div class="input-group">
+                    <label class="input-label" for="max-freq">Max Freq (PHz)</label>
+                    <input type="number" id="max-freq" class="custom-input" min="0.1" max="10.0" step="0.1" value="3.0">
+                </div>
+            </div>
+            <p class="text-xs text-slate-500 mb-4 mt-[-10px]">PHz = Petahertz ($10^{15}$ Hz)</p>
+            <div class="input-group">
+                <label class="input-label" for="photon-count">Number of Photons</label>
+                <input type="number" id="photon-count" class="custom-input" min="1" max="500" value="100">
+            </div>
+            <button id="btn-start" class="btn-primary mt-4">Start Simulation</button>
+        </aside>
+
+        <section class="lg:col-span-3 flex flex-col gap-6">
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col h-[350px]">
+                <div class="flex justify-between items-center mb-2">
+                    <h2 class="text-lg font-bold text-slate-800">Particle Animation</h2>
+                    <span id="sim-status" class="text-sm font-mono text-slate-500">Waiting to start...</span>
+                </div>
+                <div class="canvas-container flex-grow" id="anim-container">
+                    <canvas id="anim-canvas"></canvas>
+                </div>
+            </div>
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col h-[400px]">
+                <div class="flex justify-between items-center mb-2">
+                    <h2 class="text-lg font-bold text-slate-800">Kinetic Energy vs. Frequency</h2>
+                </div>
+                <div class="canvas-container flex-grow bg-white" id="plot-container">
+                    <canvas id="plot-canvas"></canvas>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div class="flashing-question max-w-7xl mx-auto px-4">
+        Why do the slope and intercept of a graph match the fundamental values of Planck’s constant and a metal’s work function so closely?
+    </div>
+
+    <!-- Quiz Section -->
+    <section class="max-w-7xl mx-auto w-full mt-8 mb-12">
+        <h2 class="text-3xl font-bold text-slate-800 mb-6 border-b border-slate-200 pb-2">Knowledge Check Quiz</h2>
+        <div id="quiz-app" class="max-w-3xl mx-auto bg-white p-6 md:p-8 rounded-xl border border-slate-200 shadow-sm flex flex-col min-h-[450px]">
+            <!-- Quiz questions will be dynamically injected here -->
+        </div>
+    </section>
+
+    <script>
+        const h_eV_PHz = 4.135667696;
+        function gaussianRandom(mean = 0, stdev = 0.1) {
+            let u = 1 - Math.random(); let v = Math.random();
+            let z = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+            return z * stdev + mean;
+        }
+
+        let simState = {
+            isRunning: false, workFunction: 2.28, metalName: "Sodium",
+            minFreq: 0.1, maxFreq: 3.0, totalPhotons: 100,
+            photonQueue: [], activePhotons: [], activeElectrons: [], dataPoints: [],
+            photonsEmitted: 0, photonsHit: 0
+        };
+
+        const ui = {
+            metalSelect: document.getElementById('metal-select'), workFunction: document.getElementById('work-function'),
+            minFreq: document.getElementById('min-freq'), maxFreq: document.getElementById('max-freq'),
+            photonCount: document.getElementById('photon-count'), btnStart: document.getElementById('btn-start'),
+            simStatus: document.getElementById('sim-status')
+        };
+
+        ui.metalSelect.addEventListener('change', (e) => {
+            if (e.target.value !== 'other') ui.workFunction.value = e.target.value;
+        });
+        ui.btnStart.addEventListener('click', startSimulation);
+
+        function startSimulation() {
+            const wf = parseFloat(ui.workFunction.value); const minF = parseFloat(ui.minFreq.value);
+            const maxF = parseFloat(ui.maxFreq.value); const count = parseInt(ui.photonCount.value);
+            if (isNaN(wf) || isNaN(minF) || isNaN(maxF) || isNaN(count) || count <= 0) return alert("Please enter valid numerical values.");
+            if (minF >= maxF) return alert("Max Frequency must be greater than Min Frequency.");
+
+            simState = { ...simState, workFunction: wf, metalName: ui.metalSelect.value === 'other' ? 'Custom' : ui.metalSelect.options[ui.metalSelect.selectedIndex].text,
+                minFreq: minF, maxFreq: maxF, totalPhotons: count, photonQueue: [], activePhotons: [], activeElectrons: [], dataPoints: [], photonsEmitted: 0, photonsHit: 0, isRunning: true };
+
+            ui.btnStart.disabled = true; ui.btnStart.innerText = "Running..."; ui.simStatus.innerText = `0 / ${count} Photons`;
+
+            for (let i = 0; i < count; i++) simState.photonQueue.push(minF + Math.random() * (maxF - minF));
+            plot.initAxes(minF, maxF, wf);
+        }
+
+        const anim = {
+            canvas: document.getElementById('anim-canvas'), ctx: document.getElementById('anim-canvas').getContext('2d'), width: 0, height: 0, metalX: 0,
+            init() { this.resize(); window.addEventListener('resize', () => this.resize()); },
+            resize() {
+                const dpr = window.devicePixelRatio || 1; const rect = this.canvas.parentElement.getBoundingClientRect();
+                this.canvas.width = rect.width * dpr; this.canvas.height = rect.height * dpr;
+                this.ctx.scale(dpr, dpr); this.width = rect.width; this.height = rect.height; this.metalX = this.width * 0.75;
+            },
+            drawSource() {
+                const ctx = this.ctx; const h = this.height; ctx.fillStyle = '#64748b'; ctx.beginPath();
+                ctx.moveTo(0, h/2 - 40); ctx.lineTo(40, h/2 - 20); ctx.lineTo(40, h/2 + 20); ctx.lineTo(0, h/2 + 40); ctx.fill();
+            },
+            drawMetal() {
+                const ctx = this.ctx; const h = this.height; ctx.fillStyle = '#94a3b8'; ctx.fillRect(this.metalX, h * 0.1, 10, h * 0.8);
+                ctx.fillStyle = '#0f172a'; ctx.font = 'bold 14px sans-serif'; ctx.textAlign = 'left';
+                ctx.fillText(`${simState.metalName} (Φ = ${simState.workFunction.toFixed(2)} eV)`, this.metalX + 15, h / 2);
+            },
+            updateAndDraw(dt) {
+                const ctx = this.ctx; ctx.clearRect(0, 0, this.width, this.height); this.drawSource(); this.drawMetal();
+                if (simState.isRunning && simState.photonQueue.length > 0 && Math.random() < dt * 10) { 
+                    simState.photonsEmitted++;
+                    simState.activePhotons.push({ x: 40, y: this.height / 2 + (Math.random() - 0.5) * 60, f: simState.photonQueue.pop(), color: '#1e40af', speed: 100, failed: false });
+                }
+                for (let i = simState.activePhotons.length - 1; i >= 0; i--) {
+                    const p = simState.activePhotons[i];
+                    if (p.failed) {
+                        p.x -= p.speed * dt; ctx.beginPath(); ctx.strokeStyle = '#ef4444'; ctx.lineWidth = 3; ctx.lineCap = 'round';
+                        for (let wx = 0; wx < 20; wx++) { const px = p.x + wx; const py = p.y + Math.sin((px / 10) * Math.PI * 2) * 4; if (wx === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py); }
+                        ctx.stroke(); if (p.x < 0) simState.activePhotons.splice(i, 1); continue;
+                    }
+                    p.x += p.speed * dt; ctx.beginPath(); ctx.strokeStyle = p.color; ctx.lineWidth = 3; ctx.lineCap = 'round';
+                    for (let wx = 0; wx < 20; wx++) { const px = p.x - wx; const py = p.y + Math.sin((px / 10) * Math.PI * 2) * 4; if (wx === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py); }
+                    ctx.stroke();
+                    if (p.x >= this.metalX) {
+                        simState.photonsHit++; ui.simStatus.innerText = `${simState.photonsHit} / ${simState.totalPhotons} Photons`;
+                        const theoreticalKE = (h_eV_PHz * p.f) - simState.workFunction; const ejected = theoreticalKE > 0;
+                        let noisyKE = ejected ? theoreticalKE + gaussianRandom(0, 0.1) : theoreticalKE;
+                        simState.dataPoints.push({ f: p.f, rawKE: noisyKE, plotKE: ejected ? Math.max(0, noisyKE) : 0, ejected: ejected }); plot.updatePlot();
+                        if (ejected) {
+                            const eSpeed = 150 * Math.sqrt(theoreticalKE); const angle = Math.PI - (Math.random() - 0.5) * Math.PI * 0.8;
+                            simState.activeElectrons.push({ x: this.metalX, y: p.y, vx: Math.cos(angle) * eSpeed, vy: Math.sin(angle) * eSpeed });
+                            simState.activePhotons.splice(i, 1);
+                        } else p.failed = true;
+                    }
+                }
+                for (let i = simState.activeElectrons.length - 1; i >= 0; i--) {
+                    const e = simState.activeElectrons[i]; e.x += e.vx * dt; e.y += e.vy * dt;
+                    ctx.fillStyle = '#22c55e'; ctx.beginPath(); ctx.arc(e.x, e.y, 4, 0, Math.PI * 2); ctx.fill();
+                    if (e.x < 0 || e.y < 0 || e.y > this.height) simState.activeElectrons.splice(i, 1);
+                }
+                if (simState.isRunning && simState.photonQueue.length === 0 && simState.activePhotons.length === 0 && simState.activeElectrons.length === 0) {
+                    simState.isRunning = false; ui.btnStart.disabled = false; ui.btnStart.innerText = "Restart Simulation"; ui.simStatus.innerText = "Simulation Complete";
+                }
+            }
+        };
+
+        const plot = {
+            canvas: document.getElementById('plot-canvas'), ctx: document.getElementById('plot-canvas').getContext('2d'), width: 0, height: 0, marginLeft: 50, marginBottom: 40, marginTop: 20, marginRight: 20, fMin: 0, fMax: 1, keMin: 0, keMax: 1,
+            init() { this.resize(); window.addEventListener('resize', () => this.resize()); this.initAxes(0.5, 3.0, 2.28); this.draw(); },
+            resize() { const dpr = window.devicePixelRatio || 1; const rect = this.canvas.parentElement.getBoundingClientRect(); this.canvas.width = rect.width * dpr; this.canvas.height = rect.height * dpr; this.ctx.scale(dpr, dpr); this.width = rect.width; this.height = rect.height; if (simState.dataPoints.length > 0) this.updatePlot(); },
+            initAxes(minF, maxF, wf) { this.fMin = 0; this.fMax = Math.max(maxF * 1.1, (wf / h_eV_PHz) * 1.5); const maxTheoreticalKE = (h_eV_PHz * maxF) - wf; this.keMin = 0; this.keMax = Math.max(maxTheoreticalKE * 1.2, 2.0); this.draw(); },
+            mapX(f) { return this.marginLeft + ((f - this.fMin) / (this.fMax - this.fMin)) * (this.width - this.marginLeft - this.marginRight); },
+            mapY(ke) { return this.height - this.marginBottom - ((ke - this.keMin) / (this.keMax - this.keMin)) * (this.height - this.marginTop - this.marginBottom); },
+            updatePlot() { this.draw(); },
+            drawAxes() {
+                const ctx = this.ctx; const originY = this.mapY(0); ctx.beginPath(); ctx.strokeStyle = '#334155'; ctx.lineWidth = 2;
+                ctx.moveTo(this.marginLeft, originY); ctx.lineTo(this.marginLeft, this.marginTop);
+                ctx.moveTo(this.marginLeft, originY); ctx.lineTo(this.width - this.marginRight, originY); ctx.stroke();
+                ctx.fillStyle = '#334155'; ctx.font = '12px sans-serif'; ctx.textAlign = 'center'; ctx.fillText('Frequency (PHz)', this.marginLeft + (this.width - this.marginLeft - this.marginRight) / 2, this.height - 10);
+                ctx.save(); ctx.translate(15, this.marginTop + (this.height - this.marginTop - this.marginBottom) / 2); ctx.rotate(-Math.PI / 2); ctx.fillText('Kinetic Energy (eV)', 0, 0); ctx.restore();
+                ctx.textAlign = 'center'; ctx.textBaseline = 'top'; ctx.font = '10px monospace'; ctx.lineWidth = 1;
+                for (let f = Math.ceil(this.fMin); f <= this.fMax; f += ((this.fMax - this.fMin) > 4 ? 1 : 0.5)) { const x = this.mapX(f); if (x > this.marginLeft) { ctx.beginPath(); ctx.moveTo(x, originY); ctx.lineTo(x, originY + 5); ctx.stroke(); ctx.fillStyle = '#475569'; ctx.fillText(f.toFixed(1), x, originY + 8); } }
+                ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+                for (let ke = Math.ceil(this.keMin); ke <= this.keMax; ke += ((this.keMax - this.keMin) > 10 ? 2 : 1)) { const y = this.mapY(ke); if (y < originY) { ctx.beginPath(); ctx.moveTo(this.marginLeft - 5, y); ctx.lineTo(this.marginLeft, y); ctx.stroke(); ctx.fillStyle = '#475569'; ctx.fillText(ke.toFixed(1), this.marginLeft - 8, y); } }
+            },
+            drawDynamicFitText() {
+                let sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0, n = 0;
+                for (const pt of simState.dataPoints) if (pt.ejected) { sumX += pt.f; sumY += pt.rawKE; sumXY += pt.f * pt.rawKE; sumX2 += pt.f * pt.f; n++; }
+                if (n < 2) return;
+                const m = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX); const c = (sumY - m * sumX) / n;
+                const ctx = this.ctx; ctx.fillStyle = '#1e293b'; ctx.font = 'bold 16px monospace'; ctx.textAlign = 'left'; ctx.fillText(`KE = ${m.toFixed(3)} f ${c < 0 ? '-' : '+'} ${Math.abs(c).toFixed(2)}`, this.marginLeft + 20, this.marginTop + 20);
+            },
+            draw() { const ctx = this.ctx; ctx.clearRect(0, 0, this.width, this.height); this.drawAxes(); for (const pt of simState.dataPoints) { const x = this.mapX(pt.f); const y = this.mapY(pt.plotKE); ctx.fillStyle = '#2563eb'; ctx.beginPath(); ctx.arc(x, y, 4, 0, Math.PI * 2); ctx.fill(); ctx.strokeStyle = '#1e40af'; ctx.lineWidth = 1; ctx.stroke(); } this.drawDynamicFitText(); }
+        };
+
+        const quizData = [
+            { question: "What is the photoelectric effect?", options: [ "The emission of electrons when light hits a material.", "The creation of photons from electricity.", "The bending of light around an obstacle.", "The heating of a metal using light." ], correctIndex: 0, explanation: "The photoelectric effect is the emission of electrons (called photoelectrons) when electromagnetic radiation, such as light, hits a material." },
+            { question: "What is the work function (Φ) of a metal?", options: [ "The maximum energy an emitted electron can have.", "The minimum energy required to remove an electron from the metal's surface.", "The speed at which electrons travel inside the metal.", "The number of photons hitting the metal per second." ], correctIndex: 1, explanation: "The work function is the minimum amount of energy needed to eject an electron from the surface of a specific metal. It acts as an energy barrier." },
+            { question: "According to the simulation, what happens if the incident light frequency is below the threshold frequency?", options: [ "Electrons are emitted with low kinetic energy.", "Electrons are emitted after a long delay.", "No electrons are emitted, regardless of light intensity.", "The metal target melts." ], correctIndex: 2, explanation: "If the frequency is below the threshold frequency, the photons don't have enough energy (E=hf) to overcome the work function, so no electrons are ejected, and the photons simply bounce off." },
+            { question: "How does increasing the frequency of the incident light (above threshold) affect the emitted electrons?", options: [ "It increases the number of emitted electrons.", "It increases the maximum kinetic energy of the emitted electrons.", "It decreases the speed of the emitted electrons.", "It has no effect on the electrons." ], correctIndex: 1, explanation: "Higher frequency means higher energy per photon (E=hf). After paying the 'cost' of the work function, the excess energy goes directly into the kinetic energy of the electron." },
+            { question: "What determines the slope of the Kinetic Energy vs. Frequency graph?", options: [ "The intensity of the light.", "The work function of the metal.", "Planck's constant (h).", "The speed of light (c)." ], correctIndex: 2, explanation: "According to the photoelectric equation (KE = hf - Φ), the slope of the KE vs. frequency (f) graph is equal to 'h', which is Planck's constant." },
+            { question: "What does the x-intercept of the Kinetic Energy vs. Frequency graph represent?", options: [ "The work function.", "Planck's constant.", "The threshold frequency.", "The maximum kinetic energy." ], correctIndex: 2, explanation: "The x-intercept is where Kinetic Energy equals 0. This occurs at the threshold frequency—the exact minimum frequency needed to eject an electron without giving it any leftover kinetic energy." },
+            { question: "What does the y-intercept of the extrapolated Kinetic Energy vs. Frequency line represent?", options: [ "Planck's constant.", "The threshold frequency.", "The intensity of the light.", "The negative of the work function (-Φ)." ], correctIndex: 3, explanation: "In the equation KE = hf - Φ, if we extrapolate the line mathematically to f = 0, the Kinetic Energy value would equal -Φ. Thus, the y-intercept represents the negative of the work function." },
+            { question: "If the work function of a metal increases, how does the threshold frequency change?", options: [ "It increases.", "It decreases.", "It remains the same.", "It fluctuates randomly." ], correctIndex: 0, explanation: "Because the threshold frequency is the frequency where hf = Φ, a larger work function (Φ) requires a photon with more energy, meaning a higher threshold frequency is needed to eject an electron." },
+            { question: "In the equation KE = hf - Φ, what does 'hf' represent?", options: [ "The energy of the emitted electron.", "The energy of the incoming photon.", "The binding energy of the metal.", "The speed of the photon." ], correctIndex: 1, explanation: "'hf' represents the total energy of a single incoming photon, calculated by multiplying Planck's constant (h) by the frequency of the light (f)." },
+            { question: "Why do we see experimental noise (scattered points) in the simulation's graph instead of a perfect line?", options: [ "Because Planck's constant fluctuates.", "To simulate real-world experimental variations in measurement.", "Because photons have varying masses.", "Because the speed of light changes constantly." ], correctIndex: 1, explanation: "The simulation adds minor random noise to mimic real-world laboratory conditions where measurements of kinetic energy are imperfect and vary slightly around the theoretical line." }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let selectedOptionIndex = null;
+        let quizState = 'question'; // 'question' or 'answered'
+
+        const quizApp = document.getElementById('quiz-app');
+
+        function renderQuiz() {
+            if (currentQuestionIndex >= quizData.length) {
+                quizApp.innerHTML = `
+                    <div class="text-center flex flex-col items-center justify-center h-full space-y-6 my-auto">
+                        <h3 class="text-3xl font-bold text-slate-800">Quiz Complete!</h3>
+                        <p class="text-xl text-slate-600">You scored <span class="font-bold text-blue-600">${score}</span> out of ${quizData.length}</p>
+                        <button id="btn-restart-quiz" class="btn-primary w-auto px-8 mt-4">Restart Quiz</button>
+                    </div>
+                `;
+                document.getElementById('btn-restart-quiz').onclick = () => {
+                    currentQuestionIndex = 0;
+                    score = 0;
+                    renderQuiz();
+                };
+                return;
+            }
+
+            const q = quizData[currentQuestionIndex];
+            selectedOptionIndex = null;
+            quizState = 'question';
+
+            quizApp.innerHTML = `
+                <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-100">
+                    <span class="text-sm font-bold text-slate-500 uppercase tracking-wider">Question ${currentQuestionIndex + 1} of ${quizData.length}</span>
+                    <span class="text-sm font-bold text-slate-500 uppercase tracking-wider">Score: ${score}</span>
+                </div>
+                <h3 class="text-xl font-semibold text-slate-800 mb-6">${q.question}</h3>
+                <div id="options-container" class="space-y-3 mb-6 flex-grow"></div>
+                <div id="feedback-container" class="hidden mb-6 p-4 rounded-lg border"></div>
+                <button id="btn-quiz-action" class="btn-primary mt-auto" disabled>Submit Answer</button>
+            `;
+
+            const optionsContainer = document.getElementById('options-container');
+            const btnAction = document.getElementById('btn-quiz-action');
+            const feedbackContainer = document.getElementById('feedback-container');
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'w-full text-left p-4 rounded-lg border border-slate-300 hover:bg-slate-50 transition-colors duration-200 text-slate-700 font-medium';
+                btn.innerText = opt;
+                
+                btn.onclick = () => {
+                    if (quizState === 'answered') return;
+                    selectedOptionIndex = idx;
+                    
+                    // Update styles for selection
+                    Array.from(optionsContainer.children).forEach((child, i) => {
+                        if (i === idx) {
+                            child.classList.add('border-blue-500', 'bg-blue-50', 'ring-2', 'ring-blue-200');
+                            child.classList.remove('border-slate-300');
+                        } else {
+                            child.classList.remove('border-blue-500', 'bg-blue-50', 'ring-2', 'ring-blue-200');
+                            child.classList.add('border-slate-300');
+                        }
+                    });
+                    btnAction.disabled = false;
+                };
+                
+                optionsContainer.appendChild(btn);
+            });
+
+            btnAction.onclick = () => {
+                if (quizState === 'question') {
+                    // State: Submit Answer
+                    quizState = 'answered';
+                    const isCorrect = selectedOptionIndex === q.correctIndex;
+                    if (isCorrect) score++;
+
+                    // Style options based on correct/incorrect
+                    Array.from(optionsContainer.children).forEach((child, i) => {
+                        child.className = 'w-full text-left p-4 rounded-lg border font-medium transition-all duration-200';
+                        if (i === q.correctIndex) {
+                            // Correct answer always turns green
+                            child.classList.add('bg-green-100', 'border-green-500', 'text-green-900');
+                        } else if (i === selectedOptionIndex && !isCorrect) {
+                            // Selected wrong answer turns red
+                            child.classList.add('bg-red-100', 'border-red-500', 'text-red-900');
+                        } else {
+                            // Other options get faded out
+                            child.classList.add('bg-slate-50', 'border-slate-200', 'text-slate-400', 'opacity-50');
+                        }
+                    });
+
+                    // Show feedback and explanation
+                    feedbackContainer.classList.remove('hidden');
+                    feedbackContainer.classList.add(isCorrect ? 'bg-green-50' : 'bg-red-50', isCorrect ? 'border-green-200' : 'border-red-200');
+                    
+                    const feedbackTitle = isCorrect 
+                        ? '<span class="text-green-700 font-bold text-lg mb-2 flex items-center gap-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Right!</span>' 
+                        : '<span class="text-red-700 font-bold text-lg mb-2 flex items-center gap-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg> Wrong!</span>';
+                    
+                    feedbackContainer.innerHTML = `
+                        ${feedbackTitle}
+                        <p class="text-sm text-slate-700"><strong>Explanation:</strong> ${q.explanation}</p>
+                    `;
+
+                    // Update header score instantly
+                    document.querySelector('#quiz-app > div > span:last-child').innerText = `Score: ${score}`;
+
+                    // Change button to "Next Question"
+                    btnAction.innerText = "Next Question";
+                    btnAction.classList.remove('bg-blue-500', 'hover:bg-blue-600');
+                    btnAction.classList.add('bg-slate-800', 'hover:bg-slate-700');
+                } else {
+                    // State: Move to Next Question
+                    currentQuestionIndex++;
+                    renderQuiz();
+                }
+            };
+        }
+
+        // Initialize Quiz
+        renderQuiz();
+
+        let lastTime = performance.now();
+        function loop(time) { const dt = (time - lastTime) / 1000; lastTime = time; anim.updateAndDraw(Math.min(dt, 0.1)); requestAnimationFrame(loop); }
+        window.onload = function() { anim.init(); plot.init(); requestAnimationFrame(loop); };
+    </script>
+</body>
+</html>

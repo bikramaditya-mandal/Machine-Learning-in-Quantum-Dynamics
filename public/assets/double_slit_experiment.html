@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Double-Slit Experiment</title>
+<style>
+:root {
+  --bg: #ffffff;
+  --panel: #ffffff;
+  --line: #e5e7eb;
+  --txt: #212529;
+  --muted: #6c757d;
+  --acc: #0d6efd;
+  --acc-hover: #0b5ed7;
+  --panel-bg: #f8f9fa;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body {
+  margin: 0;
+  font: 14px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--txt);
+}
+header {
+  max-width: 1200px;
+  margin: auto;
+  padding: 16px 20px 16px;
+  border-bottom: 1px solid var(--line);
+}
+h1 { font-size: 24px; margin: 0 0 8px; color: #111827; }
+h2 { font-size: 16px; margin: 0 0 12px; color: #111827; }
+.sub { color: var(--muted); margin: 0 0 16px; font-size: 15px; }
+
+.main-layout {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+@media(max-width: 860px) {
+  .main-layout { grid-template-columns: 1fr; }
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.right-col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: #ffffff;
+}
+
+.seg {
+  display: inline-flex;
+  gap: 4px;
+  background: var(--panel-bg);
+  padding: 4px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  flex-wrap: wrap;
+}
+button {
+  font: inherit;
+  padding: 7px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: #ffffff;
+  color: var(--txt);
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.15s ease;
+}
+button:hover {
+  border-color: var(--acc);
+  color: var(--acc);
+}
+button[aria-pressed="true"] {
+  background: var(--acc);
+  color: #ffffff;
+  border-color: var(--acc);
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+button:focus-visible, input:focus-visible, select:focus-visible {
+  outline: 2px solid var(--acc);
+  outline-offset: 2px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 90px;
+  gap: 4px 10px;
+  align-items: center;
+  margin: 8px 0;
+}
+.row label { color: var(--txt); font-size: 13.5px; }
+.row output { text-align: right; font-variant-numeric: tabular-nums; color: var(--muted); }
+.row.full { grid-template-columns: 1fr; }
+
+input[type=range] { width: 100%; accent-color: var(--acc); }
+select {
+  background: #ffffff;
+  color: var(--txt);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 6px 10px;
+  font: inherit;
+}
+
+fieldset {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  margin: 0 0 16px;
+  padding: 12px;
+  background: var(--panel-bg);
+}
+legend {
+  color: var(--acc);
+  padding: 0 8px;
+  font-weight: 600;
+  font-size: 13px;
+  background: var(--panel-bg);
+  border-radius: 4px;
+}
+
+.btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+.status {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 10px;
+  min-height: 20px;
+  text-align: center;
+}
+.hint { color: var(--muted); font-size: 12.5px; margin-top: 8px; line-height: 1.4; }
+
+/* Quiz Styles */
+#quizPanel {
+  max-width: 1200px;
+  margin: 0 auto 40px;
+}
+.quiz-header { font-weight: 600; color: var(--muted); margin-bottom: 12px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+.quiz-q { font-size: 16px; font-weight: 500; margin: 0 0 16px; color: #111827; }
+.quiz-opts label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.quiz-opts label:hover { background: var(--panel-bg); }
+.quiz-opts input[type="radio"] { margin: 0; accent-color: var(--acc); }
+.fb {
+  margin-top: 16px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #166534;
+  font-size: 14px;
+}
+.fb.incorrect {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+}
+.fb.warning {
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  color: #92400e;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Double-Slit Experiment</h1>
+  <div class="seg" role="group" aria-label="Simulation mode">
+    <button id="modeC" aria-pressed="true">Classical Wave Optics</button>
+    <button id="modeQ" aria-pressed="false">Quantum Particle Detection</button>
+  </div>
+</header>
+
+<main class="main-layout">
+  <!-- Controls Col -->
+  <aside class="left-col">
+    <section class="panel" id="panelControls" aria-label="Experimental controls">
+      <h2>Controls</h2>
+
+      <fieldset id="srcFS">
+        <legend>Source</legend>
+        <div class="row" id="wlRow"><label for="lambda">Wavelength λ (nm)</label>
+          <input type="range" id="lambda" min="300" max="900" step="1" value="500"><output id="oLambda"></output></div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Geometry</legend>
+        <div class="row"><label for="dlog">Slit separation d (log scale)</label>
+          <input type="range" id="dlog" min="-9" max="-4" step="0.01" value="-5"><output id="oD"></output></div>
+        <div class="row"><label for="afrac">Slit width a (as % of d)</label>
+          <input type="range" id="afrac" min="5" max="95" step="1" value="20"><output id="oA"></output></div>
+        <div class="row"><label for="L">Screen distance L</label>
+          <input type="range" id="L" min="0.2" max="5" step="0.01" value="1"><output id="oL"></output></div>
+        <div class="row full"><label for="config">Slit configuration</label>
+          <select id="config"><option value="both">Both slits open</option><option value="left">Left slit only</option><option value="right">Right slit only</option><option value="none">Both slits closed</option></select></div>
+      </fieldset>
+
+      <fieldset id="qFS">
+        <legend>Emission (quantum)</legend>
+        <div class="row full" style="margin-top:0;">
+          <label for="fireCount">Number of particles to emit</label>
+          <input type="number" id="fireCount" min="1" max="10000" value="10" style="width:100%; border:1px solid var(--line); border-radius:8px; padding:6px 10px;">
+        </div>
+        <div class="btns">
+          <button id="fireNBtn">Fire Particles</button>
+        </div>
+        <div class="row full" style="margin-top: 12px; align-items: center; display: flex; justify-content: space-between;">
+          <label for="toggleContBtn">Continuous Emission</label>
+          <button id="toggleContBtn" aria-pressed="false" style="width: 80px;">OFF</button>
+        </div>
+        <div class="btns" style="margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line);">
+          <button id="clearBtn">Clear Screen</button>
+          <button id="resetBtn">Reset All</button>
+        </div>
+      </fieldset>
+    </section>
+  </aside>
+
+  <!-- Simulation Col -->
+  <div class="right-col">
+    <!-- Apparatus -->
+    <section class="panel" aria-label="Apparatus">
+      <canvas id="app" width="960" height="340" aria-label="Apparatus: source, barrier with slits, detection screen"></canvas>
+      <div id="status" class="status" aria-live="polite"></div>
+    </section>
+
+    <!-- Graph -->
+    <section class="panel" aria-label="Distribution Graph">
+      <div class="row full" style="margin-top:0; margin-bottom: 10px;">
+        <label>Graph View Options</label>
+        <div style="display:flex; gap:16px; align-items:center; flex-wrap:wrap; font-size:13px;">
+          <label style="display:flex; align-items:center; gap:6px; cursor:pointer;"><input type="checkbox" id="cbHist" checked> Histogram (Quantum)</label>
+          <label style="display:flex; align-items:center; gap:6px; cursor:pointer;"><input type="checkbox" id="cbTheory" checked> Theory Curve</label>
+        </div>
+      </div>
+      <canvas id="graph" width="960" height="270" aria-label="Histogram of detections and theoretical distribution"></canvas>
+      <p class="hint" id="graphNote"></p>
+    </section>
+  </div>
+</main>
+
+<!-- Quiz Section -->
+<section class="panel" id="quizPanel">
+  <h2>Knowledge Check</h2>
+  <div id="quizContainer"></div>
+</section>
+
+<script>
+'use strict';
+/* ==========================================================================
+   Physical constants (SI) & Config
+   ========================================================================== */
+const C = {c:299792458, h:6.62607015e-34, me:9.1093837015e-31, e:1.602176634e-19};
+const NG = 3000;                // grid points for the screen distribution
+const BINS = 160;               // histogram bins
+const DPR = window.devicePixelRatio || 1;
+const AW = 960, AH = 340;       // apparatus logical size
+const GW = 960, GH = 270;       // graph logical size
+const UNITS = [{n:'nm',f:1e-9},{n:'µm',f:1e-6},{n:'mm',f:1e-3},{n:'cm',f:1e-2},{n:'m',f:1}];
+
+const $ = id => document.getElementById(id);
+const clamp = (v,a,b) => Math.min(b, Math.max(a, v));
+
+/* ==========================================================================
+   Application state
+   ========================================================================== */
+const S = {
+  mode:'classical',
+  lambdaNm:500,
+  dlog:-5, afrac:20, L:1,
+  config:'both',
+  fireCount: 10,
+  showHist: true, showTheory: true,
+  cont:false
+};
+const RATE = 30; // hardcoded emission rate
+const FLIGHT_T = 2.5; // slowed down flight time for visibility
+
+let PH = null;          
+let G = null;           
+let legacy = [];        
+let flights = [];       
+let run = {key:'', W:1, counts:new Float64Array(BINS), N:0, recent:[]};
+let rng = mulberry32(2024);
+let acc = 0, lastT = performance.now()/1000, lastN = -1;
+
+function mulberry32(a){
+  return function(){
+    a |= 0; a = a + 0x6D2B79F5 | 0;
+    let t = Math.imul(a ^ a >>> 15, 1 | a);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+
+/* ==========================================================================
+   Physics helpers
+   ========================================================================== */
+function sinc(u){ return Math.abs(u) < 1e-12 ? 1 : Math.sin(u)/u; }
+
+function phys(){
+  const d = 10**S.dlog;
+  return {
+    lam: S.lambdaNm*1e-9, 
+    d: d, 
+    a: S.afrac/100*d, 
+    L: S.L,
+    config: S.config
+  };
+}
+
+function intensity(y, P){
+  if (P.config === 'none') return 0;
+  const u = Math.PI*P.a*y/(P.lam*P.L);
+  const s2 = sinc(u)**2;
+  if (P.config === 'both')
+    return 2*s2*(1 + Math.cos(2*Math.PI*P.d*y/(P.lam*P.L)));
+  return s2;
+}
+
+function buildGrid(P){
+  const dy = P.lam*P.L/P.d, env = P.lam*P.L/P.a;
+  const W = P.config === 'both' ? Math.min(16*dy, Math.max(3*dy, 1.3*env)) : 2.2*env;
+  const ys = new Float64Array(NG), pv = new Float64Array(NG), cdf = new Float64Array(NG);
+  const step = 2*W/(NG-1);
+  let pmax = 0;
+  for (let i = 0; i < NG; i++){
+    const y = -W + i*step;
+    ys[i] = y;
+    pv[i] = Math.max(0, intensity(y, P));
+    if (pv[i] > pmax) pmax = pv[i];
+  }
+  for (let i = 1; i < NG; i++) cdf[i] = cdf[i-1] + 0.5*(pv[i] + pv[i-1])*step;
+  return {W, ys, pv, cdf, step, Z: cdf[NG-1], pmax};
+}
+
+function sampleOne(){
+  const u = rng()*G.Z;
+  let lo = 0, hi = NG-1;
+  while (hi - lo > 1){
+    const m = (lo + hi) >> 1;
+    if (G.cdf[m] <= u) lo = m; else hi = m;
+  }
+  const span = G.cdf[hi] - G.cdf[lo];
+  const f = span > 0 ? (u - G.cdf[lo])/span : 0.5;
+  return G.ys[lo] + f*G.step;
+}
+
+function unitFor(v){
+  let b = UNITS[0];
+  for (const u of UNITS) if (v/u.f >= 1) b = u;
+  return b;
+}
+function fmtLen(m){
+  const u = unitFor(Math.abs(m));
+  return (m/u.f).toPrecision(3) + ' ' + u.n;
+}
+function fmtEV(E){
+  return E >= 1000 ? (E/1000).toPrecision(3) + ' keV' : E.toPrecision(3) + ' eV';
+}
+
+function trimLegacy(){ if (legacy.length > 20000) legacy.splice(0, legacy.length - 20000); }
+
+function record(y, key){
+  if (key !== run.key){ legacy.push(y); trimLegacy(); return; }
+  const b = Math.min(BINS-1, Math.max(0, Math.floor((y + run.W)/(2*run.W)*BINS)));
+  run.counts[b]++;
+  run.N++;
+  run.recent.push(y);
+  if (run.recent.length > 3000) run.recent.splice(0, run.recent.length - 3000);
+}
+
+function launch(n, stagger, t0){
+  if (S.mode !== 'quantum') return;
+  if (G.Z <= 0) return;
+  for (let i = 0; i < n; i++){
+    flights.push({y: sampleOne(), key: run.key, start: t0 + i*stagger, dur: FLIGHT_T});
+  }
+}
+
+function refresh(){
+  PH = phys();
+  G = buildGrid(PH);
+  const key = [S.mode, PH.lam.toExponential(7), PH.d.toExponential(7), PH.a.toExponential(7),
+               PH.L.toFixed(4), PH.config].join('|');
+  if (key !== run.key){
+    for (const v of run.recent) legacy.push(v);
+    trimLegacy();
+    run = {key, W: G.W, counts: new Float64Array(BINS), N: 0, recent: []};
+  }
+}
+
+/* ==========================================================================
+   Canvas setup
+   ========================================================================== */
+function setupCanvas(cv, w, h){
+  cv.width = w*DPR; cv.height = h*DPR;
+  cv.style.aspectRatio = `${w} / ${h}`;
+  const ctx = cv.getContext('2d');
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+  return ctx;
+}
+const actx = setupCanvas($('app'), AW, AH);
+const gctx = setupCanvas($('graph'), GW, GH);
+
+/* ==========================================================================
+   Apparatus drawing (Light Mode adapted)
+   ========================================================================== */
+function jit(i){ return ((Math.imul(i, 2654435761) >>> 0) % 13) - 6; }
+
+function drawApparatus(now){
+  const x = actx, P = PH;
+  x.fillStyle = '#ffffff'; x.fillRect(0,0,AW,AH);
+
+  const sx = 70, bx = 330, scx = 820, top = 26, bot = 290;
+  const yc = (top+bot)/2, half = (bot-top)/2, W = G.W;
+  const ypx = y => yc - (y/W)*half;
+
+  const dpx = 30 + 90*clamp((Math.log10(P.d)+9)/5, 0, 1);
+  const apx = Math.max(3, dpx*P.a/P.d);
+  const sL = yc - dpx/2, sR = yc + dpx/2;
+  const opensL = S.config === 'both' || S.config === 'left';
+  const opensR = S.config === 'both' || S.config === 'right';
+
+  // Classical waves (drawn against white background)
+  if (S.mode === 'classical' && S.config !== 'none'){
+    const lamPx = Math.max(5, dpx*P.lam/P.d);
+    const k = 2*Math.PI/lamPx, w = 2*Math.PI*now*0.8;
+    for (let px = bx+8; px < scx-12; px += 4){
+      const X = px - bx;
+      for (let py = top; py < bot; py += 4){
+        const Y = py - yc;
+        let E = 0;
+        if (opensL){ const r = Math.hypot(X, Y + dpx/2); E += Math.cos(k*r - w)/Math.sqrt(r+8); }
+        if (opensR){ const r = Math.hypot(X, Y - dpx/2); E += Math.cos(k*r - w + P.phi)/Math.sqrt(r+8); }
+        const v = clamp(E*0.9, -1, 1), al = Math.abs(v);
+        x.fillStyle = v >= 0 ? `rgba(239,68,68,${al})` : `rgba(59,130,246,${al})`;
+        x.fillRect(px, py, 4, 4);
+      }
+    }
+  }
+
+  // Barrier with slits
+  const gaps = [];
+  if (opensL) gaps.push([sL - apx/2, sL + apx/2]);
+  if (opensR) gaps.push([sR - apx/2, sR + apx/2]);
+  x.fillStyle = '#6b7280';
+  let yy = top;
+  for (const [a,b] of gaps){ if (a > yy) x.fillRect(bx-5, yy, 10, a-yy); yy = b; }
+  if (bot > yy) x.fillRect(bx-5, yy, 10, bot-yy);
+
+  // Source glow
+  const gr = x.createRadialGradient(sx, yc, 2, sx, yc, 28);
+  const srcCol = S.mode === 'quantum' ? '#3b82f6' : '#eab308';
+  gr.addColorStop(0, srcCol); gr.addColorStop(1, 'rgba(255,255,255,0)');
+  x.fillStyle = gr; x.beginPath(); x.arc(sx, yc, 28, 0, 7); x.fill();
+  x.fillStyle = '#f59e0b'; x.beginPath(); x.arc(sx, yc, 6, 0, 7); x.fill();
+
+  // Detection screen
+  x.fillStyle = '#f3f4f6'; x.fillRect(scx-8, top, 16, bot-top);
+  x.strokeStyle = '#d1d5db'; x.strokeRect(scx-8, top, 16, bot-top);
+  
+  if (S.mode === 'classical'){
+    if (G.pmax > 0){
+      for (let py = top; py < bot; py++){
+        const yv = (yc - py)/half*W;
+        const I = clamp(intensity(yv, P)/G.pmax, 0, 1);
+        x.fillStyle = `rgba(239, 68, 68, ${I})`;
+        x.fillRect(scx-8, py, 16, 1);
+      }
+    }
+  } else {
+    // Earlier detections (gray)
+    x.fillStyle = '#9ca3af';
+    for (let i = Math.max(0, legacy.length-2500); i < legacy.length; i++){
+      const v = legacy[i];
+      if (Math.abs(v) <= W) x.fillRect(scx + jit(i) - 1, ypx(v) - 1, 2, 2);
+    }
+    // Current-run detections (blue)
+    x.fillStyle = '#2563eb';
+    for (let i = 0; i < run.recent.length; i++){
+      const v = run.recent[i];
+      x.fillRect(scx + jit(i) - 1, ypx(v) - 1, 2, 2);
+    }
+  }
+
+  // Particles in flight
+  if (S.mode === 'quantum'){
+    x.fillStyle = '#60a5fa';
+    for (const f of flights){
+      if (now < f.start || now >= f.start + f.dur) continue;
+      const p = (now - f.start)/f.dur;
+      const fx = sx + (scx-8-sx)*p, fy = yc + (ypx(f.y) - yc)*p;
+      x.beginPath(); x.arc(fx, fy, 3.5, 0, 7); x.fill();
+    }
+  }
+
+  // Labels and dimensions
+  x.fillStyle = '#4b5563'; x.font = '12px system-ui';
+  x.fillText(S.mode === 'classical' ? 'Coherent light' : 'Particles', sx-34, bot+14);
+  x.fillText('Source', sx-18, bot+28);
+  x.fillText('Barrier', bx-20, top-8);
+  x.fillText('Screen', scx-20, top-8);
+  x.fillText(`d = ${fmtLen(P.d)}`, bx+14, top+14);
+  x.fillText(`a = ${fmtLen(P.a)}`, bx+14, top+26);
+  
+  const dimY = 322;
+  x.strokeStyle = '#3b82f6'; x.lineWidth = 1.2;
+  x.beginPath(); x.moveTo(bx, dimY); x.lineTo(scx, dimY); x.stroke();
+  x.beginPath(); x.moveTo(bx, dimY-4); x.lineTo(bx, dimY+4); x.moveTo(scx, dimY-4); x.lineTo(scx, dimY+4); x.stroke();
+  x.fillStyle = '#2563eb';
+  x.fillText(`L = ${fmtLen(P.L)}`, (bx+scx)/2 - 40, dimY-6);
+}
+
+/* ==========================================================================
+   Graph drawing
+   ========================================================================== */
+function drawGraph(){
+  const x = gctx, W = G.W, u = unitFor(W), q = S.mode === 'quantum';
+  x.fillStyle = '#ffffff'; x.fillRect(0,0,GW,GH);
+  
+  const l = 70, r = GW-20, t = 14, b = GH-40;
+  const X = y => l + (y+W)/(2*W)*(r-l);
+  const th = Array.from(G.pv, v => q ? (G.Z > 0 ? v/G.Z*u.f : 0) : v);
+  const binW = 2*W/BINS;
+  let hd = null;
+  if (q && S.showHist && run.N > 0){
+    hd = Array.from(run.counts, c => c/(run.N*binW)*u.f);
+  }
+  let yMax = Math.max(...th);
+  if (hd) yMax = Math.max(yMax, ...hd);
+  yMax = yMax > 0 ? yMax*1.12 : 1;
+  const Y = v => b - v/yMax*(b-t);
+
+  // Axes and grid
+  x.strokeStyle = '#e5e7eb'; x.lineWidth = 1;
+  x.fillStyle = '#6c757d'; x.font = '12px system-ui';
+  for (let i = 0; i <= 6; i++){
+    const yy = t + (b-t)*i/6;
+    x.beginPath(); x.moveTo(l, yy); x.lineTo(r, yy); x.stroke();
+    x.fillText((yMax*(1-i/6)).toPrecision(2), 8, yy+4);
+  }
+  for (let i = 0; i <= 8; i++){
+    const v = -W + 2*W*i/8, xx = X(v);
+    x.beginPath(); x.moveTo(xx, t); x.lineTo(xx, b); x.stroke();
+    x.fillText((v/u.f).toFixed(2), xx-16, b+16);
+  }
+  x.fillText(`screen position y (${u.n}), measured from the optic axis`, (l+r)/2-160, GH-8);
+  x.save(); x.translate(16, (t+b)/2); x.rotate(-Math.PI/2);
+  x.fillText(q ? `probability density (per ${u.n})` : 'I / I₀', -60, 0);
+  x.restore();
+
+  // Histogram of detections
+  if (hd){
+    x.fillStyle = 'rgba(13, 110, 253, 0.4)';
+    for (let i = 0; i < BINS; i++){
+      const v = hd[i]; if (v <= 0) continue;
+      const y0 = -W + i*binW, xa = X(y0), xb = X(y0+binW);
+      const yy = Y(v);
+      x.fillRect(xa, yy, Math.max(1, xb-xa-0.5), b-yy);
+    }
+  }
+
+  const curve = (arr, color, lw, dash) => {
+    x.strokeStyle = color; x.lineWidth = lw; x.setLineDash(dash || []);
+    x.beginPath();
+    for (let i = 0; i < NG; i += 3){
+      const xx = X(G.ys[i]), yy = Y(arr[i]);
+      if (i === 0) x.moveTo(xx, yy); else x.lineTo(xx, yy);
+    }
+    x.stroke(); x.setLineDash([]);
+  };
+  
+  if (S.showTheory) curve(th, '#dc3545', 2.2);
+
+  // Legend
+  x.font = '12px system-ui';
+  let lx = r - 330;
+  const leg = (color, text) => { x.fillStyle = color; x.fillRect(lx, t+4, 14, 3); x.fillStyle = '#212529'; x.fillText(text, lx+20, t+10); lx += 20 + x.measureText(text).width + 14; };
+  if (S.showTheory) {
+    leg('#dc3545', q ? 'theory density' : 'I / I₀ (theory)');
+  }
+  if (q && hd) leg('rgba(13, 110, 253, 0.7)', `histogram (N = ${run.N.toLocaleString()})`);
+  
+  $('graphNote').textContent = q
+    ? 'Histograms use only detections from the current configuration.'
+    : 'Classical intensity normalized to the central intensity of one open slit (I₀).';
+}
+
+/* ==========================================================================
+   Quiz Application
+   ========================================================================== */
+const CH = [
+  {q:'The distance between interference fringes is given by the equation Δy ≈ λL/d. If you double the wavelength (λ) while keeping the slit separation (d) and screen distance (L) constant, what happens to the fringe spacing?',
+   o:['It doubles','It halves','It stays the same'], a:0,
+   x:c=>`Using Δy ≈ λL/d, if λ is multiplied by 2, then the result Δy is also multiplied by 2. Longer wavelengths diffract at larger angles, spreading the fringes out.`},
+  
+  {q:'Continuing with the fringe spacing equation Δy ≈ λL/d. If you double the slit separation distance (d), what happens to the spacing between the bright fringes?',
+   o:['It doubles','It halves','It stays the same'], a:1,
+   x:c=>`Because 'd' is in the denominator of Δy ≈ λL/d, doubling d halves the spacing. Moving the slits further apart compresses the interference pattern together.`},
+  
+  {q:'According to the same formula (Δy ≈ λL/d), if the screen is moved three times further away (L is tripled), what happens to the fringe pattern?',
+   o:['It triples in size','It is unchanged','It is divided by three'], a:0,
+   x:c=>`Δy is directly proportional to L. Tripling the screen distance triples the distance between fringes; the pattern spreads out uniformly as it travels through space.`},
+  
+  {q:'The overall width of the visible interference pattern is restricted by a "single-slit envelope", whose first minimum (dark spot) occurs at a distance y = λL/a from the center (where a is the slit width). If you make the slits wider (increase a), what happens to the envelope?',
+   o:['The envelope narrows','The envelope widens','The envelope stays the same'], a:0,
+   x:c=>`Because the slit width 'a' is in the denominator of y = λL/a, increasing 'a' makes 'y' smaller. Counter-intuitively, a wider slit restricts the wave less, so it diffracts less and forms a narrower beam.`},
+  
+  {q:'Interference requires two overlapping, coherent waves. If you close the right slit (so only the left slit is open), will you see an interference pattern with multiple fringes?',
+   o:['Yes, with the same fringe spacing','No, you only see a single, wide smear (the single-slit envelope)','Only if the wavelength is very short'], a:1,
+   x:c=>`Interference fringes are formed by the interaction of waves from two sources. With only one slit open, you only get single-slit diffraction, lacking the fine interference fringes.`},
+  
+  {q:'In quantum mechanics, particles like photons arrive at the screen one by one. Does a single detected photon spread out to produce a full interference pattern on the screen?',
+   o:['Yes, one particle paints the full pattern','No, each detection is just one localized dot','Only if it has high energy'], a:1,
+   x:c=>`Each detection is a single localized event (a dot). The wave describes the *probability* of where the particle might land. The pattern only emerges statistically after many particles.`},
+  
+  {q:'As more and more individual particles accumulate on the screen, what happens to the histogram of their impacts?',
+   o:['It becomes a straight flat line','It gradually approximates the smooth theoretical probability distribution curve','It becomes completely random'], a:1,
+   x:c=>`With a small number of particles, the histogram looks random due to statistical noise. As the number of particles (N) increases, the histogram matches the theoretical probability curve predicted by the wave equation.`},
+  
+  {q:'The total probability distribution for two slits is given by P ∝ |ψ₁ + ψ₂|², which expands to |ψ₁|² + |ψ₂|² + 2·Re[ψ₁*ψ₂]. What part of this equation is responsible for the bright and dark interference fringes?',
+   o:['|ψ₁|² (Probability from slit 1)','|ψ₂|² (Probability from slit 2)','2·Re[ψ₁*ψ₂] (The cross-term)'], a:2,
+   x:c=>`The cross-term 2·Re[ψ₁*ψ₂] is the interference term. It can be positive or negative, adding to or subtracting from the simple sum of the individual probabilities, creating bright and dark fringes.`},
+  
+  {q:'The number of interference fringes that fit inside the central single-slit envelope is approximately 2d/a. If you double the distance between the slits (d), what happens to the number of fringes inside the envelope?',
+   o:['It doubles','It halves','It stays the same'], a:0,
+   x:c=>`Because 'd' is in the numerator of 2d/a, doubling 'd' doubles the number of fringes. The envelope size (λL/a) stays the same, but the fringe spacing (λL/d) halves, so twice as many fringes fit inside.`},
+  
+  {q:'Visible light wavelengths vary from about 400 nm (violet/blue) to 700 nm (red). If you switch your source from blue light to red light (increasing λ), what happens to the fringe spacing (Δy ≈ λL/d)?',
+   o:['The spacing increases (fringes spread apart)','The spacing decreases (fringes compress)','The spacing is unaffected by color'], a:0,
+   x:c=>`Since red light has a larger wavelength (λ) than blue light, and Δy is proportional to λ, the red interference fringes will be spaced further apart than the blue ones.`}
+];
+
+let currentQ = 0;
+
+function renderQuiz() {
+  const q = CH[currentQ];
+  let html = `<div class="quiz-header">Question ${currentQ + 1} of ${CH.length}</div>`;
+  html += `<p class="quiz-q">${q.q}</p>`;
+  html += `<div class="quiz-opts">`;
+  q.o.forEach((opt, idx) => {
+    html += `<label><input type="radio" name="quiz" value="${idx}"> ${opt}</label>`;
+  });
+  html += `</div>`;
+  html += `<div class="btns" style="margin-top:16px;"><button id="quizSubmit">Submit Answer</button></div>`;
+  html += `<div id="quizFeedback" class="fb" hidden></div>`;
+  
+  $('quizContainer').innerHTML = html;
+  $('quizSubmit').addEventListener('click', submitQuiz);
+}
+
+function submitQuiz() {
+  const sel = document.querySelector('input[name="quiz"]:checked');
+  let fb = $('quizFeedback');
+  
+  if (!sel) {
+      fb.hidden = false;
+      fb.className = 'fb warning';
+      fb.innerHTML = `Please select an answer first.`;
+      return;
+  }
+  
+  const q = CH[currentQ];
+  const val = parseInt(sel.value);
+  const isCorrect = val === q.a;
+  
+  fb.hidden = false;
+  fb.className = isCorrect ? 'fb' : 'fb incorrect';
+  fb.innerHTML = `<strong>${isCorrect ? 'Correct!' : 'Incorrect.'}</strong> ${q.x()}<br><br>`;
+  
+  if (currentQ < CH.length - 1) {
+      fb.innerHTML += `<button id="quizNext" style="background:#fff;border-color:currentColor;">Next Question</button>`;
+      $('quizNext').onclick = () => { currentQ++; renderQuiz(); };
+  } else {
+      fb.innerHTML += `<button id="quizReview" style="background:#fff;border-color:currentColor;">View Summary & Review</button>`;
+      $('quizReview').onclick = renderQuizSummary;
+  }
+  
+  $('quizSubmit').disabled = true;
+}
+
+function renderQuizSummary() {
+  let html = `<div class="quiz-header">Quiz Summary</div>`;
+  html += `<div style="max-height: 400px; overflow-y: auto; padding-right: 10px; margin-bottom: 16px;">`;
+  CH.forEach((q, i) => {
+    html += `<div style="margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--line);">`;
+    html += `<p style="font-weight: 600; margin: 0 0 8px;">Q${i+1}: ${q.q}</p>`;
+    html += `<p style="color: #166534; margin: 0 0 4px;"><strong>Answer:</strong> ${q.o[q.a]}</p>`;
+    html += `<p style="color: var(--muted); margin: 0; font-size: 13px;"><em>Explanation:</em> ${q.x()}</p>`;
+    html += `</div>`;
+  });
+  html += `</div>`;
+  html += `<button id="quizRestart">Restart Quiz</button>`;
+  
+  $('quizContainer').innerHTML = html;
+  $('quizRestart').onclick = () => { currentQ = 0; renderQuiz(); };
+}
+
+/* ==========================================================================
+   Controls: reading, visibility, events
+   ========================================================================== */
+function readDom(){
+  S.lambdaNm = +$('lambda').value;
+  S.dlog = +$('dlog').value;
+  S.afrac = +$('afrac').value;
+  S.L = +$('L').value;
+  S.config = $('config').value;
+  S.fireCount = +$('fireCount').value || 1;
+  S.showHist = $('cbHist').checked;
+  S.showTheory = $('cbTheory').checked;
+}
+
+function readouts(){
+  const d = 10**S.dlog;
+  $('oLambda').textContent = S.lambdaNm + ' nm';
+  $('oD').textContent = fmtLen(d);
+  $('oA').textContent = `${S.afrac} % (${fmtLen(d*S.afrac/100)})`;
+  $('oL').textContent = S.L.toFixed(2) + ' m';
+}
+
+function layout(){
+  const q = S.mode === 'quantum';
+  $('qFS').hidden = !q;
+  $('modeC').setAttribute('aria-pressed', String(!q));
+  $('modeQ').setAttribute('aria-pressed', String(q));
+  $('toggleContBtn').setAttribute('aria-pressed', String(S.cont));
+  $('toggleContBtn').textContent = S.cont ? 'ON' : 'OFF';
+}
+
+function onInput(){
+  readDom();
+  readouts();
+  layout();
+  refresh();
+  lastN = -1;
+}
+
+function setMode(m){
+  S.mode = m;
+  if (m === 'classical'){ S.cont = false; }
+  onInput();
+}
+
+function clearAll(){
+  legacy = [];
+  flights = [];
+  run = {key: run.key, W: run.W, counts: new Float64Array(BINS), N: 0, recent: []};
+  acc = 0;
+  lastN = -1;
+}
+
+function resetAll(){
+  const defaults = {
+    lambda:500, dlog:-5, afrac:20, L:1, config:'both',
+    fireCount:10, cbHist:true, cbTheory:true
+  };
+  for (const [id, v] of Object.entries(defaults)){
+    const el = $(id);
+    if (el && el.type === 'checkbox') el.checked = v; else if(el) el.value = v;
+  }
+  S.cont = false;
+  rng = mulberry32(2024);
+  clearAll();
+  setMode('classical');
+}
+
+/* Wire up controls */
+document.querySelectorAll('#panelControls input, #panelControls select, #cbHist, #cbTheory').forEach(el => {
+  el.addEventListener('input', onInput);
+  el.addEventListener('change', onInput);
+});
+
+$('modeC').addEventListener('click', () => setMode('classical'));
+$('modeQ').addEventListener('click', () => setMode('quantum'));
+$('fireNBtn').addEventListener('click', () => { 
+  readDom(); refresh(); 
+  launch(S.fireCount, 0.02, performance.now()/1000); 
+});
+$('toggleContBtn').addEventListener('click', () => { 
+  S.cont = !S.cont; 
+  layout(); 
+});
+$('clearBtn').addEventListener('click', clearAll);
+$('resetBtn').addEventListener('click', resetAll);
+
+/* Status line */
+function setStatus(){
+  let t;
+  if (S.mode === 'quantum'){
+    if (G.Z <= 0) t = 'No particles can reach the screen: both slits are closed.';
+    else {
+      t = `Detections (current config): ${run.N.toLocaleString()} · in flight: ${flights.length} · `;
+      t += S.cont ? 'continuous emission running' : 'emission idle';
+    }
+  } else {
+    t = 'Classical mode: continuous wave intensity distribution.';
+  }
+  $('status').textContent = t;
+}
+
+/* ==========================================================================
+   Animation loop
+   ========================================================================== */
+function frame(){
+  const now = performance.now()/1000;
+  const dt = Math.min(0.1, now - lastT); lastT = now;
+
+  if (S.mode === 'quantum' && S.cont && G.Z > 0){
+    acc += RATE*dt;
+    const k = Math.floor(acc); acc -= k;
+    const kk = Math.min(k, Math.max(0, 600 - flights.length));
+    if (kk > 0) launch(kk, 0, now);
+  }
+
+  flights = flights.filter(f => {
+    if (now >= f.start + f.dur){ record(f.y, f.key); return false; }
+    return true;
+  });
+
+  drawApparatus(now);
+  drawGraph();
+  
+  setStatus();
+  requestAnimationFrame(frame);
+}
+
+/* Initialize */
+renderQuiz();
+onInput();
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>

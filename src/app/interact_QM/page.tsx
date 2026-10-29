@@ -52,6 +52,54 @@ const eras: Era[] = [
           },
         ],
       },
+      {
+        num: '02',
+        title: 'Photoelectric Effect',
+        blocks: [
+          {
+            title:
+              "Investigate how light ejects electrons from a metal surface. Adjust work function, and other parameters to explore threshold frequency, electron kinetic energy, stopping potential, and Planck's constant.",
+            items: [
+              {
+                label: 'Click Here!',
+                href: '/Machine-Learning-in-Quantum-Dynamics/assets/photoelectric_effect.html',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        num: '03',
+        title: 'Double-Slit Experiment',
+        blocks: [
+          {
+            title:
+              "Investigate wave interference and quantum behavior. Open or close slits, send particles one at a time, observe the formation of interference patterns, and examine the effect of which-path measurement.",
+            items: [
+              {
+                label: 'Click Here!',
+                href: '/Machine-Learning-in-Quantum-Dynamics/assets/double_slit_experiment.html',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        num: '04',
+        title: 'Quantum Particle in a Box',
+        blocks: [
+          {
+            title:
+              "Discover energy quantization by changing the box width, particle mass, and quantum number. Visualize wavefunctions, probability densities, nodes, and the allowed energy levels.",
+            items: [
+              {
+                label: 'Click Here!',
+                href: '/Machine-Learning-in-Quantum-Dynamics/assets/particle_in_a_Box.html',
+              },
+            ],
+          },
+        ],
+      },
     ],
   },
 ]
