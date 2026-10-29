@@ -36,7 +36,8 @@ const eras: Era[] = [
           {
             title: 'Explore light waves by changing intensity and frequency. Compare red, green, and blue light, investigate amplitude and wavelength, and discover how photon energy depends on frequency.',
             items: [
-              <a href="intensity_frequency.html">Click Here!</a>
+              label: "Click Here!",
+              href: "intensity_frequency.html"
             ],
           },
         ],
